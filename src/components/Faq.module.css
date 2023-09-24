@@ -1,0 +1,80 @@
+.imgContainer img {
+  width: 80%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  margin-left: auto;
+}
+
+.imgContainer {
+  width: 50%;
+}
+.section {
+  background-color: var(--cor-4);
+  color: var(--cor-2);
+  display: flex;
+}
+
+.questionList {
+  margin-bottom: 2rem;
+  max-width: 450px;
+}
+.questionList li + li {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--cor-5);
+}
+.questionList button {
+  text-align: left;
+  transition: 0.1s;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.questionList button.visible {
+  color: var(--cor-3);
+}
+.questionList button:hover::before,
+.questionList button.visible::before {
+  width: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.questionList button::before {
+  content: "";
+  display: inline-block;
+  background: currentColor;
+  width: 0;
+  height: 3px;
+  position: relative;
+  top: -3px;
+  transition: 0.2s;
+}
+.answer {
+  color: var(--cor-7);
+  transition: all 0.2s ease-out;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.answer.visible {
+  max-height: 100px;
+  height: 100%;
+  margin-top: 0.5rem;
+}
+@media (min-width: 1300px) {
+  .questionList button {
+    font-size: 17px;
+  }
+}
+@media (max-width: 930px) {
+  .section {
+    flex-direction: column;
+  }
+  .imgContainer {
+    align-self: flex-end;
+  }
+  .questionList {
+    text-align: left;
+  }
+}

@@ -1,0 +1,34 @@
+.content {
+  padding: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1;
+  width: 50%;
+}
+
+.content h2 {
+  max-width: 30rem;
+  margin-bottom: 1rem;
+}
+.subtitle {
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--cor-1);
+}
+
+@media (max-width: 1200px) {
+  .content {
+    padding: 5rem 3rem;
+  }
+}
+
+@media (max-width: 930px) {
+  .content {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 1.5rem;
+  }
+}

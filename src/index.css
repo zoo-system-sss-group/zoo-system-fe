@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;800&display=swap");
+
+:root {
+  --cor-1: #52b343;
+  --cor-2: #cfffd8;
+  --cor-3: #36b85a;
+  --cor-4: #14271a;
+  --cor-5: #101c12;
+  --cor-6: #0d160f;
+  --cor-7: #7ea98e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 14px;
+  font-family: "Poppins";
+  font-weight: 400;
+  color: var(--cor-5);
+  background: var(--cor-6);
+}
+
+main {
+  padding-left: 10rem;
+}
+
+h2 {
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+input,
+a,
+button {
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  display: inline-block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.btn-preto,
+.btn-verde {
+  padding: 0.7rem 1.1rem;
+  border-radius: 0.2rem;
+  transition: 0.2s;
+  font-weight: 500;
+}
+.btn-verde {
+  background: linear-gradient(180deg, var(--cor-1) 0%, var(--cor-3) 100%);
+  color: var(--cor-4);
+}
+
+.btn-preto {
+  background: var(--cor-5);
+  color: var(--cor-1);
+}
+
+.btn-verde:hover,
+.btn-preto:hover {
+  transform: translateY(-0.2rem);
+}
+
+img {
+  display: block;
+}
+
+::-webkit-scrollbar {
+  width: 18px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cor-6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cor-1);
+  border: 3px solid var(--cor-5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cor-3);
+}
+@media (min-width: 1600px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media (max-width: 1100px) {
+  main {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  h2 {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+  body {
+    font-size: 12px;
+  }
+}

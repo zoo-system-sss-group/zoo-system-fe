@@ -1,0 +1,145 @@
+.section {
+  background: var(--cor-5);
+  color: var(--cor-2);
+  overflow: hidden;
+  display: flex;
+}
+
+.img {
+  width: 50%;
+  order: -1;
+  position: relative;
+  padding-top: 2rem;
+}
+
+.img img {
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  width: 380px;
+}
+
+.detail1 {
+  background: linear-gradient(180deg, var(--cor-1) 0%, var(--cor-3) 100%);
+  border-radius: 200px;
+  width: 250px;
+  height: 570px;
+  position: absolute;
+  left: 20%;
+  bottom: -200px;
+  z-index: 0;
+  transform: rotate(30deg);
+}
+
+.detail1::before {
+  content: "";
+  display: block;
+  border-radius: 100px;
+  position: absolute;
+  width: 40px;
+  height: 70px;
+  background: var(--cor-1);
+  left: -80px;
+  top: 30%;
+}
+
+.detail1::after {
+  content: "";
+  display: block;
+  border-radius: 100px;
+  position: absolute;
+  width: 60px;
+  height: 110px;
+  background: var(--cor-1);
+  right: -100px;
+  top: 22%;
+}
+
+.valuesList {
+  display: flex;
+  margin-bottom: 2rem;
+}
+.valuesList li {
+  padding: 1rem;
+  border-radius: 0.2rem;
+  background: var(--cor-4);
+  max-width: 200px;
+  display: grid;
+  place-items: center;
+}
+
+.valuesList li + li {
+  margin-left: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .detail1 {
+    width: 220px;
+    height: 550px;
+    left: 10%;
+    bottom: -220px;
+  }
+}
+
+@media (max-width: 930px) {
+  .section {
+    flex-direction: column;
+  }
+  .img {
+    width: 100%;
+    order: 2;
+    padding-top: 0;
+    margin-top: -3rem;
+  }
+  .img img {
+    margin: 0 auto;
+    width: 250px;
+  }
+  .detail1 {
+    width: 180px;
+    height: 450px;
+    left: calc(50% - 160px);
+    bottom: -220px;
+  }
+  .detail1::before {
+    left: -55px;
+  }
+  .detail1::after {
+    width: 50px;
+    height: 90px;
+    right: -65px;
+    top: 10%;
+  }
+  .content > * {
+    max-width: 100%;
+  }
+
+  .valuesList {
+    flex-direction: column;
+  }
+  .valuesList li + li {
+    margin-top: 1rem;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 550px) {
+  .detail1 {
+    width: 130px;
+    height: 400px;
+    left: calc(50% - 130px);
+    bottom: -200px;
+  }
+  .detail1::before {
+    width: 20px;
+    height: 35px;
+    left: -30px;
+    top: 30%;
+  }
+  .detail1::after {
+    width: 30px;
+    height: 50px;
+    right: -40px;
+    top: 18%;
+  }
+}
