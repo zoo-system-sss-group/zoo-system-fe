@@ -1,4 +1,4 @@
-# Zoo
+# Zoo123
 
 Landing page de um Zoo feito com React JS, CSS e HTML. Prototipagem a partir do Figma.
 
