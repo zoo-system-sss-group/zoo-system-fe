@@ -1,11 +1,11 @@
 import React from "react";
-import LayoutSections from "./layout/LayoutSections";
-import classes from "./Activities.module.css";
-import ImgActivity1 from "../assets/at-1.jpg";
-import ImgActivity2 from "../assets/at-2.jpg";
-import ImgActivity3 from "../assets/at-3.jpg";
-import ImgActivity4 from "../assets/at-4.jpg";
-import Slider from "./layout/Slider";
+import LayoutSections from "../layout/LayoutSections";
+import classes from "./News.module.css";
+import ImgActivity1 from "../../assets/at-1.jpg";
+import ImgActivity2 from "../../assets/at-2.jpg";
+import ImgActivity3 from "../../assets/at-3.jpg";
+import ImgActivity4 from "../../assets/at-4.jpg";
+import Slider from "../layout/Slider";
 
 const activities = [
   {
@@ -38,19 +38,18 @@ const activities = [
   },
 ];
 
-const Activities = () => {
+const News = () => {
   return (
     <section className={classes.section}>
       <LayoutSections
-        title="Nossas atividades"
+        title="News"
         subtitle="Donec aliquam, metus a lacinia"
       >
         <p className={classes.txt}>
-          Morbi ac ipsum elit. Cras id sem id neque blandit molestie. Nunc
-          malesuada sit amet arcu id pellentesque.
+          News news news news news news news news
         </p>
         <a href="/" className="btn-verde">
-          Saiba mais
+          Read news
         </a>
       </LayoutSections>
       <Slider>
@@ -66,4 +65,4 @@ const Activities = () => {
   );
 };
 
-export default Activities;
+export default News;

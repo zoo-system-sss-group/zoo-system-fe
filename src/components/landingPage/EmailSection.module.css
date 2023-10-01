@@ -2,7 +2,7 @@
   background: var(--cor-1);
   padding: 3rem 6rem;
   display: flex;
-  background-image: url("../assets/bg.png");
+  background-image: url("../../assets/bg.png");
   background-size: cover;
 }
 

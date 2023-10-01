@@ -1,12 +1,12 @@
 import React from "react";
 import classes from "./Animals.module.css";
-import ImgAnimal1 from "../assets/an-1.jpg";
-import ImgAnimal2 from "../assets/an-2.jpg";
-import ImgAnimal3 from "../assets/an-3.jpg";
-import ImgAnimal4 from "../assets/an-4.jpg";
-import ImgAnimal5 from "../assets/an-5.jpg";
-import LayoutSections from "./layout/LayoutSections";
-import Slider from "./layout/Slider";
+import ImgAnimal1 from "../../assets/an-1.jpg";
+import ImgAnimal2 from "../../assets/an-2.jpg";
+import ImgAnimal3 from "../../assets/an-3.jpg";
+import ImgAnimal4 from "../../assets/an-4.jpg";
+import ImgAnimal5 from "../../assets/an-5.jpg";
+import LayoutSections from "../layout/LayoutSections";
+import Slider from "../layout/Slider";
 
 const animals = [
   {
@@ -50,17 +50,16 @@ const Animals = () => {
   return (
     <section className={classes.section}>
       <LayoutSections
-        title="Nossos animais"
-        subtitle="O que você irá encontrar aqui"
+        title="All Animals"
+        subtitle="Find you animal"
         className={classes.content}
       >
         <p>
-          Morbi ac ipsum elit. Cras id sem id neque blandit molestie. Nunc
-          malesuada sit amet arcu id pellentesque.
+          Meet Our Amazing Animals: Lions, Tigers, Elephants, and More!
         </p>
 
         <a href="/" className={`btn-preto ${classes.link}`}>
-          Todos os animais
+          See all animals
         </a>
       </LayoutSections>
       <Slider className={classes.slider}>

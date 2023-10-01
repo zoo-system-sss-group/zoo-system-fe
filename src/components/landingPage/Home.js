@@ -1,31 +1,30 @@
 import React from "react";
-import classes from "./Entrada.module.css";
-import MediasLink from "./layout/MediasLink";
-import Logo from "./layout/Logo";
-import { ReactComponent as IconPin } from "../assets/pin.svg";
+import classes from "./Home.module.css";
+import MediasLink from "../layout/MediasLink";
+import Logo from "../layout/Logo";
+import { ReactComponent as IconPin } from "../../assets/pin.svg";
 
-const Entrada = () => {
+const Home = () => {
   return (
     <section className={classes.entrada}>
       <header className={classes.header}>
         <Logo className={classes.logo} />
         <MediasLink className={classes.linksMedia} />
         <a className="btn-verde" href="/">
-          Faça uma doação
+          Login
         </a>
       </header>
 
       <div className={classes.entradaContainer}>
         <div className={classes.titleAndTexts}>
           <p className={classes.description}>
-            Morbi ac ipsum elit. Cras id sem id neque blandit molestie. Nunc
-            malesuada sit amet arcu id pellentesque.
+            Sở thú kiêm rạp xiếc trung ương hàng hàng đầu FPT
           </p>
 
-          <h1>Proin purus neque, blandit et feugiat eget, posuere id velit</h1>
+          <h1>Welcome to the best zoo in FPT University ecosystem</h1>
 
           <a href="/" className="btn-verde">
-            Compre o seu ingresso
+            Buy ticket here!
           </a>
         </div>
 
@@ -33,21 +32,21 @@ const Entrada = () => {
           <ul>
             <li>
               <span>2506</span>
-              <p>animais</p>
+              <p>animals</p>
             </li>
             <li>
               <span>315</span>
-              <p>espécies</p>
+              <p>species</p>
             </li>
             <li>
               <span>+20</span>
-              <p>espaços de lazer</p>
+              <p>areas</p>
             </li>
           </ul>
 
           <address>
             <span>
-              Lorem ipsum - 12 <IconPin />
+            D1 Street, Saigon Hi-tech Park, Long Thanh My Ward, Thu Duc City, Ho Chi Minh City <IconPin />
             </span>
           </address>
         </div>
@@ -56,4 +55,4 @@ const Entrada = () => {
   );
 };
 
-export default Entrada;
+export default Home;

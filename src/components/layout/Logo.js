@@ -6,7 +6,7 @@ const Logo = ({ className }) => {
   return (
     <span className={`${classes.logo} ${className}`}>
       <LogoSvg />
-      <div>Zoo</div>
+      <div>FZoo</div>
     </span>
   );
 };

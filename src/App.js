@@ -1,21 +1,21 @@
-import Activities from "./components/Activities";
-import Animals from "./components/Animals";
-import EmailSection from "./components/EmailSection";
-import Entrada from "./components/Entrada";
-import Faq from "./components/Faq";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Valores from "./components/Valores";
+import News from "./components/landingPage/News";
+import Animals from "./components/landingPage/Animals";
+import EmailSection from "./components/landingPage/EmailSection";
+import Home from "./components/landingPage/Home";
+import Faq from "./components/landingPage/Faq";
+import Footer from "./components/landingPage/Footer";
+import Header from "./components/landingPage/Header";
+import About from "./components/landingPage/About";
 
 function App() {
   return (
     <div>
       <Header />
       <main>
-        <Entrada />
+        <Home />
         <Animals />
-        <Activities />
-        <Valores />
+        <News />
+        <About />
         <Faq />
         <EmailSection />
       </main>

@@ -1,7 +1,7 @@
 .entrada {
   height: 100vh;
   color: var(--cor-2);
-  background: url("../assets/img-entrada-2.jpg");
+  background: url("../../assets/img-entrada-2.jpg");
   background-size: cover;
   box-shadow: inset 0px 0px 250px 70px #090b09;
   width: 100%;

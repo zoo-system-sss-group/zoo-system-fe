@@ -1,6 +1,6 @@
 import React from "react";
-import MediasLink from "./layout/MediasLink";
-import Logo from "./layout/Logo";
+import MediasLink from "../layout/MediasLink";
+import Logo from "../layout/Logo";
 import classes from "./Footer.module.css";
 
 const Footer = () => {

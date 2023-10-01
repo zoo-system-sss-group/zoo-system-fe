@@ -1,6 +1,6 @@
 .section {
   background: var(--cor-1);
-  background-image: url("../assets/bg.png");
+  background-image: url("../../assets/bg.png");
   background-size: cover;
   display: flex;
   padding-top: 4rem;

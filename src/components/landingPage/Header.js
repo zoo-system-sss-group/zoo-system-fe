@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import classes from "./Header.module.css";
-import MediasLink from "./layout/MediasLink";
-import Logo from "./layout/Logo";
+import MediasLink from "../layout/MediasLink";
+import Logo from "../layout/Logo";
 
 const listLinks = [
-  { route: "animais", description: "conheça nossos animais" },
-  { route: "atividades", description: "o que fazer aqui" },
-  { route: "mapa", description: "mapa do zoo" },
-  { route: "sobre", description: "conheça nossa história" },
-  { route: "contato", description: "fale conosco" },
-  { route: "faq", description: "perguntas frequentes" },
+  { route: "animal", description: "" },
+  { route: "news", description: "" },
+  { route: "map", description: "" },
+  { route: "about us", description: "" },
+  { route: "contact", description: "" },
+  { route: "faq", description: "" },
 ];
 
 const Header = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./Faq.module.css";
-import LayoutSections from "./layout/LayoutSections";
-import ImgGorila from "../assets/gorilla.png";
+import LayoutSections from "../layout/LayoutSections";
+import ImgGorila from "../../assets/gorilla.png";
 
 const questions = [
   {
