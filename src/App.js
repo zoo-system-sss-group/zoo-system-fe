@@ -1,26 +1,18 @@
-import News from "./components/landingPage/News";
-import Animals from "./components/landingPage/Animals";
-import EmailSection from "./components/landingPage/EmailSection";
-import Home from "./components/landingPage/Home";
-import Faq from "./components/landingPage/Faq";
-import Footer from "./components/landingPage/Footer";
-import Header from "./components/landingPage/Header";
-import About from "./components/landingPage/About";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
-    <div>
-      <Header />
-      <main>
-        <Home />
-        <Animals />
-        <News />
-        <About />
-        <Faq />
-        <EmailSection />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<LandingPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
+    // <LandingPage />
   );
 }
 

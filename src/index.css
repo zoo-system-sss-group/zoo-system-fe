@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url("https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;700&display=swap");
 :root {
   --cor-1: #52b343;
