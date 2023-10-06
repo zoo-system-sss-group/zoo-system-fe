@@ -5,25 +5,37 @@ import ImgGiraffe from "../../assets/giraffe.png";
 
 const About = () => {
   return (
-    <section className={classes.section}>
+    <section className="bg-cor5 text-cor2 overflow-hidden flex">
       <LayoutSections
         title="About us"
         subtitle="Who We Are: A Passionate Team Dedicated to Wildlife Conservation."
         className={classes.content}
       >
-        <ul className={classes.valuesList}>
-          <li>Huynh Van Phu</li>
-          <li>Vo Ngoc Truc Lam</li>
-          <li>Nguyen Thanh Binh</li>
-          <li>Do Thanh Bo</li>
-        </ul>
+        <div className="grid grid-cols-2 gap-5 place-content-stretch mb-8 w-full">
+          <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
+            Huynh Van Phu
+          </div>
+          <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
+            Vo Ngoc Truc Lam
+          </div>
+          <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
+            Nguyen Thanh Binh
+          </div>
+          <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
+            Do Thanh Bo
+          </div>
+        </div>
 
-        <a href="/" className="btn-verde">
+        {/* <a href="/" className="btn btn-primary">
           See more
-        </a>
+        </a> */}
       </LayoutSections>
-      <div className={classes.img}>
-        <img src={ImgGiraffe} alt="girafa" />
+      <div className="w-1/2 relative pt-8 order-first">
+        <img
+          src={ImgGiraffe}
+          alt="girafa"
+          className="relative z-10 mx-0 my-auto w-[380px]"
+        />
         <div className={classes.detail1}></div>
       </div>
     </section>

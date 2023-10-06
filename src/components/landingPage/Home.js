@@ -10,7 +10,7 @@ const Home = () => {
       <header className={classes.header}>
         <Logo className={classes.logo} />
         <MediasLink className={classes.linksMedia} />
-        <a className="btn-verde" href="/">
+        <a className="btn-verde" href="/login">
           Login
         </a>
       </header>

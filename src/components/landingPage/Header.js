@@ -4,12 +4,12 @@ import MediasLink from "../layout/MediasLink";
 import Logo from "../layout/Logo";
 
 const listLinks = [
-  { route: "animal", description: "" },
-  { route: "news", description: "" },
-  { route: "map", description: "" },
-  { route: "about us", description: "" },
-  { route: "contact", description: "" },
-  { route: "faq", description: "" },
+  {route: "animals", title: "animals", description: "" },
+  {route: "news", title: "news", description: "" },
+  {route: "map", title: "map", description: "" },
+  {route: "about", title: "about us", description: "" },
+  {route: "contact", title: "contact", description: "" },
+  {route: "faq", title: "faq", description: "" },
 ];
 
 const Header = () => {
@@ -41,8 +41,8 @@ const Header = () => {
         <ul>
           {listLinks.map((link) => (
             <li key={link.route}>
-              <a href="/">
-                <span>{link.route}</span>
+              <a href={link.route}>
+                <span>{link.title}</span>
                 <p>{link.description}</p>
               </a>
             </li>
