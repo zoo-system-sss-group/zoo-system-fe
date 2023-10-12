@@ -1,29 +1,21 @@
 import React from "react";
 import classes from "./Home.module.css";
-import MediasLink from "../layout/MediasLink";
-import Logo from "../layout/Logo";
 import { ReactComponent as IconPin } from "../../assets/pin.svg";
 
 const Home = () => {
   return (
-    <section className={classes.entrada}>
-      <header className={classes.header}>
-        <Logo className={classes.logo} />
-        <MediasLink className={classes.linksMedia} />
-        <a className="btn-verde" href="/login">
-          Login
-        </a>
-      </header>
-
-      <div className={classes.entradaContainer}>
-        <div className={classes.titleAndTexts}>
-          <p className={classes.description}>
-            Sở thú kiêm rạp xiếc trung ương hàng hàng đầu FPT
+    <section
+      className="h-screen w-full py-12 flex flex-col text-cor2 bg-[url('/src/assets/img-entrada-2.jpg')] sm:bg-cover shadow-[inset_0_250px_10px_rgba(9,11,9,0.3)] sm:shadow-[inset_0_250px_70px_rgba(9,11,9,0.3)]"
+    >
+      <div className="flex flex-col items-center sm:items-stretch flex-1 sm:flex-row text-center sm:text-left pt-28 pb-4 px-6 sm:py-14 sm:px-12">
+        <div className="text-center sm:text-left items-center sm:items-start flex flex-col flex-[3_1_0%]">
+          <p className="mb-8 text-cor2 sm:text-cor7 max-w-[300px] leading-5">
+            The leading FPT-owned zoo and circus combined center.
           </p>
 
-          <h1>Welcome to the best zoo in FPT University ecosystem</h1>
+          <h1 className="text-2xl sm:text-5xl leading-8 sm:leading-[4rem] mb-8 self-end font-extrabold mt-auto">Welcome to the best zoo in FPT University ecosystem</h1>
 
-          <a href="/" className="btn-verde">
+          <a href="/" className="btn-verde self-center sm:self-start">
             Buy ticket here!
           </a>
         </div>
@@ -44,9 +36,10 @@ const Home = () => {
             </li>
           </ul>
 
-          <address>
+          <address className="text-center mt-8 not-italic">
             <span>
-            D1 Street, Saigon Hi-tech Park, Long Thanh My Ward, Thu Duc City, Ho Chi Minh City <IconPin />
+              D1 Street, Saigon Hi-tech Park, Long Thanh My Ward, Thu Duc City,
+              Ho Chi Minh City <IconPin />
             </span>
           </address>
         </div>

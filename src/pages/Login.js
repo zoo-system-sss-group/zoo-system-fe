@@ -1,6 +1,5 @@
 import React from "react";
 import image from "../assets/an-2.jpg";
-import Logo from "../components/layout/Logo";
 const Login = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">

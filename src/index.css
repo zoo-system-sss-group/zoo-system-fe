@@ -21,10 +21,6 @@ body {
   background: var(--cor-6);
 }
 
-main {
-  padding-left: 10rem;
-}
-
 h2 {
   font-size: 3rem;
   line-height: 3rem;
