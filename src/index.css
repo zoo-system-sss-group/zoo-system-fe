@@ -13,22 +13,12 @@
   --cor-7: #7ea98e;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   font-size: 14px;
   font-family: 'Geologica', sans-serif;
   font-weight: 400;
   color: var(--cor-5);
   background: var(--cor-6);
-}
-
-main {
-  padding-left: 10rem;
 }
 
 h2 {
