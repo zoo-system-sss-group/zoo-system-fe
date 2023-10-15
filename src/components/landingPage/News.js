@@ -46,7 +46,7 @@ const News = () => {
         <p className="mb-8 w-max-[450px]">
           News news news news news news news news
         </p>
-        <a href="/" className="btn btn-primary">
+        <a href="/news" className="btn btn-primary">
           Read news
         </a>
       </LayoutSections>

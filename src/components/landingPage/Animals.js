@@ -56,7 +56,7 @@ const Animals = () => {
           Meet Our Amazing Animals: Lions, Tigers, Elephants, and More!
         </p>
 
-        <a href="/" className="btn btn-accent mt-4">
+        <a href="/animals" className="btn btn-accent mt-4">
           See all animals
         </a>
       </LayoutSections>

@@ -15,7 +15,7 @@ const Home = () => {
 
           <h1 className="text-2xl sm:text-5xl leading-8 sm:leading-[4rem] self-end font-extrabold mt-16 sm:mt-auto mb-8 ">Welcome to the best zoo in FPT University ecosystem</h1>
 
-          <a href="/" className="btn btn-primary self-center sm:self-start">
+          <a href="/buyticket" className="btn btn-primary self-center sm:self-start">
             Buy ticket here!
           </a>
         </div>
