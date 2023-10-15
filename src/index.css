@@ -17,60 +17,8 @@ body {
   font-size: 14px;
   font-family: 'Geologica', sans-serif;
   font-weight: 400;
-  color: var(--cor-5);
-  background: var(--cor-6);
-}
-
-h2 {
-  font-size: 3rem;
-  line-height: 3rem;
-}
-
-a {
-  text-decoration: none;
-}
-li {
-  list-style: none;
-}
-input,
-a,
-button {
-  font-size: inherit;
-  font-family: inherit;
-  color: inherit;
-  display: inline-block;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-.btn-preto,
-.btn-verde {
-  padding: 0.7rem 1.1rem;
-  border-radius: 0.2rem;
-  transition: 0.2s;
-  font-weight: 500;
-}
-.btn-verde {
-  background: linear-gradient(180deg, var(--cor-1) 0%, var(--cor-3) 100%);
   color: var(--cor-4);
-}
-
-.btn-preto {
-  background: var(--cor-5);
-  color: var(--cor-1);
-}
-
-.btn-verde:hover,
-.btn-preto:hover {
-  transform: translateY(-0.2rem);
-}
-
-img {
-  display: block;
+  background: var(--cor-1);
 }
 
 ::-webkit-scrollbar {
@@ -94,11 +42,6 @@ img {
     font-size: 16px;
   }
 }
-@media (max-width: 1100px) {
-  main {
-    padding-left: 0;
-  }
-}
 
 @media (max-width: 500px) {
   h2 {
@@ -107,5 +50,21 @@ img {
   }
   body {
     font-size: 12px;
+  }
+}
+
+
+@layer utilities {
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
   }
 }

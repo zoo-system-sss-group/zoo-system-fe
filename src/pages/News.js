@@ -3,12 +3,12 @@ import Header from "../components/landingPage/Header";
 import image from "../assets/an-2.jpg";
 import GuestLayout from "../components/layout/GuestLayout";
 
-function Animals() {
+function News() {
   return (
     <div>
       <Header />
-      <GuestLayout title="All animals">
-        {/* container all animals */}
+      <GuestLayout title="All news">
+        {/* container all news */}
         <div className="mx-8 mb-6">
           <div class="card w-64 bg-cor4 shadow-xl">
             <figure>
@@ -40,4 +40,4 @@ function Animals() {
   );
 }
 
-export default Animals;
+export default News;

@@ -47,10 +47,9 @@ const animals = [
 
 const Animals = () => {
   return (
-    <section className="bg-cor1 bg-cover flex py-20 bg-[url('/src/assets/bg.png')]">
+    <section className="bg-cor1 bg-[url('/src/assets/bg.png')] bg-cover flex flex-col sm:flex-row pt-0 sm:pt-16 pb-16">
       <LayoutSections
         title="All Animals"
-        subtitle="Find you animal"
         className="lg:order-1"
       >
         <p className="max-w-[450px]">
@@ -65,7 +64,7 @@ const Animals = () => {
         {animals.map((animal) => (
           <li key={animal.id} className="p-4 rounded-xl bg-cor4 text-co">
             <img className="w-full object-cover mb-4 h-[250px] md:h-[180px]" src={animal.src} alt={animal.especie} />
-            <h3 className="text-base mb-4 font-medium capitalize">{animal.especie}</h3>
+            <h3 className="text-base mb-4 font-medium capitalize text-cor2">{animal.especie}</h3>
 
             <p className="text-cor7">{animal.descricao}</p>
           </li>
