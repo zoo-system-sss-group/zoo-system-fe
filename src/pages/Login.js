@@ -2,7 +2,7 @@ import React from "react";
 import image from "../assets/an-2.jpg";
 const Login = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full bg-cor5">
       <div className="hidden sm:block">
         <img className="w-full h-full object-cover" src={image} alt="" />
       </div>

@@ -6,8 +6,7 @@ import Logo from "../layout/Logo";
 const listLinks = [
   {route: "animals", title: "animals", description: "" },
   {route: "news", title: "news", description: "" },
-  {route: "#", title: "about us", description: "" },
-  {route: "#", title: "contact", description: "" }
+  {route: "buyticket", title: "buy ticket", description: "" },
 ];
 
 const Header = () => {
@@ -31,7 +30,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed duration-[400ms] z-10 bg-cor6 p-6 flex items-center text-center flex-row lg: w-full h-16">
+    <header className="fixed duration-[400ms] z-50 bg-cor6 p-6 flex items-center text-center flex-row lg: w-full h-16">
       <a className="mr-auto" href="/">
         <Logo />
       </a>
@@ -48,7 +47,7 @@ const Header = () => {
         </ul>
       </nav>
       <MediasLink />
-      <a className="btn-verde ml-4" href="/login">
+      <a className="btn btn-md btn-primary h-10 !min-h-8 ml-4" href="/login">
           Login
         </a>
       <button

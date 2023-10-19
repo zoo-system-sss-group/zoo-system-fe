@@ -25,10 +25,6 @@ const About = () => {
             Do Thanh Bo
           </div>
         </div>
-
-        {/* <a href="/" className="btn btn-primary">
-          See more
-        </a> */}
       </LayoutSections>
       <div className="w-1/2 relative pt-8 order-first">
         <img

@@ -1,6 +1,5 @@
 import React from "react";
 import LayoutSections from "../layout/LayoutSections";
-import classes from "./News.module.css";
 import ImgActivity1 from "../../assets/at-1.jpg";
 import ImgActivity2 from "../../assets/at-2.jpg";
 import ImgActivity3 from "../../assets/at-3.jpg";
@@ -40,24 +39,23 @@ const activities = [
 
 const News = () => {
   return (
-    <section className={classes.section}>
+    <section className="bg-cor4 text-cor2 flex flex-col sm:flex-row pt-0 sm:pt-16 pb-16 ">
       <LayoutSections
         title="News"
-        subtitle="Donec aliquam, metus a lacinia"
       >
-        <p className={classes.txt}>
+        <p className="mb-8 w-max-[450px]">
           News news news news news news news news
         </p>
-        <a href="/" className="btn-verde">
+        <a href="/news" className="btn btn-primary">
           Read news
         </a>
       </LayoutSections>
       <Slider>
         {activities.map((activity) => (
-          <li key={activity.id} className={classes.itemActivity}>
-            <img src={activity.src} alt={activity.name} />
-            <h3>{activity.name}</h3>
-            <p>{activity.descricao}</p>
+          <li key={activity.id} className="bg-[#1b3323] p-4 h-full rounded-xl">
+            <img className="h-[180px] w-full md:h-[250px] object-cover mb-4" src={activity.src} alt={activity.name} />
+            <h3 className="mb-4 text-base font-medium">{activity.name}</h3>
+            <p className="text-cor7">{activity.descricao}</p>
           </li>
         ))}
       </Slider>
