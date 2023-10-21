@@ -10,7 +10,7 @@ function News() {
       <GuestLayout title="All news">
         {/* container all news */}
         <div className="mx-8 mb-6">
-          <div class="card w-64 bg-cor4 shadow-xl">
+          <div className="card w-64 bg-cor4 shadow-xl">
             <figure>
               <img
                 className="w-full h-40 object-cover"
@@ -18,8 +18,8 @@ function News() {
                 alt="Tiger"
               />
             </figure>
-            <div class="card-body px-4 py-6">
-              <h2 class="card-title text-cor2">Tiger</h2>
+            <div className="card-body px-4 py-6">
+              <h2 className="card-title text-cor2">Tiger</h2>
               <p className="text-cor7">If a dog chews shoes whose shoes does he choose?</p>
             </div>
           </div>
