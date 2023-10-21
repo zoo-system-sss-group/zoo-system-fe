@@ -3,7 +3,7 @@ import image from "../assets/an-2.jpg";
 import axios from "axios";
 
 import { APIPathURL } from "../utils/WebConstants";
-import { displayError } from "../utils/MyUtils";
+import { clearError, displayError } from "../utils/MyUtils";
 const Login = () => {
   function doLogin(e, form) {
     e.preventDefault();
@@ -15,6 +15,7 @@ const Login = () => {
       username: username,
       password: password,
     };
+    clearError(form);
     axios
       .post(APIPathURL("auth/login"), data)
       .then((response) => {
@@ -73,7 +74,7 @@ const Login = () => {
               <span className="label-text-alt text-error"></span>
             </label>
           </div>
-          <div className="form-control">
+          <div className="form-control ">
             <label className="label">Password</label>
             <input
               className="input input-bordered"
