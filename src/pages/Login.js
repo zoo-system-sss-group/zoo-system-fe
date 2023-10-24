@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import image from "../assets/an-2.jpg";
 import axios from "axios";
 
 import { APIPathURL } from "../utils/WebConstants";
-import { clearError, displayError } from "../utils/MyUtils";
+import { clearError } from "../utils/MyUtils";
+
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
+
   function doLogin(e, form) {
     e.preventDefault();
-    console.log(form);
     const formData = new FormData(form);
     const username = formData.get("username");
     const password = formData.get("password");
@@ -15,7 +20,7 @@ const Login = () => {
       username: username,
       password: password,
     };
-    clearError(form);
+    // clearError(form);
     axios
       .post(APIPathURL("auth/login"), data)
       .then((response) => {
@@ -23,10 +28,14 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        console.log(err.response.data?.errors ?? undefined);
-        displayError(form, err.response.data?.errors ?? undefined);
+        console.log(err.response?.data?.errors ?? undefined);
+        setErrors(err.response?.data?.errors ?? undefined);
+        console.log();
+        var errorMessage = err.response?.data.errorMessage;
+        setErrorMessage(errorMessage);
       });
   }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full bg-cor5">
       <div className="hidden sm:block">
@@ -51,47 +60,63 @@ const Login = () => {
                 aria-hidden="true"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
             </a>
             <h2 className="text-4xl font-bold text-center">Sign In</h2>
           </div>
+          {/* username */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text">Email</span>
+              <span className="label-text">Username</span>
             </label>
             <input
               className="input input-bordered"
               type="text"
               name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Email Address"
             />
             <label className="label">
-              <span className="label-text-alt text-error"></span>
+              <span className="label-text-alt text-red-500">
+                {errors && errors.UserName}
+              </span>
             </label>
           </div>
+          {/* password */}
           <div className="form-control ">
             <label className="label">Password</label>
             <input
               className="input input-bordered"
               type="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter Password"
             />
             <label className="label">
-              <span className="label-text-alt text-error"></span>
+              <span className="label-text-alt text-red-500">
+                {errors && errors.Password}
+              </span>
             </label>
           </div>
-          <div className="flex justify-between text-gray-400 py-2">
-            <p className="flex items-center">
-              <input type="checkbox" />
-              Remeber me
-            </p>
-            <p>Forgot Password</p>
+          <div className={!errorMessage && "hidden"}>
+            <label className="label">
+              <span className="label-text-alt text-red-500 ">
+                {errorMessage}
+              </span>
+            </label>
+          </div>
+          <div className="form-control">
+            <label className="label cursor-pointer justify-start">
+              <input type="checkbox" className="checkbox mr-3 bg-cor2" />
+              <span className="label-text">Remember me</span>
+            </label>
           </div>
           <button
             className="w-full my-5 py-2 btn btn-accent text-white font-semibold rounded-lg"
