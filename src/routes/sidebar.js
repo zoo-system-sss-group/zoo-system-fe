@@ -19,6 +19,11 @@ const routes = [
     name: 'Dashboard',
   },
   {
+    path: '/management/accounts',
+    icon: <Squares2X2Icon className={iconClasses}/>, 
+    name: 'Accounts',
+  },
+  {
     path: '/management/customers', // url
     icon: <InboxArrowDownIcon className={iconClasses}/>, // icon component
     name: 'Customers', // name that appear in Sidebar

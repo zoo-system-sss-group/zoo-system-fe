@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 export const getCustomersContent = createAsyncThunk('/customers/content', async () => {
-	const response = await axios.get('/api/User/pagination?pageIndex=0&pageSize=10', {})
+	const response = await axios.get('', {})
     // console.log(response.data);
 	return response;
 })

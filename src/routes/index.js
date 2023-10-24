@@ -6,12 +6,17 @@ const Dashboard = lazy(() => import('../pages/management/Dashboard'))
 const Page404 = lazy(() => import('../pages/management/404'))
 const Blank = lazy(() => import('../pages/management/Blank'))
 const Customers = lazy(() => import('../pages/management/Customers'))
+const Accounts = lazy(() => import('../pages/management/Accounts'))
 
 
 const routes = [
   {
     path: '/dashboard', // the url
     component: Dashboard, // view rendered
+  },
+  {
+    path: '/accounts', // the url
+    component: Accounts, // view rendered
   },
   {
     path: '/customers',

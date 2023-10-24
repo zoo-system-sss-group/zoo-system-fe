@@ -18,10 +18,13 @@ function Layout() {
 
 	useEffect(() => {
 		if (newNotificationMessage !== "") {
-			if (newNotificationStatus === 1)
+			if (newNotificationStatus >= 200 && newNotificationStatus < 300)
 				NotificationManager.success(newNotificationMessage, "Success");
-			if (newNotificationStatus === 0)
-				NotificationManager.error(newNotificationMessage, "Error");
+			else if (newNotificationStatus >= 400 && newNotificationStatus < 500)
+				NotificationManager.error(newNotificationMessage, "Client Error");
+			else if (newNotificationStatus >= 500 && newNotificationStatus < 600)
+				NotificationManager.error(newNotificationMessage, "Server Error");
+			else NotificationManager.info(newNotificationMessage, "Information");
 			dispatch(removeNotificationMessage());
 		}
 	}, [newNotificationMessage]);
