@@ -7,7 +7,7 @@ import axios from "axios";
 import { Animal } from "../app/class/Animal";
 import { useParams } from "react-router";
 const params = new URLSearchParams(window.location.search); // id=123
-const pageSize = 12;
+const pageSize = 8;
 function Animals() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
@@ -46,6 +46,7 @@ function Animals() {
       <div>
         <Header />
         <GuestLayout title="All animals">
+          
           <div
             className={
               "mx-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative xl:grid-cols-4 justify-center gap-4 my-6 "
