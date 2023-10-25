@@ -7,6 +7,9 @@ import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquare
 import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
 import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
 import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
+import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
+import BugAntIcon from '@heroicons/react/24/outline/BugAntIcon'
+import MapIcon from '@heroicons/react/24/outline/MapIcon'
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
@@ -17,6 +20,21 @@ const routes = [
     path: '/management/dashboard',
     icon: <Squares2X2Icon className={iconClasses}/>, 
     name: 'Dashboard',
+  },
+  {
+    path: '/management/accounts',
+    icon: <UserCircleIcon className={iconClasses}/>, 
+    name: 'Accounts',
+  },
+  {
+    path: '/management/animals',
+    icon: <BugAntIcon className={iconClasses}/>, 
+    name: 'Animals',
+  },
+  {
+    path: '/management/areas',
+    icon: <MapIcon className={iconClasses}/>, 
+    name: 'Areas',
   },
   {
     path: '/management/customers', // url

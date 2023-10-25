@@ -3,7 +3,7 @@ import image from "../assets/an-2.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
-
+import checkAuth from "../app/auth";
 const Login = () => {
 	const INITIAL_LOGIN_OBJ = {
 		userName: "",
@@ -36,19 +36,29 @@ const Login = () => {
 				"Content-Type": "application/json",
 			},
 		};
+
+		let token = null;
 		axios
 			.post("api/auth/login", dataLogin, config)
 			.then((res) => {
-				console.log(res);
 				if (res.status === 200) {
-
-					localStorage.setItem("token", res.data.value);
-					return navigate("/management/dashboard");
+					token = res.data.value;
+					localStorage.setItem("token", token);
+					const str = checkAuth();
+					console.log(str);
+					axios.get("api/auth/current-user").then((res) => {
+						localStorage.setItem("loginInfo", JSON.stringify(res.data.value));
+						window.location.href = "/management/dashboard";
+					});
 				} else {
 					return navigate("/login");
 				}
 			})
-			.catch((err) => setErrorMessage("Username or password wrong!"))
+			.catch((err) => {
+				var msg = err.response.data.errorMessage;
+				if (msg === undefined) msg = err.message;
+				setErrorMessage(msg);
+			})
 			.finally(() => {
 				setLoading(false);
 			});
