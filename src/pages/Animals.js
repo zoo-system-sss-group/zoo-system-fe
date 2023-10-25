@@ -1,69 +1,99 @@
 import Footer from "../components/landingPage/Footer";
 import Header from "../components/landingPage/Header";
-import image from "../assets/an-2.jpg";
 import GuestLayout from "../components/layout/GuestLayout";
-import {FaceFrownIcon}  from '@heroicons/react/24/solid'
-
-import { useEffect, useState } from "react";
+import Pagination from "../components/layout/Pagination";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Animal } from "../app/class/Animal";
+import { useSearchParams } from "react-router-dom";
+const params = new URLSearchParams(window.location.search); // id=123
+const pageSize = 8;
 function Animals() {
-	const [errorMessage, setErrorMessage] = useState("Something gone wrong");
-	const [animals, setAnimals] = useState();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({});
+  const [animals, setAnimals] = useState([]);
+  const [params,setSearchParams ] = useSearchParams( );
+  const page = params.get("page") ?? 1
+  const [pageIndex, setIndex] = useState(page ? parseInt(page) : 1);
+  useEffect(() => {
+    console.log(page);
+    setLoading(true);
+    axios
+      .get(
+        `/odata/animals?$count=true&$top=${pageSize}&$skip=${
+          pageSize * pageIndex - pageSize
+        }&$expand=species`
+      )
+      .then((resp) => {
+        setLoading(false);
 
-	useEffect(() => {
-		axios
-			.get("odata/animals")
-			.then((res) => {
-				setAnimals(res.value);
-			})
-			.catch((err) => setErrorMessage("Something wrong when fetching data"));
-	}, []);
-	return (
-		<div>
-			<Header />
-			<GuestLayout title="All animals">
-				{/* container all animals */}
-				{animals != null ? (
-					<div>
-						<div className="mx-8 mb-6">
-							<div className="card w-64 bg-cor4 shadow-xl">
-								<figure>
-									<img
-										className="w-full h-40 object-cover"
-										src={image}
-										alt="Tiger"
-									/>
-								</figure>
-								<div className="card-body px-4 py-6">
-									<h2 className="card-title text-cor2">Tiger</h2>
-									<p className="text-cor7">
-										If a dog chews shoes whose shoes does he choose?
-									</p>
-								</div>
-							</div>
-						</div>
-						{/* paging */}
-						<div className="flex justify-center">
-							<div className="join  mb-8 outline">
-								<button className="join-item btn">1</button>
-								<button className="join-item btn">2</button>
-								<button className="join-item btn btn-disabled">...</button>
-								<button className="join-item btn">99</button>
-								<button className="join-item btn">100</button>
-							</div>
-						</div>
-					</div>
-				) : (
-					<div className="h-[32rem] flex flex-col items-center">
-						<FaceFrownIcon className="mt-12 block w-48 h-48"/>
-						<div className="text-3xl font-medium text-err">{errorMessage}</div>
-					</div>
-				)}
-			</GuestLayout>
-			<Footer />
-		</div>
-	);
+        var animalData = resp.data.value;
+        setData(resp.data || {});
+        const animals = animalData.map((data) => new Animal(data));
+        setAnimals(animals);
+      })
+      .catch((err) => {
+        setLoading(false);
+
+        console.log(err);
+        setAnimals([]);
+      });
+  }, [pageIndex]);
+  const handlePageChange = (newPage) => {
+    setIndex(newPage);
+  };
+  if (animals)
+    return (
+      <div>
+        <Header />
+        <GuestLayout title="All animals">
+          <div
+            className={
+              "mx-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative xl:grid-cols-4 justify-center gap-4 my-6 "
+            }
+          >
+            {loading ? (
+              <>
+                <div className="absolute loading m-auto inset-0"></div>
+                <div className=" h-[300px]"></div>
+              </>
+            ) : (
+              animals.map((animal) => (
+                <div
+                  key={animal.Id}
+                  className="card w-72 md:w-90 mx-auto bg-cor4 shadow-xl hover:scale-[1.075] hover:transition"
+                  title={animal.Description}
+                >
+                  <figure>
+                    <img
+                      className="w-full h-40 object-cover"
+                      src={animal.Image}
+                      alt={animal.Species.Name}
+                    />
+                  </figure>
+                  <div className="card-body px-4 py-6">
+                    <h2 className="card-title text-cor2">
+                      {animal.Species.Name}
+                    </h2>
+                    <p className="text-cor7 line-clamp-4">
+                      {animal.Description}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+          {/* paging */}
+          <Pagination
+            clicked={handlePageChange}
+            pageIndex={pageIndex}
+            pageSize={pageSize}
+            totalItems={data["@odata.count"]}
+          />
+        </GuestLayout>
+        <Footer />
+      </div>
+    );
 }
 
 export default Animals;
