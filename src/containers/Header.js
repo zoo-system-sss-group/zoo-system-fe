@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 
-
 function Header() {
 	const dispatch = useDispatch();
 	const { pageTitle } = useSelector((state) => state.header);
+	const loginInfoJSON = localStorage.getItem("loginInfo");
+	if (loginInfoJSON == null) window.location.href = "/";
+	const [loginInfo, setLoginInfo] = useState(JSON.parse(loginInfoJSON));
 
 	function logoutUser() {
 		localStorage.clear();
@@ -28,10 +30,19 @@ function Header() {
 
 				<div className="order-last  mr-4">
 					{/* Profile icon, opening menu on click */}
+					<div>
+						<span
+							className={`badge badge-lg ${
+								loginInfo.role === "Staff" ? "badge-primary" : "badge-secondary"
+							} `}
+						>
+							{loginInfo.role} - {loginInfo.username}
+						</span>
+					</div>
 					<div className="dropdown dropdown-end ml-4">
 						<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
 							<div className="w-10 rounded-full border border-gray-500">
-								<img src="/user.png" alt="profile" />
+								<img src="../img/user.png" alt="profile" />
 							</div>
 						</label>
 						<ul

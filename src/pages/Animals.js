@@ -15,7 +15,6 @@ function Animals() {
 		axios
 			.get("odata/animals")
 			.then((res) => {
-				console.log(res);
 				setAnimals(res.value);
 			})
 			.catch((err) => setErrorMessage("Something wrong when fetching data"));

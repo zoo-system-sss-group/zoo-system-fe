@@ -3,7 +3,7 @@ import image from "../assets/an-2.jpg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
-import jwtDecode from "jwt-decode";
+import checkAuth from "../app/auth";
 const Login = () => {
 	const INITIAL_LOGIN_OBJ = {
 		userName: "",
@@ -37,33 +37,30 @@ const Login = () => {
 			},
 		};
 
-		var idLogin = null;
+		let token = null;
 		axios
 			.post("api/auth/login", dataLogin, config)
 			.then((res) => {
 				if (res.status === 200) {
-					const token = res.data.value;
+					token = res.data.value;
 					localStorage.setItem("token", token);
-					const decoded = jwtDecode(token);
-					const idLoginName =
-						"http://schemas.microsoft.com/ws/2008/06/identity/claims/serialnumber";
-					idLogin = decoded[idLoginName];
+					checkAuth();
+					axios.get("api/auth/current-user").then((res) => {
+						localStorage.setItem("loginInfo", JSON.stringify(res.data.value));
+					});
 					window.location.href = "/management/dashboard";
 				} else {
 					return navigate("/login");
 				}
 			})
-			.catch((err) => setErrorMessage(err.message))
+			.catch((err) => {
+				var msg = err.response.data.errorMessage;
+				if (msg === undefined) msg = err.message;
+				setErrorMessage(msg);
+			})
 			.finally(() => {
 				setLoading(false);
 			});
-		// console.log(idLogin);
-		// if (idLogin != null) {
-		// 	axios.get(`odata/accounts/${idLogin}`).then((res) => {
-		// 		console.log(JSON.stringify(res.data));
-		// 		localStorage.setItem("loginInfo", JSON.stringify(res.data));
-		// 	});
-		// }
 	};
 
 	return (
