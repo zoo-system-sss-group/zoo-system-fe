@@ -1,50 +1,65 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
-// import { addNewArea } from "../areaSlice"
+// import { addNewCage } from "../cageSlice"
 
-const INITIAL_AREA_OBJ = {
+const INITIAL_CAGE_OBJ = {
 	Code: "",
 	Name: "",
 	Location: "",
 	Description: "",
 	Capacity: 1,
+	Image: "",
+	AreaId: 0,
 };
 
-function AddArea({ fetch }) {
+function AddCage({ fetch }) {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [areaObj, setAreaObj] = useState(INITIAL_AREA_OBJ);
+	const [cageObj, setCageObj] = useState(INITIAL_CAGE_OBJ);
+	const [areaObj, setAreaObj] = useState([]);
 
-	const saveNewArea = () => {
-		if (areaObj.Code.trim() === "") return setErrorMessage("Code is required!");
-		if (areaObj.Name.trim() === "") return setErrorMessage("Name is required!");
-		if (areaObj.Location.trim() === "")
+	useEffect(() => {
+		axios
+			.get(`odata/areas?$filter=isDeleted eq false&$select=Id,Code,Name`)
+			.then((res) => {
+				let arr = Object.values(res.data.value);
+				setAreaObj([...arr]);
+				cageObj.AreaId = arr[0].Id;
+			});
+	}, []);
+
+	const saveNewCage = () => {
+		if (cageObj.Code.trim() === "") return setErrorMessage("Code is required!");
+		if (cageObj.Name.trim() === "") return setErrorMessage("Name is required!");
+		if (cageObj.Location.trim() === "")
 			return setErrorMessage("Location is required!");
-		if (areaObj.Description.trim() === "")
+		if (cageObj.Description.trim() === "")
 			return setErrorMessage("Description is required!");
-		if (areaObj.Capacity <= 0)
+		if (cageObj.Capacity <= 0)
 			return setErrorMessage("Capacity must greater than 0!");
 
-		let newAreaObj = {
-			Code: areaObj.Code,
-			Name: areaObj.Name,
-			Location: areaObj.Location,
-			Description: areaObj.Description,
-			Capacity: areaObj.Capacity,
+		let newCageObj = {
+			Code: cageObj.Code,
+			Name: cageObj.Name,
+			Location: cageObj.Location,
+			Description: cageObj.Description,
+			Capacity: cageObj.Capacity,
+			Image: cageObj.Image,
+			AreaId: cageObj.AreaId,
 		};
-		const data = JSON.stringify(newAreaObj);
+		const data = JSON.stringify(newCageObj);
 
 		setLoading(true);
 		axios
-			.post("odata/areas", data)
+			.post("odata/cages", data)
 			.then((res) => {
-				document.getElementById("btnCloseAddArea").click();
+				document.getElementById("btnCloseAddCage").click();
 				dispatch(
 					showNotification({
-						message: "New Area Added!",
+						message: "New Cage Added!",
 						status: res.status,
 					})
 				);
@@ -59,8 +74,9 @@ function AddArea({ fetch }) {
 	};
 
 	const updateFormValue = (updateType, value) => {
+		console.log(updateType, " | ", value);
 		setErrorMessage("");
-		setAreaObj({ ...areaObj, [updateType]: value });
+		setCageObj({ ...cageObj, [updateType]: value });
 	};
 
 	return (
@@ -68,13 +84,13 @@ function AddArea({ fetch }) {
 			<div className="inline-block float-right">
 				<button
 					className="btn px-6 btn-sm normal-case btn-primary"
-					onClick={() => document.getElementById("btnAddArea").showModal()}
+					onClick={() => document.getElementById("btnAddCage").showModal()}
 				>
 					Add New
 				</button>
-				<dialog id="btnAddArea" className="modal ">
+				<dialog id="btnAddCage" className="modal ">
 					<div className="modal-box">
-						<h3 className="font-bold text-2xl">Add new area</h3>
+						<h3 className="font-bold text-2xl">Add new cage</h3>
 						<div className="form-control w-full ">
 							<label className="label mt-4">
 								<span className="label-text">Code</span>
@@ -82,7 +98,7 @@ function AddArea({ fetch }) {
 							<input
 								type="text"
 								placeholder=""
-								value={areaObj.Code}
+								value={cageObj.Code}
 								onChange={(e) => updateFormValue("Code", e.target.value)}
 								className="input input-bordered w-full "
 							/>
@@ -93,7 +109,7 @@ function AddArea({ fetch }) {
 							<input
 								type="text"
 								placeholder=""
-								value={areaObj.Name}
+								value={cageObj.Name}
 								onChange={(e) => updateFormValue("Name", e.target.value)}
 								className="input input-bordered w-full"
 							/>
@@ -104,7 +120,7 @@ function AddArea({ fetch }) {
 							<input
 								type="text"
 								placeholder=""
-								value={areaObj.Location}
+								value={cageObj.Location}
 								onChange={(e) => updateFormValue("Location", e.target.value)}
 								className="input input-bordered w-full"
 							/>
@@ -115,7 +131,7 @@ function AddArea({ fetch }) {
 							<textarea
 								type="text"
 								placeholder=""
-								value={areaObj.Description}
+								value={cageObj.Description}
 								onChange={(e) => updateFormValue("Description", e.target.value)}
 								className="textarea textarea-bordered h-24"
 							/>
@@ -127,22 +143,52 @@ function AddArea({ fetch }) {
 								type="number"
 								placeholder=""
 								min="1"
-								value={areaObj.Capacity}
+								value={cageObj.Capacity}
 								onChange={(e) => updateFormValue("Capacity", e.target.value)}
 								className="input input-bordered w-full"
 							/>
+
+							<label className="label mt-4">
+								<span className="label-text">Image</span>
+							</label>
+							<input
+								type="text"
+								placeholder=""
+								value={cageObj.Image}
+								onChange={(e) => updateFormValue("Image", e.target.value)}
+								className="input input-bordered w-full"
+							/>
+							<label className="label mt-4">
+								<span className="label-text">AreaId</span>
+							</label>
+							<select
+								type="text"
+								placeholder=""
+								value={cageObj.AreaId}
+								onChange={(e) => updateFormValue("AreaId", e.target.value)}
+								className="select select-bordered"
+							>
+								{areaObj.length > 0
+									? areaObj.map((l) => (
+											<option key={l.Id} value={l.Id}>
+												{l.Name}
+											</option>
+									  ))
+									: ""}
+							</select>
+
 							<div className="text-err text-lg">{errorMessage}</div>
 						</div>
 						<div className="modal-action">
 							<form method="dialog">
-								<button id="btnCloseAddArea" className="btn">
+								<button id="btnCloseAddCage" className="btn">
 									Close
 								</button>
 							</form>
 
 							<button
 								className="btn btn-primary ml-4 "
-								onClick={() => saveNewArea()}
+								onClick={() => saveNewCage()}
 							>
 								Create <span className={loading ? " loading" : ""}></span>
 							</button>
@@ -157,4 +203,4 @@ function AddArea({ fetch }) {
 	);
 }
 
-export default AddArea;
+export default AddCage;

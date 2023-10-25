@@ -6,13 +6,15 @@ import axios from "axios";
 const INITIAL_ACCOUNT_OBJ = {
 	Username: "",
 	Password: "",
-	Role: "staff",
+	Role: "Trainer",
 	Avatar: null,
 	Fullname: "",
 	Experiences: "",
 };
 
-function AddAccount({fetch}) {
+const ROLE_ACCOUNT = ["Trainer", "Staff"];
+
+function AddAccount({ fetch }) {
 	const dispatch = useDispatch();
 	// const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -43,7 +45,7 @@ function AddAccount({fetch}) {
 						status: res.status,
 					})
 				);
-                fetch();
+				fetch();
 			})
 			.catch((err) => {
 				return setErrorMessage(err.response.data.value);

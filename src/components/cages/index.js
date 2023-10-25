@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import TitleCard from "../../components/common/Cards/TitleCard";
-import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import TitleCard from "../common/Cards/TitleCard";
+import {
+	TrashIcon,
+	PencilSquareIcon,
+	EyeIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
-import EditAnimal from "./components/EditAnimal";
-import AddAnimal from "./components/AddAnimal";
+import EditCage from "./components/EditCage";
+import AddCage from "./components/AddCage";
+import ViewCage from "./components/ViewCage";
 
-function Animals() {
+function Cages() {
 	const dispatch = useDispatch();
-	const [animals, setAnimals] = useState();
+	const [cages, setCages] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
@@ -18,22 +23,21 @@ function Animals() {
 		limit: 10,
 		isEnd: false,
 	});
-
-	//lay danh sach animal
-	const fetchAnimalList = () => {
+	//lay danh sach cage
+	const fetchCageList = () => {
 		axios
 			.get(
-				`odata/animals?$orderby=CreationDate desc&$skip=${
+				`odata/cages?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
 			.then((res) => {
-				let animals = res.data.value;
-				if (!pagination.isEnd && animals.length < pagination.limit)
+				let cages = res.data.value;
+				if (!pagination.isEnd && cages.length < pagination.limit)
 					setPagination({ ...pagination, isEnd: true });
-				else if (pagination.isEnd && animals.length === pagination.limit)
+				else if (pagination.isEnd && cages.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
-				setAnimals(animals);
+				setCages(cages);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -41,64 +45,61 @@ function Animals() {
 	};
 
 	useEffect(() => {
-		fetchAnimalList();
+		fetchCageList();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pagination]);
 
-	const deactiveAnimal = (index) => {
+	const deleteCage = (index) => {
 		axios
-			.delete(`/odata/animals/${index}`)
+			.delete(`/odata/cages/${index}`)
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Animal deactive! - " + res.status,
+						message: "Cage deleted!",
 						status: res.status,
 					})
 				);
-				fetchAnimalList();
+				fetchCageList();
 			})
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
 			});
 	};
 
-	const getStatus = (isDelete) => {
-		if (isDelete === false)
-			return <div className="badge badge-success">Active</div>;
-		else return <div className="badge badge-error">Deactive</div>;
-	};
-
 	return (
 		<>
 			<TitleCard
-				title="Animal table"
+				title="Cage table"
 				topMargin="mt-2"
-				TopSideButtons={<AddAnimal fetch={fetchAnimalList} />}
+				TopSideButtons={<AddCage fetch={fetchCageList} />}
 			>
 				<div className="overflow-x-auto w-full">
-					{animals != null ? (
+					{cages != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
 									<tr>
 										<th>ID</th>
+										<th>Code</th>
 										<th>Name</th>
+										<th>Location</th>
 										<th>Description</th>
-										<th>Weight</th>
-										<th>BirthDate</th>
-										<th>SpeciesId</th>
+										<th>Capacity</th>
+										<th>Area ID</th>
 										<th>CreationDate</th>
 										<th>ModificationDate</th>
-										<th>Status</th>
+										{/* <th>Status</th> */}
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
-									{animals.map((l, k) => {
+									{cages.map((l, k) => {
 										return (
 											<tr key={k}>
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
 													{l.Id}
 												</td>
+												<td>{l.Code}</td>
 												<td>
 													<div className="flex items-center space-x-3">
 														<div className="avatar">
@@ -114,10 +115,10 @@ function Animals() {
 														</div>
 													</div>
 												</td>
+												<td>{l.Location}</td>
 												<td>{l.Description}</td>
-												<td>{l.Weight}</td>
-												<td>{moment(l.BirthDate).format("yyyy-MM-DD")}</td>
-												<td>{l.SpeciesId}</td>
+												<td>{l.Capacity}</td>
+												<td>{l.AreaId}</td>
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
@@ -126,34 +127,51 @@ function Animals() {
 														"YYYY-MM-DD HH:mm:ss"
 													)}
 												</td>
-												<td>{getStatus(l.IsDeleted)}</td>
-												<td>
-													{/* Nut sua animal */}
+												{/* <td>{getStatus(l.IsDeleted)}</td> */}
+												<td className="flex">
+													{/* Nut xem cage */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
 															setIdSelect(l.Id);
-															document.getElementById("my_modal_1").showModal();
+															document
+																.getElementById("btnViewCage")
+																.showModal();
+														}}
+													>
+														<EyeIcon className="w-5 text-cor4 stroke-2" />
+													</button>
+
+													{/* Nut sua cage */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															setIdSelect(l.Id);
+															document
+																.getElementById("btnEditCage")
+																.showModal();
 														}}
 													>
 														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 													</button>
 
-													{/* Nut doi status animal */}
+													{/* Nut doi status cage */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
-															document.getElementById("my_modal_2").showModal();
+															document
+																.getElementById("btnDeleteCage")
+																.showModal();
 															setIdSelect(l.Id);
 														}}
 													>
 														<TrashIcon className="w-5 text-err stroke-2" />
 													</button>
-													<dialog id="my_modal_2" className="modal ">
+													<dialog id="btnDeleteCage" className="modal ">
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
-															<p className="py-4">
-																Are you sure you want to deactive this user?
+															<p className="py-4 text-2xl">
+																Are you want to delete cage "{l.Name}"?
 															</p>
 															<div className="modal-action">
 																<form method="dialog">
@@ -161,9 +179,9 @@ function Animals() {
 
 																	<button
 																		className="btn btn-primary ml-4"
-																		onClick={() => deactiveAnimal(idSelect)}
+																		onClick={() => deleteCage(idSelect)}
 																	>
-																		Deactive
+																		Delete
 																	</button>
 																</form>
 															</div>
@@ -178,7 +196,8 @@ function Animals() {
 									})}
 								</tbody>
 							</table>
-							<EditAnimal id={idSelect} fetch={fetchAnimalList} />
+							<ViewCage id={idSelect} />
+							<EditCage id={idSelect} fetch={fetchCageList} />
 
 							<div className="w-full flex justify-center">
 								<div className="join">
@@ -223,4 +242,4 @@ function Animals() {
 	);
 }
 
-export default Animals;
+export default Cages;

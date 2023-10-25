@@ -4,7 +4,7 @@ import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 // import { addNewArea } from "../areaSlice"
 
-const INITIAL_AREA_OBJ = {
+const INITIAL_ACCOUNT_OBJ = {
 	Code: "",
 	Name: "",
 	Location: "",
@@ -16,7 +16,7 @@ function AddArea({ fetch }) {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [areaObj, setAreaObj] = useState(INITIAL_AREA_OBJ);
+	const [areaObj, setAreaObj] = useState(INITIAL_ACCOUNT_OBJ);
 
 	const saveNewArea = () => {
 		if (areaObj.Code.trim() === "") return setErrorMessage("Code is required!");
