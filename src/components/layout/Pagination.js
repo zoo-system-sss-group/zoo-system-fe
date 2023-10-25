@@ -14,7 +14,9 @@ const Pagination = ({ pageIndex, pageSize, totalItems, clicked }) => {
     return (
       <button
         key={i}
-        className={`join-item btn ${i === currentPageIndex ? "btn-active" : ""}`}
+        className={`join-item btn ${
+          i === currentPageIndex ? "btn-active" : ""
+        }`}
         onClick={() => {
           setCurrentPageIndex(i); // Update the state instead of the prop directly
           clicked(i);
@@ -59,11 +61,12 @@ const Pagination = ({ pageIndex, pageSize, totalItems, clicked }) => {
       );
     }
   }
-  return (
-    <div className="flex justify-center">
-      <div className="join mb-8 outline">{pagingItems}</div>
-    </div>
-  );
+  if (pagingItems.length > 0)
+    return (
+      <div className="flex justify-center">
+        <div className="join mb-8 outline">{pagingItems}</div>
+      </div>
+    );
 };
 
 export default Pagination;

@@ -5,14 +5,15 @@ import Pagination from "../components/layout/Pagination";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Animal } from "../app/class/Animal";
-import { useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 const params = new URLSearchParams(window.location.search); // id=123
 const pageSize = 8;
 function Animals() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const [animals, setAnimals] = useState([]);
-  const { page } = useParams();
+  const [params,setSearchParams ] = useSearchParams( );
+  const page = params.get("page") ?? 1
   const [pageIndex, setIndex] = useState(page ? parseInt(page) : 1);
   useEffect(() => {
     console.log(page);
@@ -46,7 +47,6 @@ function Animals() {
       <div>
         <Header />
         <GuestLayout title="All animals">
-          
           <div
             className={
               "mx-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 relative xl:grid-cols-4 justify-center gap-4 my-6 "

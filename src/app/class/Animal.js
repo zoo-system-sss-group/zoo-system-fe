@@ -15,6 +15,6 @@ export class Animal {
       this.DeletionDate = data.DeletionDate || null;
       this.IsDeleted = data.IsDeleted || false;
       
-      this.Species = data.Species || {};
+      this.Species = data.Species ? new Specie(data.Species) : {};
   }
 }

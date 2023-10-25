@@ -10,43 +10,6 @@ import axios from "axios";
 import { Animal } from "../../app/class/Animal";
 const Animals = () => {
   const [animals, setAnimals] = useState([]);
-  const animalData = [
-    {
-      src: ImgAnimal1,
-      id: "anima1",
-      specie: "iguana",
-      description:
-        "Aliquam erat volutpat. Suspendisse lobortis lacus eu metus viverra vulputate.",
-    },
-    {
-      src: ImgAnimal2,
-      id: "anima2",
-      especie: "leão",
-      description:
-        "Aenean at ipsum a eros sollicitudin fringilla. Nullam blandit nisi nec enim faucibus, in consequat nisi varius.",
-    },
-    {
-      src: ImgAnimal3,
-      id: "anima3",
-      especie: "Flamingo",
-      description:
-        "Donec in massa eget sem consectetur pulvinar. Aliquam erat volutpat. Suspendisse lobortis lacus eu metus viverra vulputate.",
-    },
-    {
-      src: ImgAnimal4,
-      id: "anima4",
-      specie: "Rinoceronte",
-      description:
-        " Curabitur sit amet volutpat nulla. Vivamus leo lorem, interdum eget consequat id, aliquet id metus.",
-    },
-    {
-      src: ImgAnimal5,
-      id: "anima5",
-      specie: "mico-leão-dourado",
-      description:
-        "Aliquam tincidunt ante magna, bibendum fermentum dolor venenatis ut. Praesent ipsum nulla, sodales ac posuere quis, tristique eu leo.",
-    },
-  ];
   useEffect(() => {
     axios
       .get("/odata/animals?$top=5&$expand=species")
@@ -56,7 +19,7 @@ const Animals = () => {
         setAnimals(animals);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setAnimals([]);
       });
   }, []);
