@@ -44,11 +44,12 @@ const Login = () => {
 				if (res.status === 200) {
 					token = res.data.value;
 					localStorage.setItem("token", token);
-					checkAuth();
+					const str = checkAuth();
+					console.log(str);
 					axios.get("api/auth/current-user").then((res) => {
 						localStorage.setItem("loginInfo", JSON.stringify(res.data.value));
+						window.location.href = "/management/dashboard";
 					});
-					window.location.href = "/management/dashboard";
 				} else {
 					return navigate("/login");
 				}

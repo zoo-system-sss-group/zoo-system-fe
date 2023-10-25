@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
+// import { addNewAnimal } from "../animalSlice"
 
 const INITIAL_ACCOUNT_OBJ = {
 	Username: "",
@@ -12,34 +13,34 @@ const INITIAL_ACCOUNT_OBJ = {
 	Experiences: "",
 };
 
-function AddAccount({fetch}) {
+function AddAnimal({fetch}) {
 	const dispatch = useDispatch();
-	// const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [accountObj, setAccountObj] = useState(INITIAL_ACCOUNT_OBJ);
+	const [animalObj, setAnimalObj] = useState(INITIAL_ACCOUNT_OBJ);
 
-	const saveNewAccount = () => {
-		if (accountObj.Username.trim() === "")
+	const saveNewAnimal = () => {
+		if (animalObj.Username.trim() === "")
 			return setErrorMessage("Username is required!");
-		if (accountObj.Password.trim() === "")
+		if (animalObj.Password.trim() === "")
 			return setErrorMessage("Password is required!");
 
-		let newAccountObj = {
-			Username: accountObj.Username,
-			Password: accountObj.Password,
-			Role: accountObj.Role,
-			Avatar: accountObj.Avatar,
-			Fullname: accountObj.Fullname,
-			Experiences: accountObj.Experiences,
+		let newAnimalObj = {
+			Username: animalObj.Username,
+			Password: animalObj.Password,
+			Role: animalObj.Role,
+			Avatar: animalObj.Avatar,
+			Fullname: animalObj.Fullname,
+			Experiences: animalObj.Experiences,
 		};
-		const data = JSON.stringify(newAccountObj);
+		const data = JSON.stringify(newAnimalObj);
 		axios
-			.post("odata/accounts", data)
+			.post("odata/animals", data)
 			.then((res) => {
-				document.getElementById("btnCloseAddAccount").click();
+				document.getElementById("btnCloseAddAnimal").click();
 				dispatch(
 					showNotification({
-						message: "New Account Added!",
+						message: "New Animal Added!",
 						status: res.status,
 					})
 				);
@@ -52,7 +53,7 @@ function AddAccount({fetch}) {
 
 	const updateFormValue = (updateType, value) => {
 		setErrorMessage("");
-		setAccountObj({ ...accountObj, [updateType]: value });
+		setAnimalObj({ ...animalObj, [updateType]: value });
 	};
 
 	return (
@@ -60,13 +61,13 @@ function AddAccount({fetch}) {
 			<div className="inline-block float-right">
 				<button
 					className="btn px-6 btn-sm normal-case btn-primary"
-					onClick={() => document.getElementById("addAccount").showModal()}
+					onClick={() => document.getElementById("addAnimal").showModal()}
 				>
 					Add New
 				</button>
-				<dialog id="addAccount" className="modal ">
+				<dialog id="addAnimal" className="modal ">
 					<div className="modal-box">
-						<h3 className="font-bold text-lg">Add new account</h3>
+						<h3 className="font-bold text-lg">Add new animal</h3>
 						<div className="form-control w-full ">
 							<label className="label">
 								<span className="label-text">Username</span>
@@ -74,7 +75,7 @@ function AddAccount({fetch}) {
 							<input
 								type="text"
 								placeholder=""
-								value={accountObj.Username}
+								value={animalObj.Username}
 								onChange={(e) => updateFormValue("Username", e.target.value)}
 								className="input input-bordered w-full "
 							/>
@@ -85,7 +86,7 @@ function AddAccount({fetch}) {
 							<input
 								type="password"
 								placeholder=""
-								value={accountObj.Password}
+								value={animalObj.Password}
 								onChange={(e) => updateFormValue("Password", e.target.value)}
 								className="input input-bordered w-full"
 							/>
@@ -96,7 +97,7 @@ function AddAccount({fetch}) {
 							<input
 								type="text"
 								placeholder=""
-								value={accountObj.Fullname}
+								value={animalObj.Fullname}
 								onChange={(e) => updateFormValue("Fullname", e.target.value)}
 								className="input input-bordered w-full"
 							/>
@@ -107,7 +108,7 @@ function AddAccount({fetch}) {
 							<textarea
 								type="text"
 								placeholder=""
-								value={accountObj.Experiences}
+								value={animalObj.Experiences}
 								onChange={(e) => updateFormValue("Experiences", e.target.value)}
 								className="textarea textarea-bordered h-24"
 							/>
@@ -115,14 +116,14 @@ function AddAccount({fetch}) {
 						</div>
 						<div className="modal-action">
 							<form method="dialog">
-								<button id="btnCloseAddAccount" className="btn">
+								<button id="btnCloseAddAnimal" className="btn">
 									Close
 								</button>
 							</form>
 
 							<button
 								className="btn btn-primary ml-4"
-								onClick={() => saveNewAccount()}
+								onClick={() => saveNewAnimal()}
 							>
 								Create
 							</button>
@@ -137,4 +138,4 @@ function AddAccount({fetch}) {
 	);
 }
 
-export default AddAccount;
+export default AddAnimal;

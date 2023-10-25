@@ -7,6 +7,8 @@ const Page404 = lazy(() => import('../pages/management/404'))
 const Blank = lazy(() => import('../pages/management/Blank'))
 const Customers = lazy(() => import('../pages/management/Customers'))
 const Accounts = lazy(() => import('../pages/management/Accounts'))
+const Animals = lazy(() => import('../pages/management/Animals'))
+const Areas = lazy(() => import('../pages/management/Areas'))
 
 
 const routes = [
@@ -15,8 +17,16 @@ const routes = [
     component: Dashboard, // view rendered
   },
   {
-    path: '/accounts', // the url
-    component: Accounts, // view rendered
+    path: '/accounts', 
+    component: Accounts, 
+  },
+  {
+    path: '/animals', 
+    component: Animals, 
+  },
+  {
+    path: '/areas', 
+    component: Areas, 
   },
   {
     path: '/customers',

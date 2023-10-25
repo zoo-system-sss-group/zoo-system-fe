@@ -8,7 +8,6 @@ import {
 	NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-import ModalLayout from "./ModalLayout";
 
 function Layout() {
 	const dispatch = useDispatch();
@@ -27,6 +26,7 @@ function Layout() {
 			else NotificationManager.info(newNotificationMessage, "Information");
 			dispatch(removeNotificationMessage());
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [newNotificationMessage]);
 
 	return (
@@ -44,9 +44,6 @@ function Layout() {
 
 			{/** Notification layout container */}
 			<NotificationContainer />
-
-			{/* Modal layout container */}
-			<ModalLayout />
 		</>
 	);
 }

@@ -5,12 +5,12 @@ import TitleCard from "../../components/common/Cards/TitleCard";
 import { NoSymbolIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
-import EditAccount from "./components/EditAccount";
-import AddAccount from "./components/AddAccount";
+import EditAnimal from "./components/EditAnimal";
+import AddAnimal from "./components/AddAnimal";
 
-function Accounts() {
+function Animals() {
 	const dispatch = useDispatch();
-	const [accounts, setAccounts] = useState();
+	const [animals, setAnimals] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
@@ -19,21 +19,21 @@ function Accounts() {
 		isEnd: false,
 	});
 
-	//lay danh sach account
-	const fetchAccountList = () => {
+	//lay danh sach animal
+	const fetchAnimalList = () => {
 		axios
 			.get(
-				`odata/accounts?$orderby=CreationDate desc&$skip=${(pagination.page - 1) * 10}&$top=${
-					pagination.limit
-				}`
+				`odata/animals?$orderby=CreationDate desc&$skip=${
+					(pagination.page - 1) * 10
+				}&$top=${pagination.limit}`
 			)
 			.then((res) => {
-				let accounts = res.data.value;
-				if (!pagination.isEnd && accounts.length < pagination.limit)
+				let animals = res.data.value;
+				if (!pagination.isEnd && animals.length < pagination.limit)
 					setPagination({ ...pagination, isEnd: true });
-				else if (pagination.isEnd && accounts.length === pagination.limit)
+				else if (pagination.isEnd && animals.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
-				setAccounts(accounts);
+				setAnimals(animals);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -41,21 +41,20 @@ function Accounts() {
 	};
 
 	useEffect(() => {
-		fetchAccountList();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		fetchAnimalList();
 	}, [pagination]);
 
-	const deactiveAccount = (index) => {
+	const deactiveAnimal = (index) => {
 		axios
-			.delete(`/odata/accounts/${index}`)
+			.delete(`/odata/animals/${index}`)
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Account deactive! - " + res.status,
+						message: "Animal deactive! - " + res.status,
 						status: res.status,
 					})
 				);
-				fetchAccountList();
+				fetchAnimalList();
 			})
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
@@ -71,21 +70,22 @@ function Accounts() {
 	return (
 		<>
 			<TitleCard
-				title="Account table"
+				title="Animal table"
 				topMargin="mt-2"
-				TopSideButtons={<AddAccount fetch={fetchAccountList}/>}
+				TopSideButtons={<AddAnimal fetch={fetchAnimalList} />}
 			>
 				<div className="overflow-x-auto w-full">
-					{accounts != null ? (
+					{animals != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Username</th>
-										<th>Role</th>
-										<th>Fullname</th>
-										<th>Experiences</th>
+										<th>Name</th>
+										<th>Description</th>
+										<th>Weight</th>
+										<th>BirthDate</th>
+										<th>SpeciesId</th>
 										<th>CreationDate</th>
 										<th>ModificationDate</th>
 										<th>Status</th>
@@ -93,7 +93,7 @@ function Accounts() {
 									</tr>
 								</thead>
 								<tbody>
-									{accounts.map((l, k) => {
+									{animals.map((l, k) => {
 										return (
 											<tr key={k}>
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
@@ -104,25 +104,20 @@ function Accounts() {
 														<div className="avatar">
 															<div className="mask mask-squircle w-12 h-12">
 																<img
-																	src={l.Avatar ? l.Avatar : "../img/user.png"}
+																	src={l.Image ? l.Image : "../img/user.png"}
 																	alt="Avatar"
 																/>
 															</div>
 														</div>
 														<div>
-															<div className="font-bold">{l.Username}</div>
+															<div className="font-bold">{l.Name}</div>
 														</div>
 													</div>
 												</td>
-												<td>{l.Role}</td>
-												<td>{l.Fullname}</td>
-												<td>
-													{l.Experiences ? (
-														l.Experiences
-													) : (
-														<span className="italic opacity-40">No data</span>
-													)}
-												</td>
+												<td>{l.Description}</td>
+												<td>{l.Weight}</td>
+												<td>{moment(l.BirthDate).format("yyyy-MM-DD")}</td>
+												<td>{l.SpeciesId}</td>
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
@@ -133,7 +128,7 @@ function Accounts() {
 												</td>
 												<td>{getStatus(l.IsDeleted)}</td>
 												<td>
-													{/* Nut sua account */}
+													{/* Nut sua animal */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
@@ -144,7 +139,7 @@ function Accounts() {
 														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 													</button>
 
-													{/* Nut doi status account */}
+													{/* Nut doi status animal */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
@@ -166,7 +161,7 @@ function Accounts() {
 
 																	<button
 																		className="btn btn-primary ml-4"
-																		onClick={() => deactiveAccount(idSelect)}
+																		onClick={() => deactiveAnimal(idSelect)}
 																	>
 																		Deactive
 																	</button>
@@ -183,7 +178,7 @@ function Accounts() {
 									})}
 								</tbody>
 							</table>
-							<EditAccount id={idSelect} fetch={fetchAccountList} />
+							<EditAnimal id={idSelect} fetch={fetchAnimalList} />
 
 							<div className="w-full flex justify-center">
 								<div className="join">
@@ -228,4 +223,4 @@ function Accounts() {
 	);
 }
 
-export default Accounts;
+export default Animals;

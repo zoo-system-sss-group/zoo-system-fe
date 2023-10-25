@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
 
 function Header() {
-	const dispatch = useDispatch();
 	const { pageTitle } = useSelector((state) => state.header);
 	const loginInfoJSON = localStorage.getItem("loginInfo");
 	if (loginInfoJSON == null) window.location.href = "/";
-	const [loginInfo, setLoginInfo] = useState(JSON.parse(loginInfoJSON));
+	const loginInfo = JSON.parse(loginInfoJSON);
 
 	function logoutUser() {
 		localStorage.clear();

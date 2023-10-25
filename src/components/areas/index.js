@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import TitleCard from "../../components/common/Cards/TitleCard";
-import { NoSymbolIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { NoSymbolIcon, PencilSquareIcon, EyeIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
-import EditAccount from "./components/EditAccount";
-import AddAccount from "./components/AddAccount";
+import EditArea from "./components/EditArea";
+import AddArea from "./components/AddArea";
+import ViewArea from "./components/ViewArea";
 
-function Accounts() {
+function Areas() {
 	const dispatch = useDispatch();
-	const [accounts, setAccounts] = useState();
+	const [areas, setAreas] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
@@ -18,22 +19,22 @@ function Accounts() {
 		limit: 10,
 		isEnd: false,
 	});
-
-	//lay danh sach account
-	const fetchAccountList = () => {
+	console.log("hello");
+	//lay danh sach area
+	const fetchAreaList = () => {
 		axios
 			.get(
-				`odata/accounts?$orderby=CreationDate desc&$skip=${(pagination.page - 1) * 10}&$top=${
-					pagination.limit
-				}`
+				`odata/areas?$orderby=CreationDate desc&$skip=${
+					(pagination.page - 1) * 10
+				}&$top=${pagination.limit}`
 			)
 			.then((res) => {
-				let accounts = res.data.value;
-				if (!pagination.isEnd && accounts.length < pagination.limit)
+				let areas = res.data.value;
+				if (!pagination.isEnd && areas.length < pagination.limit)
 					setPagination({ ...pagination, isEnd: true });
-				else if (pagination.isEnd && accounts.length === pagination.limit)
+				else if (pagination.isEnd && areas.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
-				setAccounts(accounts);
+				setAreas(areas);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -41,21 +42,21 @@ function Accounts() {
 	};
 
 	useEffect(() => {
-		fetchAccountList();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		fetchAreaList();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pagination]);
 
-	const deactiveAccount = (index) => {
+	const deactiveArea = (index) => {
 		axios
-			.delete(`/odata/accounts/${index}`)
+			.delete(`/odata/areas/${index}`)
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Account deactive! - " + res.status,
+						message: "Area deactive! - " + res.status,
 						status: res.status,
 					})
 				);
-				fetchAccountList();
+				fetchAreaList();
 			})
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
@@ -71,21 +72,22 @@ function Accounts() {
 	return (
 		<>
 			<TitleCard
-				title="Account table"
+				title="Area table"
 				topMargin="mt-2"
-				TopSideButtons={<AddAccount fetch={fetchAccountList}/>}
+				TopSideButtons={<AddArea fetch={fetchAreaList} />}
 			>
 				<div className="overflow-x-auto w-full">
-					{accounts != null ? (
+					{areas != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Username</th>
-										<th>Role</th>
-										<th>Fullname</th>
-										<th>Experiences</th>
+										<th>Code</th>
+										<th>Name</th>
+										<th>Location</th>
+										<th>Description</th>
+										<th>Capacity</th>
 										<th>CreationDate</th>
 										<th>ModificationDate</th>
 										<th>Status</th>
@@ -93,36 +95,17 @@ function Accounts() {
 									</tr>
 								</thead>
 								<tbody>
-									{accounts.map((l, k) => {
+									{areas.map((l, k) => {
 										return (
 											<tr key={k}>
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
 													{l.Id}
 												</td>
-												<td>
-													<div className="flex items-center space-x-3">
-														<div className="avatar">
-															<div className="mask mask-squircle w-12 h-12">
-																<img
-																	src={l.Avatar ? l.Avatar : "../img/user.png"}
-																	alt="Avatar"
-																/>
-															</div>
-														</div>
-														<div>
-															<div className="font-bold">{l.Username}</div>
-														</div>
-													</div>
-												</td>
-												<td>{l.Role}</td>
-												<td>{l.Fullname}</td>
-												<td>
-													{l.Experiences ? (
-														l.Experiences
-													) : (
-														<span className="italic opacity-40">No data</span>
-													)}
-												</td>
+												<td>{l.Code}</td>
+												<td>{l.Name}</td>
+												<td>{l.Location}</td>
+												<td>{l.Description}</td>
+												<td>{l.Capacity}</td>
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
@@ -133,7 +116,18 @@ function Accounts() {
 												</td>
 												<td>{getStatus(l.IsDeleted)}</td>
 												<td>
-													{/* Nut sua account */}
+													{/* Nut xem area */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															setIdSelect(l.Id);
+															document.getElementById("btnViewArea").showModal();
+														}}
+													>
+														<EyeIcon className="w-5 text-cor4 stroke-2" />
+													</button>
+
+													{/* Nut sua area */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
@@ -144,7 +138,7 @@ function Accounts() {
 														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 													</button>
 
-													{/* Nut doi status account */}
+													{/* Nut doi status area */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
@@ -166,7 +160,7 @@ function Accounts() {
 
 																	<button
 																		className="btn btn-primary ml-4"
-																		onClick={() => deactiveAccount(idSelect)}
+																		onClick={() => deactiveArea(idSelect)}
 																	>
 																		Deactive
 																	</button>
@@ -183,7 +177,8 @@ function Accounts() {
 									})}
 								</tbody>
 							</table>
-							<EditAccount id={idSelect} fetch={fetchAccountList} />
+							<ViewArea id={idSelect} />
+							<EditArea id={idSelect} fetch={fetchAreaList} />
 
 							<div className="w-full flex justify-center">
 								<div className="join">
@@ -228,4 +223,4 @@ function Accounts() {
 	);
 }
 
-export default Accounts;
+export default Areas;
