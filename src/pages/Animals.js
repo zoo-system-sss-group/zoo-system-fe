@@ -5,15 +5,17 @@ import Pagination from "../components/layout/Pagination";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Animal } from "../app/class/Animal";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 const params = new URLSearchParams(window.location.search); // id=123
 const pageSize = 8;
 function Animals() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
   const [animals, setAnimals] = useState([]);
-  const [params,setSearchParams ] = useSearchParams( );
-  const page = params.get("page") ?? 1
+  const [err, setError] = useState(null);
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const page = params.get("page") ?? 1;
   const [pageIndex, setIndex] = useState(page ? parseInt(page) : 1);
   useEffect(() => {
     console.log(page);
@@ -34,13 +36,17 @@ function Animals() {
       })
       .catch((err) => {
         setLoading(false);
-
-        console.log(err);
+        if (err.code == "ERR_NETWORK") {
+          setError("Server Not Loaded!");
+        }
         setAnimals([]);
       });
   }, [pageIndex]);
+
   const handlePageChange = (newPage) => {
     setIndex(newPage);
+    console.log(navigate);
+    navigate(`/animals?page=${newPage}`, { replace: true });
   };
   if (animals)
     return (
@@ -90,6 +96,7 @@ function Animals() {
             pageSize={pageSize}
             totalItems={data["@odata.count"]}
           />
+          {err && <h1 className="text-center align-middle h-12">{err}</h1>}
         </GuestLayout>
         <Footer />
       </div>
