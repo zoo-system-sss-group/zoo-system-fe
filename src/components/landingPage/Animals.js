@@ -10,27 +10,26 @@ import axios from "axios";
 import { Animal } from "../../app/class/Animal";
 import { Link } from "react-router-dom";
 const Animals = () => {
-  const [animals, setAnimals] = useState([]);
-  useEffect(() => {
-    axios
-      .get("/odata/animals?$top=5&$expand=species")
-      .then((resp) => {
-        var animalData = resp.data.value;
-        const animals = animalData.map((data) => new Animal(data));
-        setAnimals(animals);
-      })
-      .catch((err) => {
-        console.log(err);
-        setAnimals([]);
-      });
-  }, []);
-  if (animals)
-    return (
-      <section className="bg-cor1 bg-[url('/src/assets/bg.png')] bg-cover flex flex-col sm:flex-row pt-0 sm:pt-16 pb-16">
-        <LayoutSections title="All Animals" className="lg:order-1">
-          <p className="max-w-[450px]">
-            Meet Our Amazing Animals: Lions, Tigers, Elephants, and More!
-          </p>
+	const [animals, setAnimals] = useState([]);
+	useEffect(() => {
+		axios
+			.get("/odata/animals?$top=5&$expand=species")
+			.then((resp) => {
+				var animalData = resp.data.value;
+				const animals = animalData.map((data) => new Animal(data));
+				setAnimals(animals);
+			})
+			.catch((err) => {
+				setAnimals([]);
+			});
+	}, []);
+	if (animals)
+		return (
+			<section className="bg-cor1 bg-[url('/src/assets/bg.png')] bg-cover flex flex-col sm:flex-row pt-0 sm:pt-16 pb-16">
+				<LayoutSections title="All Animals" className="lg:order-1">
+					<p className="max-w-[450px]">
+						Meet Our Amazing Animals: Lions, Tigers, Elephants, and More!
+					</p>
 
           <Link to="/animals" className="btn btn-accent mt-4">
             See all animals
@@ -48,12 +47,12 @@ const Animals = () => {
                 {animal.Species.Name}
               </h3>
 
-              <p className="text-cor7">{animal.Description}</p>
-            </li>
-          ))}
-        </Slider>
-      </section>
-    );
+							<p className="text-cor7">{animal.Description}</p>
+						</li>
+					))}
+				</Slider>
+			</section>
+		);
 };
 
 export default Animals;

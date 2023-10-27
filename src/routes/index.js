@@ -5,10 +5,11 @@ import { lazy } from 'react'
 const Dashboard = lazy(() => import('../pages/management/Dashboard'))
 const Page404 = lazy(() => import('../pages/management/404'))
 const Blank = lazy(() => import('../pages/management/Blank'))
-const Customers = lazy(() => import('../pages/management/Customers'))
 const Accounts = lazy(() => import('../pages/management/Accounts'))
 const Animals = lazy(() => import('../pages/management/Animals'))
 const Areas = lazy(() => import('../pages/management/Areas'))
+const Species = lazy(() => import('../pages/management/Species'))
+const Cages = lazy(() => import('../pages/management/Cages'))
 
 
 const routes = [
@@ -25,12 +26,16 @@ const routes = [
     component: Animals, 
   },
   {
+    path: '/species', 
+    component: Species, 
+  },
+  {
     path: '/areas', 
     component: Areas, 
   },
   {
-    path: '/customers',
-    component: Customers,
+    path: '/cages', 
+    component: Cages, 
   },
   {
     path: '/404',

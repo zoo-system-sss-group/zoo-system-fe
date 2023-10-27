@@ -3,6 +3,7 @@ import { NavLink, Routes, Link, useLocation } from "react-router-dom";
 import SidebarSubmenu from "./SidebarSubmenu";
 import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 import { useDispatch } from "react-redux";
+import Logo from "../components/layout/Logo";
 
 function LeftSidebar() {
 	const location = useLocation(); //hook lấy path của trang hiện tại
@@ -15,7 +16,11 @@ function LeftSidebar() {
 
 	return (
 		<div className="drawer-side ">
-			<label htmlFor="left-sidebar-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+			<label
+				htmlFor="left-sidebar-drawer"
+				aria-label="close sidebar"
+				className="drawer-overlay"
+			></label>
 			<ul className="menu pt-2 w-60 min-h-full bg-base-100 text-base-content">
 				<button
 					className="btn btn-ghost bg-base-300 btn-circle z-50 top-0 right-0 mt-4 mr-2 absolute lg:hidden"
@@ -26,8 +31,7 @@ function LeftSidebar() {
 
 				<li className="mb-2 font-semibold text-xl">
 					<Link to={"/app/dashboard"}>
-						<img className="w-10" src="/favicon.ico" alt="Medkit Logo" />
-						FZoo
+						<Logo className="self-center lg:self-start mt-8 md:mt-0" />
 					</Link>
 				</li>
 				{routes.map((route, k) => {
@@ -40,9 +44,7 @@ function LeftSidebar() {
 									end
 									to={route.path}
 									className={({ isActive }) =>
-										`${
-											isActive ? "font-semibold  bg-base-200" : "font-normal"
-										}`
+										`${isActive ? "font-semibold  bg-base-200" : "font-normal"}`
 									}
 								>
 									{route.icon} {route.name}

@@ -6,7 +6,7 @@ import WalletIcon from '@heroicons/react/24/outline/WalletIcon'
 import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquareIcon'
 import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
 import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
-import InboxArrowDownIcon from '@heroicons/react/24/outline/InboxArrowDownIcon'
+import TagIcon from '@heroicons/react/24/outline/TagIcon'
 import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
 import BugAntIcon from '@heroicons/react/24/outline/BugAntIcon'
 import MapIcon from '@heroicons/react/24/outline/MapIcon'
@@ -27,21 +27,6 @@ const routes = [
     name: 'Accounts',
   },
   {
-    path: '/management/animals',
-    icon: <BugAntIcon className={iconClasses}/>, 
-    name: 'Animals',
-  },
-  {
-    path: '/management/areas',
-    icon: <MapIcon className={iconClasses}/>, 
-    name: 'Areas',
-  },
-  {
-    path: '/management/customers', // url
-    icon: <InboxArrowDownIcon className={iconClasses}/>, // icon component
-    name: 'Customers', // name that appear in Sidebar
-  },
-  {
     path: '/management/orders', // url
     icon: <CurrencyDollarIcon className={iconClasses}/>, // icon component
     name: 'Orders', // name that appear in Sidebar
@@ -52,28 +37,33 @@ const routes = [
     name: 'Analytics', // name that appear in Sidebar
   },
 
-  // {
-  //   path: '', //no url needed as this has submenu
-  //   icon: <DocumentDuplicateIcon className={`${iconClasses} inline` }/>, // icon component
-  //   name: 'Pages', // name that appear in Sidebar
-  //   submenu : [
-  //     {
-  //       path: '/login',
-  //       icon: <ArrowRightOnRectangleIcon className={submenuIconClasses}/>,
-  //       name: 'Login',
-  //     },
-  //     {
-  //       path: '/management/blank',
-  //       icon: <DocumentIcon className={submenuIconClasses}/>,
-  //       name: 'Blank Page',
-  //     },
-  //     {
-  //       path: '/management/404',
-  //       icon: <ExclamationTriangleIcon className={submenuIconClasses}/>,
-  //       name: '404',
-  //     },
-  //   ]
-  // },
+  {
+    path: '', //no url needed as this has submenu
+    icon: <DocumentTextIcon className={`${iconClasses} inline` }/>, // icon component
+    name: 'Zoo Management', // name that appear in Sidebar
+    submenu : [
+      {
+        path: '/management/animals',
+        icon: <BugAntIcon className={iconClasses}/>, 
+        name: 'Animals',
+      },
+      {
+        path: '/management/species',
+        icon: <TagIcon className={iconClasses}/>, 
+        name: 'Species',
+      },
+      {
+        path: '/management/areas',
+        icon: <MapIcon className={iconClasses}/>, 
+        name: 'Areas',
+      },
+      {
+        path: '/management/cages',
+        icon: <MapIcon className={iconClasses}/>, 
+        name: 'Cages',
+      },
+    ]
+  },
   {
     path: '', //no url needed as this has submenu
     icon: <DocumentTextIcon className={`${iconClasses} inline` }/>, // icon component

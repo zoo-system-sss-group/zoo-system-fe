@@ -44,8 +44,7 @@ const Login = () => {
 				if (res.status === 200) {
 					token = res.data.value;
 					localStorage.setItem("token", token);
-					const str = checkAuth();
-					console.log(str);
+					checkAuth();
 					axios.get("api/auth/current-user").then((res) => {
 						localStorage.setItem("loginInfo", JSON.stringify(res.data.value));
 						window.location.href = "/management/dashboard";

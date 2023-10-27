@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
-// import { addNewAccount } from "../accountSlice"
 
 const INITIAL_ACCOUNT_OBJ = {
 	Id: "",
@@ -16,7 +15,7 @@ const INITIAL_ACCOUNT_OBJ = {
 };
 
 function EditAccount({ id, fetch }) {
-	// const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
 	const [accountObj, setAccountObj] = useState(INITIAL_ACCOUNT_OBJ);

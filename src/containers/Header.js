@@ -15,7 +15,7 @@ function Header() {
 
 	return (
 		<>
-			<div className="navbar flex justify-between bg-base-100  z-10 shadow-md ">
+			<div className="navbar flex justify-between bg-base-100 z-10 shadow-md ">
 				{/* Menu toogle for mobile view or small screen */}
 				<div className="">
 					<label
@@ -31,16 +31,16 @@ function Header() {
 					{/* Profile icon, opening menu on click */}
 					<div>
 						<span
-							className={`badge badge-lg ${
+							className={`badge badge-lg h-10 ${
 								loginInfo.role === "Staff" ? "badge-primary" : "badge-secondary"
 							} `}
 						>
-							{loginInfo.role} - {loginInfo.username}
+							{loginInfo.role} | {loginInfo.username}
 						</span>
 					</div>
 					<div className="dropdown dropdown-end ml-4">
 						<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-							<div className="w-10 rounded-full border border-gray-500">
+							<div className="w-10 rounded-full border-2 border-cor1">
 								<img src="../img/user.png" alt="profile" />
 							</div>
 						</label>
@@ -49,7 +49,7 @@ function Header() {
 							className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
 						>
 							{/* <div className="divider mt-0 mb-0"></div> */}
-							<li>
+							<li className="font-medium text-md">
 								<button onClick={logoutUser}>Logout</button>
 							</li>
 						</ul>
