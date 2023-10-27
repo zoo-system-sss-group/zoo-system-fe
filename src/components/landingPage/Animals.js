@@ -8,6 +8,7 @@ import LayoutSections from "../layout/LayoutSections";
 import Slider from "../layout/Slider";
 import axios from "axios";
 import { Animal } from "../../app/class/Animal";
+import { Link } from "react-router-dom";
 const Animals = () => {
 	const [animals, setAnimals] = useState([]);
 	useEffect(() => {
@@ -30,21 +31,21 @@ const Animals = () => {
 						Meet Our Amazing Animals: Lions, Tigers, Elephants, and More!
 					</p>
 
-					<a href="/animals" className="btn btn-accent mt-4">
-						See all animals
-					</a>
-				</LayoutSections>
-				<Slider className="sm:h-[360px] lg:h-[400px]">
-					{animals.map((animal) => (
-						<li key={animal.id} className="p-4 rounded-xl bg-cor4 text-co">
-							<img
-								className="w-full object-cover mb-4 h-[250px] md:h-[180px]"
-								src={animal.src}
-								alt={animal.Species.Name}
-							/>
-							<h3 className="text-base mb-4 font-medium capitalize text-cor2">
-								{animal.Species.Name}
-							</h3>
+          <Link to="/animals" className="btn btn-accent mt-4">
+            See all animals
+          </Link>
+        </LayoutSections>
+        <Slider className="sm:h-[360px] lg:h-[400px]">
+          {animals.map((animal) => (
+            <li key={animal.id} className="p-4 rounded-xl bg-cor4 text-co">
+              <img
+                className="w-full object-cover mb-4 h-[250px] md:h-[180px]"
+                src={animal.src}
+                alt={animal.Species.Name}
+              />
+              <h3 className="text-base mb-4 font-medium capitalize text-cor2">
+                {animal.Species.Name}
+              </h3>
 
 							<p className="text-cor7">{animal.Description}</p>
 						</li>

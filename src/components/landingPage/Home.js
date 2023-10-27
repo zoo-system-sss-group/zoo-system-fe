@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./Home.module.css";
 import { ReactComponent as IconPin } from "../../assets/pin.svg";
+import { Link } from "react-router-dom";
 
 const Home = () => {
 	return (
@@ -15,12 +16,12 @@ const Home = () => {
 						Welcome to the best zoo in FPT University ecosystem
 					</h1>
 
-					<a
-						href="/buyticket"
+					<Link
+						to="buyticket"
 						className="btn btn-primary self-center sm:self-start"
 					>
 						Buy ticket here!
-					</a>
+					</Link>
 				</div>
 
 				<div className={classes.aside}>

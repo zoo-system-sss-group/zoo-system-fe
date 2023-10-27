@@ -32,7 +32,7 @@ function LeftSidebar() {
 				<li className="mb-2 font-semibold text-xl">
 					<Link to={"/app/dashboard"}>
 						<Logo className="self-center lg:self-start mt-8 md:mt-0" />
-					</Link>{" "}
+					</Link>
 				</li>
 				{routes.map((route, k) => {
 					return (

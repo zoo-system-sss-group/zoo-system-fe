@@ -1,6 +1,7 @@
 import React from "react";
 import MediasLink from "../layout/MediasLink";
 import Logo from "../layout/Logo";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
 	return (
@@ -10,16 +11,16 @@ const Footer = () => {
 					<p className="font-extrabold mb-4">Menu</p>
 					<ul className="">
 						<li>
-							<a href="/">Home</a>
+							<Link to="/">Home</Link>
 						</li>
 						<li>
-							<a href="/animals">Animals</a>
+							<Link to="/animals">Animals</Link>
 						</li>
 						<li>
-							<a href="/news">News</a>
+							<Link to="/news">News</Link>
 						</li>
 						<li>
-							<a href="/buyticket">buy ticket</a>
+							<Link to="/buyticket">buy ticket</Link>
 						</li>
 					</ul>
 				</nav>

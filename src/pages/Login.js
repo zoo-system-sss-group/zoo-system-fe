@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import image from "../assets/an-2.jpg";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import checkAuth from "../app/auth";
 const Login = () => {
@@ -64,22 +64,22 @@ const Login = () => {
 	};
 
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full bg-cor5">
+		<div className="grid grid-cols-1 gap-2  sm:grid-cols-2 h-screen w-full bg-cor5">
 			<div className="hidden sm:block">
 				<img className="w-full h-full object-cover" src={image} alt="" />
 			</div>
 			<div className="flex flex-col justify-center">
 				<div className="max-w-[400px] w-full mx-auto bg-cor1 p-9 px-8 rounded-lg">
 					<div className="relative">
-						<a
-							href="/"
+						<Link
+							to="/"
 							className="rounded-md inline-flex items-center justify-center absolute"
 						>
 							<ArrowUturnLeftIcon className="h-6 w-6 inline-block font-extrabold stroke-2" />
-						</a>
+						</Link>
 						<h2 className="text-4xl font-bold text-center">Sign In</h2>
 					</div>
-					<div className="flex flex-col py-2">
+					<div className="flex flex-col py-2 mr-2">
 						<label>Username</label>
 						<input
 							className="rounded-lg mt-2 p-2"
