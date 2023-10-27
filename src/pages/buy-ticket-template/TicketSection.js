@@ -16,8 +16,8 @@ function TicketSection({
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(new Date(values.effectiveDate));
   useEffect(() => {
-    console.log(values.effectiveDate)
-    handleChange("effectiveDate", undefined, format(date, "yyyy-MM-dd"));
+    console.log(values.effectiveDate);
+    handleChange("effectiveDate", undefined, format(date, "yyyy-MM-dd"))();
   }, [date]);
   useEffect(() => {
     setLoading(true);
@@ -140,7 +140,7 @@ function TicketSection({
           </div>
           <p className="label-text-alt text-red-600 w-[100%]"></p>
         </div>
-        <div className="form-control flex flex-row  justify-between">
+        <div className="form-control flex flex-row flex-wrap  justify-between">
           <label className="label ">
             <span className="label-text text-lg">Date</span>
           </label>
@@ -148,12 +148,12 @@ function TicketSection({
             className="input"
             wrapperClassName="ms-auto"
             dateFormat={"yyyy-MM-dd"}
-            minDate={new Date()}
+            minDate={new Date().setDate(new Date().getDate() + 1)}
             name="effectiveDate"
             selected={date}
             onChange={(date) => setDate(date)}
           />
-          <label className="label">
+          <label className="label w-full">
             <p className="label-text-alt text-red-600 w-[100%]"></p>
           </label>
         </div>

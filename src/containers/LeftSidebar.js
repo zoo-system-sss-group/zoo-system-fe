@@ -28,7 +28,7 @@ function LeftSidebar() {
 					<Link to={"/app/dashboard"}>
 						<img className="w-10" src="/favicon.ico" alt="Medkit Logo" />
 						FZoo
-					</Link>{" "}
+					</Link>
 				</li>
 				{routes.map((route, k) => {
 					return (

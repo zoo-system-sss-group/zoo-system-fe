@@ -1,6 +1,7 @@
 export function Validate(regex, msg) {
   return (value) => {
-    if (!value.match(regex)) return msg ?? "Regex Validation False";
+    if (value === null || value === "") return undefined;
+    if (!value.match(regex)) return msg ?? "Regex Validation Fail";
     else return undefined;
   };
 }
@@ -20,6 +21,18 @@ export function ValidateNumber(min, max, msg) {
     if (value < min || max < value)
       return msg ?? `This Field value need to be in between ${min} and ${max}!`;
     else return undefined;
+  };
+}
+export function ValidateMinDate(minDate, msg) {
+  return (value) => {
+    try {
+      var dateValue = new Date(value);
+    } catch {
+      return "Not Valid Date Value!";
+    }
+    console.log(dateValue.toISOString() +" "+ minDate.toISOString())
+    if (dateValue < minDate)
+      return msg ?? `This Field need to have Date larger than ${minDate}`;
   };
 }
 export function ValidateEmail(msg) {

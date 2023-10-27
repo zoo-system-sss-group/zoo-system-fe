@@ -8,6 +8,7 @@ import LayoutSections from "../layout/LayoutSections";
 import Slider from "../layout/Slider";
 import axios from "axios";
 import { Animal } from "../../app/class/Animal";
+import { Link } from "react-router-dom";
 const Animals = () => {
   const [animals, setAnimals] = useState([]);
   useEffect(() => {
@@ -31,9 +32,9 @@ const Animals = () => {
             Meet Our Amazing Animals: Lions, Tigers, Elephants, and More!
           </p>
 
-          <a href="/animals" className="btn btn-accent mt-4">
+          <Link to="/animals" className="btn btn-accent mt-4">
             See all animals
-          </a>
+          </Link>
         </LayoutSections>
         <Slider className="sm:h-[360px] lg:h-[400px]">
           {animals.map((animal) => (

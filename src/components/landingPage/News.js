@@ -5,6 +5,7 @@ import ImgActivity2 from "../../assets/at-2.jpg";
 import ImgActivity3 from "../../assets/at-3.jpg";
 import ImgActivity4 from "../../assets/at-4.jpg";
 import Slider from "../layout/Slider";
+import { Link } from "react-router-dom";
 
 const activities = [
 	{
@@ -44,9 +45,9 @@ const News = () => {
 				<p className="mb-8 w-max-[450px]">
 					News news news news news news news news
 				</p>
-				<a href="/news" className="btn btn-primary">
+				<Link to="/news" className="btn btn-primary">
 					Read news
-				</a>
+				</Link>
 			</LayoutSections>
 			<Slider>
 				{activities.map((activity) => (

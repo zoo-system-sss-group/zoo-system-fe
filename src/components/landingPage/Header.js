@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import classes from "./Header.module.css";
 import MediasLink from "../layout/MediasLink";
 import Logo from "../layout/Logo";
+import { Link } from "react-router-dom";
 
 const listLinks = [
   {route: "animals", title: "animals", description: "" },
@@ -31,25 +32,25 @@ const Header = () => {
 
   return (
     <header className="fixed duration-[400ms] z-50 bg-cor6 p-6 flex items-center text-center flex-row lg: w-full h-16">
-      <a className="mr-auto" href="/">
+      <Link className="mr-auto" to="/">
         <Logo />
-      </a>
+      </Link>
       <nav className={`${classes.nav} ${isMenuVisible ? classes.visible : ""} text-cor2 m-auto `}>
         <ul className="flex flex-row gap-8">
           {listLinks.map((link) => (
             <li key={link.route}>
-              <a href={link.route} className="duration-200 hover:text-cor1">
+              <Link to={link.route} className="duration-200 hover:text-cor1">
                 <span className="capitalize">{link.title}</span>
                 <p className="text-xs text-cor7 uppercase duration-200 hover:text-cor1">{link.description}</p>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
       </nav>
       <MediasLink />
-      <a className="btn btn-md btn-primary h-10 !min-h-8 ml-4" href="/login">
+      <Link className="btn btn-md btn-primary h-10 !min-h-8 ml-4" to="/login">
           Login
-        </a>
+        </Link>
       <button
         className={`${classes.menuBtn} ${isMenuVisible ? classes.visible : ""}`}
         ref={refBtn}

@@ -65,12 +65,12 @@ function CustomerSection({
           </label>
           <div className="flex flex-col gap-5">
             {paymentMethods.map((payment, index) => (
-              <div className="border rounded-md py-2 px-6 flex items-center gap-5">
+              <div className="border rounded-md py-2 px-6 flex items-center gap-5" >
                 <input
                   className="radio"
                   type="radio"
                   name="paymentMethod"
-                  checked={payment.value === values.paymentMethod || index === 1}
+                  checked={(payment.value === values.paymentMethod)}
                   onChange={handleChange("paymentMethod")}
                   id={`pay-${[payment.value]}`}
                   value={payment.value}
