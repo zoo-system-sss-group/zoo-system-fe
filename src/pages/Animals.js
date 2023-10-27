@@ -18,7 +18,6 @@ function Animals() {
   const page = params.get("page") ?? 1;
   const [pageIndex, setIndex] = useState(page ? parseInt(page) : 1);
   useEffect(() => {
-    console.log(page);
     setLoading(true);
     axios
       .get(
@@ -45,7 +44,6 @@ function Animals() {
 
   const handlePageChange = (newPage) => {
     setIndex(newPage);
-    console.log(navigate);
     navigate(`/animals?page=${newPage}`, { replace: true });
   };
   if (animals)

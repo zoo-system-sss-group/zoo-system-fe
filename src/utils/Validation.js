@@ -30,7 +30,6 @@ export function ValidateMinDate(minDate, msg) {
     } catch {
       return "Not Valid Date Value!";
     }
-    console.log(dateValue.toISOString() +" "+ minDate.toISOString())
     if (dateValue < minDate)
       return msg ?? `This Field need to have Date larger than ${minDate}`;
   };
@@ -44,6 +43,23 @@ export function ValidateEmail(msg) {
 export function ValidatePhone(msg) {
   return Validate(/^[0-9]{9,12}$/, msg ?? "This is not a valid Phone Number!");
 }
+//check if checkbox is checked
+export function ValidateCheckboxAndRadio(name,msg) {
+  return ()=>{
+    var checkboxes = document.querySelectorAll(`input[name=${name}]`);
+    for(var i = 0 ; i<checkboxes.length;i++){
+      if(checkboxes[i].checked) return undefined;
+    }
+    return msg ?? "This Field is not checked!";
+  }
+}
+export function ValidateValueInList(list, msg) {
+  return (value) => {
+    if (!list.includes(value)) return msg ?? "Value not found in list!";
+    else return undefined;
+  };
+}
+
 
 export function getValidationMessage(validation, input) {
   if (validation && input) {

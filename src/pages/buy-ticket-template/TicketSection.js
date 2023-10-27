@@ -16,7 +16,6 @@ function TicketSection({
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(new Date(values.effectiveDate));
   useEffect(() => {
-    console.log(values.effectiveDate);
     handleChange("effectiveDate", undefined, format(date, "yyyy-MM-dd"))();
   }, [date]);
   useEffect(() => {
@@ -76,7 +75,6 @@ function TicketSection({
   };
   const ALLOWED_KEYCODES = [8, 37, 38, 39, 40];
   const handleInput = (e) => {
-    console.log(e.key + "|" + e.keyCode);
     if (ALLOWED_KEYCODES.includes(e.keyCode) || ("0" <= e.key && e.key <= "9"))
       return;
     e.preventDefault();

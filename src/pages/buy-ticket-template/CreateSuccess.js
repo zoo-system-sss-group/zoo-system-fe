@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ApiImage } from "../../components/common/ApiImage";
 
-function CreateSuccess({ prevStep, values }) {
+function CreateSuccess({ paymentMethods, values }) {
   const [loading, SetLoading] = useState(true);
   useEffect(() => {
     if (values) {
@@ -39,6 +39,10 @@ function CreateSuccess({ prevStep, values }) {
                 <div className="w-auto">{values.PhoneNumber}</div>
               </div>
               <div className="flex justify-between my-2">
+                <div className="w-auto">Payment Method</div>
+                <div className="w-auto">{values.PaymentMethod}</div>
+              </div>
+              <div className="flex justify-between my-2">
                 <div className="w-auto">Effective Date</div>
                 <div className="w-auto">
                   {format(new Date(values.EffectiveDate), "dd/MM/yyyy")}
@@ -59,6 +63,20 @@ function CreateSuccess({ prevStep, values }) {
               </div>
 
               <hr></hr>
+              <div className="flex flex-col items-center p-6">
+                {paymentMethods.map((payment) => (
+                  <>
+                    {payment.value === values.PaymentMethod ? (
+                      <>
+                        {payment.display && (
+                          <div className="card-title">Confirm Payment</div>
+                        )}
+                        {payment.display}
+                      </>
+                    ) : null}
+                  </>
+                ))}
+              </div>
               <span className="text-xs my-2 ms-[-20px]">
                 Ticket Information Has been Sent to your Email & Phone address
               </span>

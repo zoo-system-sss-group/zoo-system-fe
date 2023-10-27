@@ -7,6 +7,7 @@ import CustomerSection from "./buy-ticket-template/CustomerSection";
 import Confirmation from "./buy-ticket-template/Confirmation";
 import {
   Validate,
+  ValidateCheckboxAndRadio,
   ValidateEmail,
   ValidateEmpty,
   ValidateMinDate,
@@ -67,7 +68,6 @@ function BuyTicket() {
     email: "",
     phoneNumber: "",
     effectiveDate: format(nextDate, "yyyy-MM-dd"),
-    paymentMethod: "Cash",
     adultTicket: 1,
     kidTicket: 0,
   });
@@ -85,6 +85,12 @@ function BuyTicket() {
     adultTicket: [
       ValidateNumber(1, 100, "Need at least one Adult to buy Tickets"),
     ],
+    paymentMethod: [
+      ValidateCheckboxAndRadio(
+        "paymentMethod",
+        "Please Select Payment"
+      ),
+    ],
   };
   // go back to previous step
   const prevStep = () => {
@@ -100,7 +106,6 @@ function BuyTicket() {
       const input = document.querySelector(`[name=${key}]`);
       msg = getValidationMessage(validations[key], input);
     });
-    console.log(msg);
     if (msg) return;
     if (step >= totalStep) {
       submitForm(values)
@@ -117,7 +122,6 @@ function BuyTicket() {
   const handleChange = (input, node, value) => (e) => {
     node ??= e?.target;
     value ??= e?.target?.value;
-    console.log(input + " " + value);
     var validation = validations[input];
     var msg = getValidationMessage(validation, node);
     setValues({ ...values, [input]: value });
@@ -158,7 +162,10 @@ function BuyTicket() {
             />
           )}
           {step === 4 && (
-            <CreateSuccess prevStep={prevStep} values={submitVal} />
+            <CreateSuccess
+              paymentMethods={paymentMethods}
+              values={submitVal}
+            />
           )}
         </>
       </GuestLayout>

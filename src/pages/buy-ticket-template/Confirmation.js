@@ -36,7 +36,6 @@ function Confirmation({
       .catch((e) => {});
     setLoading(false);
   }, []);
-
   return (
     <section className="card card-compact w-full m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor3 border-cor6 relative shadow  my-10">
       <div className="card-body ">
@@ -96,6 +95,7 @@ function Confirmation({
                     className="hidden"
                     type="radio"
                     name="paymentMethod"
+                    required
                     checked={payment.value === values.paymentMethod}
                     onChange={handleChange("paymentMethod")}
                     id={`pay-${[payment.value]}`}
