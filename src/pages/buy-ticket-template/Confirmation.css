@@ -1,0 +1,3 @@
+label:has(> input[type=radio]:checked){
+    border-color:#101c12;
+}

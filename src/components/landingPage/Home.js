@@ -17,7 +17,7 @@ const Home = () => {
 					</h1>
 
 					<Link
-						to="/buyticket"
+						to="buyticket"
 						className="btn btn-primary self-center sm:self-start"
 					>
 						Buy ticket here!

@@ -1,15 +1,15 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
-import LandingPage from "../LandingPage";
-import Home from "../../components/landingPage/Home";
+import { Link } from "react-router-dom";
+import { ApiImage } from "../../components/common/ApiImage";
 
 function CreateSuccess({ prevStep, values }) {
   const [loading, SetLoading] = useState(true);
-  sessionStorage.setItem(`ticket${values.Code}`, JSON.stringify(values));
   useEffect(() => {
-    if (values) SetLoading(false);
-    else SetLoading(true);
+    if (values) {
+      sessionStorage.setItem(`ticket${values.Code}`, JSON.stringify(values));
+      SetLoading(false);
+    } else SetLoading(true);
   }, [values]);
   return (
     <section className="card card-compact w-full m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor3 border-cor6 relative shadow  my-10">
@@ -21,10 +21,7 @@ function CreateSuccess({ prevStep, values }) {
           <>
             <div className=" flex flex-col px-16">
               <div className="w-full text-center flex flex-col items-center border rounded p-6">
-                <img
-                  className="w-[75px]"
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${values.Code}`}
-                />
+                <ApiImage className={"w-[75px]"} value={values.Code} />
                 <span className="">
                   <strong>Code:</strong> {values.Code}
                 </span>
@@ -49,19 +46,18 @@ function CreateSuccess({ prevStep, values }) {
               </div>
               <div className="flex justify-between my-2">
                 <div className="w-auto">Total Money</div>
-                <div className="w-auto">{values.TotalMoney?.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "VND",
-                })}</div>
+                <div className="w-auto">
+                  {values.TotalMoney?.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </div>
               </div>
               <div className="flex justify-between my-2">
                 <div className="w-auto">Total Ticket</div>
                 <div className="w-auto">{values.TotalTicket}</div>
               </div>
-              <div className="flex justify-between my-2">
-                <div className="w-auto">Status</div>
-                <div className="w-auto">{values.Status}</div>
-              </div>
+
               <hr></hr>
               <span className="text-xs my-2 ms-[-20px]">
                 Ticket Information Has been Sent to your Email & Phone address
@@ -69,8 +65,10 @@ function CreateSuccess({ prevStep, values }) {
             </div>
           </>
         )}
-            <Link to="/" className="btn" >Back To Home</Link>
-            {/* Add other routes for your application */}
+        <Link to="/" className="btn">
+          Back To Home
+        </Link>
+        {/* Add other routes for your application */}
       </div>
     </section>
   );

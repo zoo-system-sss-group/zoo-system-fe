@@ -59,30 +59,7 @@ function CustomerSection({
             <span className="label-text-alt text-red-600"></span>
           </label>
         </div>
-        <div className="form-control inline-flex w-1/2">
-          <label className="label">
-            <span className="label-text">Payment Method</span>
-          </label>
-          <div className="flex flex-col gap-5">
-            {paymentMethods.map((payment, index) => (
-              <div className="border rounded-md py-2 px-6 flex items-center gap-5" >
-                <input
-                  className="radio"
-                  type="radio"
-                  name="paymentMethod"
-                  checked={(payment.value === values.paymentMethod)}
-                  onChange={handleChange("paymentMethod")}
-                  id={`pay-${[payment.value]}`}
-                  value={payment.value}
-                />
-                <label for={`pay-${[payment.value]}`}>{payment.name}</label>
-              </div>
-            ))}
-          </div>
-          <label className="label">
-            <span className="label-text-alt text-red-600"></span>
-          </label>
-        </div>
+       
         <div className="w-auto flex justify-between">
           <button
             className="btn ms-auto"

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Progress } from "./Progress";
+import "./Confirmation.css";
+import { ApiImage } from "../../components/common/ApiImage";
 
 function Confirmation({
   step,
@@ -34,6 +36,7 @@ function Confirmation({
       .catch((e) => {});
     setLoading(false);
   }, []);
+
   return (
     <section className="card card-compact w-full m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor3 border-cor6 relative shadow  my-10">
       <div className="card-body ">
@@ -78,6 +81,43 @@ function Confirmation({
               </td>
             </tr>
           </table>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Payment Method</span>
+            </label>
+            <div className="flex flex-row gap-5 justify-center ">
+              {paymentMethods.map((payment, index) => (
+                <label
+                  for={`pay-${[payment.value]}`}
+                  key={index}
+                  className={` w-[100px]  border-2 bg-cor2 rounded-md py-2 px-6 flex items-center gap-5 btn`}
+                >
+                  <input
+                    className="hidden"
+                    type="radio"
+                    name="paymentMethod"
+                    checked={payment.value === values.paymentMethod}
+                    onChange={handleChange("paymentMethod")}
+                    id={`pay-${[payment.value]}`}
+                    value={payment.value}
+                  />
+                  <p className="">{payment.name}</p>
+                </label>
+              ))}
+            </div>
+            <div className="flex flex-col items-center p-6">
+              {paymentMethods.map((payment) => (
+                <>
+                  {payment.value === values.paymentMethod
+                    ? payment.display
+                    : ""}
+                </>
+              ))}
+            </div>
+            <label className="label">
+              <span className="label-text-alt text-red-600"></span>
+            </label>
+          </div>
         </div>
         <div className="w-auto flex justify-between">
           <button

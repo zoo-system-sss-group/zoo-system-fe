@@ -1,4 +1,10 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Router,
+  Routes,
+} from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -19,7 +25,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
+        <Route  path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/animals" element={<Animals />} />
         <Route path="/news" element={<News />} />
