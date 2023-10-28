@@ -5,19 +5,6 @@ option csharp_namespace = "Grpc";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto"; 
 
-service NewsService {
-  rpc GetNews (google.protobuf.Empty) returns (stream NewsDTO);
-}
-
-message News {
-  int32 id = 1;
-  string title = 2;
-  bytes thumbnail = 3;
-  string content = 4;
-  google.protobuf.Timestamp creation_date = 5;
-  google.protobuf.Timestamp modification_date = 6;
-}
-
 message NewsDTO {
   string title = 1;
   bytes thumbnail = 2;
@@ -30,9 +17,18 @@ message UpdateNewsDTO {
   bytes thumbnail = 3;
   string content = 4;
 }
-
+message StringMessage {
+  string message = 1;
+}
 message NewsId {
   int32 id = 1;
 }
 
+service NewsService {
+  rpc GetNews (google.protobuf.Empty) returns (stream NewsDTO);
+  rpc GetNewById (NewsId) returns (NewsDTO);
+  rpc CreateNews (NewsDTO) returns (StringMessage);
+  rpc UpdateNews (UpdateNewsDTO) returns (StringMessage);
+  rpc RemoveNews (NewsId) returns (StringMessage);
+}
 
