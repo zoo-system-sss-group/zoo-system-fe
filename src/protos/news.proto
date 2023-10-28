@@ -4,17 +4,18 @@ option csharp_namespace = "Grpc";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto"; 
+import "google/protobuf/wrappers.proto";
 
 message NewsDTO {
   string title = 1;
-  bytes thumbnail = 2;
+  google.protobuf.StringValue thumbnail = 2;
   string content = 3;
 }
 
 message UpdateNewsDTO {
   int32 id = 1;
   string title = 2;
-  bytes thumbnail = 3;
+  google.protobuf.StringValue thumbnail = 3;
   string content = 4;
 }
 message StringMessage {

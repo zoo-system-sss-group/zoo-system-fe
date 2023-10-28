@@ -23,6 +23,8 @@ grpc.web = require('grpc-web');
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
 
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js')
+
+var google_protobuf_wrappers_pb = require('google-protobuf/google/protobuf/wrappers_pb.js')
 const proto = require('./news_pb.js');
 
 /**
@@ -130,6 +132,250 @@ proto.NewsServicePromiseClient.prototype.getNews =
       request,
       metadata || {},
       methodDescriptor_NewsService_GetNews);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.NewsId,
+ *   !proto.NewsDTO>}
+ */
+const methodDescriptor_NewsService_GetNewById = new grpc.web.MethodDescriptor(
+  '/NewsService/GetNewById',
+  grpc.web.MethodType.UNARY,
+  proto.NewsId,
+  proto.NewsDTO,
+  /**
+   * @param {!proto.NewsId} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.NewsDTO.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.NewsId} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.NewsDTO)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServiceClient.prototype.getNewById =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/NewsService/GetNewById',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_GetNewById,
+      callback);
+};
+
+
+/**
+ * @param {!proto.NewsId} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.NewsDTO>}
+ *     Promise that resolves to the response
+ */
+proto.NewsServicePromiseClient.prototype.getNewById =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/NewsService/GetNewById',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_GetNewById);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.NewsDTO,
+ *   !proto.StringMessage>}
+ */
+const methodDescriptor_NewsService_CreateNews = new grpc.web.MethodDescriptor(
+  '/NewsService/CreateNews',
+  grpc.web.MethodType.UNARY,
+  proto.NewsDTO,
+  proto.StringMessage,
+  /**
+   * @param {!proto.NewsDTO} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.StringMessage.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.NewsDTO} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.StringMessage)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.StringMessage>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServiceClient.prototype.createNews =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/NewsService/CreateNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_CreateNews,
+      callback);
+};
+
+
+/**
+ * @param {!proto.NewsDTO} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.StringMessage>}
+ *     Promise that resolves to the response
+ */
+proto.NewsServicePromiseClient.prototype.createNews =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/NewsService/CreateNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_CreateNews);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.UpdateNewsDTO,
+ *   !proto.StringMessage>}
+ */
+const methodDescriptor_NewsService_UpdateNews = new grpc.web.MethodDescriptor(
+  '/NewsService/UpdateNews',
+  grpc.web.MethodType.UNARY,
+  proto.UpdateNewsDTO,
+  proto.StringMessage,
+  /**
+   * @param {!proto.UpdateNewsDTO} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.StringMessage.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.UpdateNewsDTO} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.StringMessage)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.StringMessage>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServiceClient.prototype.updateNews =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/NewsService/UpdateNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_UpdateNews,
+      callback);
+};
+
+
+/**
+ * @param {!proto.UpdateNewsDTO} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.StringMessage>}
+ *     Promise that resolves to the response
+ */
+proto.NewsServicePromiseClient.prototype.updateNews =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/NewsService/UpdateNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_UpdateNews);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.NewsId,
+ *   !proto.StringMessage>}
+ */
+const methodDescriptor_NewsService_RemoveNews = new grpc.web.MethodDescriptor(
+  '/NewsService/RemoveNews',
+  grpc.web.MethodType.UNARY,
+  proto.NewsId,
+  proto.StringMessage,
+  /**
+   * @param {!proto.NewsId} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.StringMessage.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.NewsId} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.StringMessage)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.StringMessage>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServiceClient.prototype.removeNews =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/NewsService/RemoveNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_RemoveNews,
+      callback);
+};
+
+
+/**
+ * @param {!proto.NewsId} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.StringMessage>}
+ *     Promise that resolves to the response
+ */
+proto.NewsServicePromiseClient.prototype.removeNews =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/NewsService/RemoveNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_RemoveNews);
 };
 
 
