@@ -16,7 +16,7 @@ function Animals() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const page = params.get("page") ?? 1;
-  const [pageIndex, setIndex] = useState(page ? parseInt(page) : 1);
+  const [pageIndex, setIndex] = useState(page ?  parseInt(page) : 1);
   useEffect(() => {
     setLoading(true);
     axios
@@ -35,7 +35,7 @@ function Animals() {
       })
       .catch((err) => {
         setLoading(false);
-        if (err.code == "ERR_NETWORK") {
+        if (err.code === "ERR_NETWORK") {
           setError("Server Not Loaded!");
         }
         setAnimals([]);

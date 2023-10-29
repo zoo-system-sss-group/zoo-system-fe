@@ -6,7 +6,6 @@ function CustomerSection({
   nextStep,
   handleChange,
   values,
-  paymentMethods,
 }) {
   return (
     <form className="card card-compact w-full m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor3 border-cor6  shadow  my-10 relative">

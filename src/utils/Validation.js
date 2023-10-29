@@ -1,3 +1,14 @@
+/** Thanh Binh Form Validation v1.0
+ * these function help you use quick validation for form inputs
+ * various from text,number,date,checkboxes,and radio
+ * config the validation by
+ * 
+ * const validations = {input1:[ValidationEmpty()]}
+ * 
+ * then call the function getValidationMessage()
+ * it will solve your problem
+ * */
+
 export function Validate(regex, msg) {
   return (value) => {
     if (value === null || value === "") return undefined;
@@ -44,14 +55,14 @@ export function ValidatePhone(msg) {
   return Validate(/^[0-9]{9,12}$/, msg ?? "This is not a valid Phone Number!");
 }
 //check if checkbox is checked
-export function ValidateCheckboxAndRadio(name,msg) {
-  return ()=>{
+export function ValidateCheckboxAndRadio(name, msg) {
+  return () => {
     var checkboxes = document.querySelectorAll(`input[name=${name}]`);
-    for(var i = 0 ; i<checkboxes.length;i++){
-      if(checkboxes[i].checked) return undefined;
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) return undefined;
     }
     return msg ?? "This Field is not checked!";
-  }
+  };
 }
 export function ValidateValueInList(list, msg) {
   return (value) => {
@@ -59,8 +70,12 @@ export function ValidateValueInList(list, msg) {
     else return undefined;
   };
 }
-
-
+/** getValidationMessage(validation, input)
+ * validation  is an array of Validation Function
+ * input is the name of the input 
+ * return msg and print the input error if validation is false
+ * note: after this you can or cannot submit the form based on your choice
+*/
 export function getValidationMessage(validation, input) {
   if (validation && input) {
     for (var i = 0; i < validation.length; i++) {

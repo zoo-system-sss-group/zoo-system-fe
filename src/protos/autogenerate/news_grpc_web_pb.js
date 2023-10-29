@@ -83,13 +83,13 @@ proto.NewsServicePromiseClient =
  * @const
  * @type {!grpc.web.MethodDescriptor<
  *   !proto.google.protobuf.Empty,
- *   !proto.NewsDTO>}
+ *   !proto.UpdateNewsDTO>}
  */
 const methodDescriptor_NewsService_GetNews = new grpc.web.MethodDescriptor(
   '/NewsService/GetNews',
   grpc.web.MethodType.SERVER_STREAMING,
   google_protobuf_empty_pb.Empty,
-  proto.NewsDTO,
+  proto.UpdateNewsDTO,
   /**
    * @param {!proto.google.protobuf.Empty} request
    * @return {!Uint8Array}
@@ -97,7 +97,7 @@ const methodDescriptor_NewsService_GetNews = new grpc.web.MethodDescriptor(
   function(request) {
     return request.serializeBinary();
   },
-  proto.NewsDTO.deserializeBinary
+  proto.UpdateNewsDTO.deserializeBinary
 );
 
 
@@ -105,7 +105,7 @@ const methodDescriptor_NewsService_GetNews = new grpc.web.MethodDescriptor(
  * @param {!proto.google.protobuf.Empty} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
+ * @return {!grpc.web.ClientReadableStream<!proto.UpdateNewsDTO>}
  *     The XHR Node Readable Stream
  */
 proto.NewsServiceClient.prototype.getNews =
@@ -122,7 +122,7 @@ proto.NewsServiceClient.prototype.getNews =
  * @param {!proto.google.protobuf.Empty} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
+ * @return {!grpc.web.ClientReadableStream<!proto.UpdateNewsDTO>}
  *     The XHR Node Readable Stream
  */
 proto.NewsServicePromiseClient.prototype.getNews =
@@ -139,13 +139,13 @@ proto.NewsServicePromiseClient.prototype.getNews =
  * @const
  * @type {!grpc.web.MethodDescriptor<
  *   !proto.NewsId,
- *   !proto.NewsDTO>}
+ *   !proto.UpdateNewsDTO>}
  */
 const methodDescriptor_NewsService_GetNewById = new grpc.web.MethodDescriptor(
   '/NewsService/GetNewById',
   grpc.web.MethodType.UNARY,
   proto.NewsId,
-  proto.NewsDTO,
+  proto.UpdateNewsDTO,
   /**
    * @param {!proto.NewsId} request
    * @return {!Uint8Array}
@@ -153,7 +153,7 @@ const methodDescriptor_NewsService_GetNewById = new grpc.web.MethodDescriptor(
   function(request) {
     return request.serializeBinary();
   },
-  proto.NewsDTO.deserializeBinary
+  proto.UpdateNewsDTO.deserializeBinary
 );
 
 
@@ -162,9 +162,9 @@ const methodDescriptor_NewsService_GetNewById = new grpc.web.MethodDescriptor(
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.NewsDTO)}
+ * @param {function(?grpc.web.RpcError, ?proto.UpdateNewsDTO)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.UpdateNewsDTO>|undefined}
  *     The XHR Node Readable Stream
  */
 proto.NewsServiceClient.prototype.getNewById =
@@ -183,7 +183,7 @@ proto.NewsServiceClient.prototype.getNewById =
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.NewsDTO>}
+ * @return {!Promise<!proto.UpdateNewsDTO>}
  *     Promise that resolves to the response
  */
 proto.NewsServicePromiseClient.prototype.getNewById =

@@ -72,7 +72,7 @@ const Login = () => {
 				<div className="max-w-[400px] w-full mx-auto bg-cor1 p-9 px-8 rounded-lg">
 					<div className="relative">
 						<Link
-							to="/"
+							to=":id"
 							className="rounded-md inline-flex items-center justify-center absolute"
 						>
 							<ArrowUturnLeftIcon className="h-6 w-6 inline-block font-extrabold stroke-2" />

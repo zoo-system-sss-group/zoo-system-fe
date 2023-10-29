@@ -15,6 +15,7 @@ import initializeApp from "./app/init";
 import checkAuth from "./app/auth";
 import LayoutSections from "./components/layout/LayoutSections";
 import Layout from "./containers/Layout";
+import { NewsDetail } from "./pages/news/NewsDetail";
 
 initializeApp();
 
@@ -25,10 +26,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<LandingPage />} />
-        <Route  path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/animals" element={<Animals />} />
         <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/buyticket" element={<BuyTicket />} />
 
         <Route path="/management/*" element={<Layout />} />

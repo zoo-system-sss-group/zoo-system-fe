@@ -1,45 +1,93 @@
 import Footer from "../components/landingPage/Footer";
 import Header from "../components/landingPage/Header";
-import image from "../assets/an-2.jpg";
 import GuestLayout from "../components/layout/GuestLayout";
+import NewsRepository from "../repositories/NewsRepository";
+import { useEffect, useState } from "react";
+import Pagination from "./../components/layout/Pagination";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+
+const pageSize = 9;
 
 function News() {
-	return (
-		<div>
-			<Header />
-			<GuestLayout title="All news">
-				{/* container all news */}
-				<div className="mx-8 mb-6">
-					<div className="card w-64 bg-cor4 shadow-xl">
-						<figure>
-							<img
-								className="w-full h-40 object-cover"
-								src={image}
-								alt="Tiger"
-							/>
-						</figure>
-						<div className="card-body px-4 py-6">
-							<h2 className="card-title text-cor2">Tiger</h2>
-							<p className="text-cor7">
-								If a dog chews shoes whose shoes does he choose?
-							</p>
-						</div>
-					</div>
-				</div>
-				{/* paging */}
-				<div className="flex justify-center">
-					<div className="join  mb-8 outline">
-						<button className="join-item btn">1</button>
-						<button className="join-item btn">2</button>
-						<button className="join-item btn btn-disabled">...</button>
-						<button className="join-item btn">99</button>
-						<button className="join-item btn">100</button>
-					</div>
-				</div>
-			</GuestLayout>
-			<Footer />
-		</div>
-	);
+  const _repo = NewsRepository();
+  const [params] = useSearchParams();
+  const [news, setNews] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const [page, setPage] = useState(params.get("page")?? 1);
+  const [pageIndex, setPageIndex] = useState(page ?? 1);
+  const [totalItems, setTotal] = useState(0);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [news]);
+  useEffect(() => {
+    setLoading(true);
+    try {
+      const pageIndex = parseInt(page);
+      setPageIndex(pageIndex);
+      _repo.getNews(pageIndex, pageSize).then((response) => {
+        setNews(response.value);
+        setTotal(response.count);
+      }).catch(err=>console.log("Server Not Loaded!"));
+    } catch (error) {
+      setPageIndex(1);
+    }
+  }, [page]);
+
+  return (
+    <div>
+      <Header />
+      <GuestLayout title="All news" className={"min-h-[400px]"}>
+        <div
+          className={
+            "mx-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 relative justify-center gap-4 my-6 "
+          }
+        >
+          {loading ? (
+            <>
+              <div className="absolute loading m-auto inset-0"></div>
+              <div className=" h-40"></div>
+            </>
+          ) : (
+            news.map((newObj) => (
+              <Link 
+                to={`${newObj.id}`}
+                key={newObj.id}
+                className="card lg:w-[400px] w-[300px] mx-auto bg-cor4 shadow-md shadow-cor5 hover:scale-[1.075] cursor-pointer hover:transition"
+                title={newObj.title}
+              >
+                <figure>
+                  <img
+                    className="w-full h-40 object-cover"
+                    src={newObj.thumbnail}
+                    alt={newObj.title}
+                  />
+                </figure>
+                <div className="card-body px-4 py-6">
+                  <h2 className="card-title text-cor2">{newObj.title}</h2>
+                  <p className="text-cor7 line-clamp-4">{newObj.content}</p>
+                </div>
+              </Link>
+            ))
+          )}
+        </div>
+        {/* paging */}
+        <Pagination
+          clicked={(i) => {
+            navigate(`/news?page=${i}`, { replace: true });
+            setPage(i);
+          }}
+          pageSize={pageSize}
+          pageIndex={pageIndex}
+          totalItems={totalItems}
+          className
+        />
+      </GuestLayout>
+      <Footer />
+    </div>
+  );
 }
 
 export default News;

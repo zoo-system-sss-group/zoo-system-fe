@@ -26,8 +26,8 @@ message NewsId {
 }
 
 service NewsService {
-  rpc GetNews (google.protobuf.Empty) returns (stream NewsDTO);
-  rpc GetNewById (NewsId) returns (NewsDTO);
+  rpc GetNews (google.protobuf.Empty) returns (stream UpdateNewsDTO);
+  rpc GetNewById (NewsId) returns (UpdateNewsDTO);
   rpc CreateNews (NewsDTO) returns (StringMessage);
   rpc UpdateNews (UpdateNewsDTO) returns (StringMessage);
   rpc RemoveNews (NewsId) returns (StringMessage);
