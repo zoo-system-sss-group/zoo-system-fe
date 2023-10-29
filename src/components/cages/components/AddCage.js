@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
-import { v4 } from "uuid";
-import { imageDb } from "../../../FirebaseImageUpload/Config";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
 
 const INITIAL_CAGE_OBJ = {
@@ -187,7 +184,7 @@ function AddCage({ fetch }) {
 								<select
 									type="text"
 									placeholder=""
-									value={cageObj.Area}
+									value={cageObj.AreaId}
 									onChange={(e) => updateFormValue("AreaId", e.target.value)}
 									className="select select-bordered w-full"
 								>
