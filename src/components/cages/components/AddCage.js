@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
-import { v4 } from "uuid";
-import { imageDb } from "../../../FirebaseImageUpload/Config";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
 
 const INITIAL_CAGE_OBJ = {
 	Code: "",
@@ -22,8 +20,7 @@ function AddCage({ fetch }) {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [cageObj, setCageObj] = useState(INITIAL_CAGE_OBJ);
 	const [areaObj, setAreaObj] = useState([]);
-	const [imgViewable, setImgViewable] = useState(null);
-	const [imgSendable, setImgSendable] = useState(null);
+	const [img, setImg] = useState(null);
 
 	useEffect(() => {
 		axios
@@ -35,7 +32,7 @@ function AddCage({ fetch }) {
 			});
 	}, []);
 
-	const saveNewCage = () => {
+	const saveNewCage = async () => {
 		if (cageObj.Code.trim() === "") return setErrorMessage("Code is required!");
 		if (cageObj.Name.trim() === "") return setErrorMessage("Name is required!");
 		if (cageObj.Location.trim() === "")
@@ -45,28 +42,21 @@ function AddCage({ fetch }) {
 		if (cageObj.Capacity <= 0)
 			return setErrorMessage("Capacity must be greater than 0!");
 
-		if (imgSendable !== null) {
-			const imgRef = ref(imageDb, `cages/${v4()}`);
-			setLoading(true); // Set loading state before starting the upload
-
-			uploadBytes(imgRef, imgSendable)
-				.then((value) => getDownloadURL(value.ref))
-				.then((url) => {
-					cageObj.Image = url;
-
-					// After the image is uploaded and URL is obtained, proceed with other tasks
-					uploadCageData();
-				})
-				.catch((err) => {
-					var msg = err?.response?.data?.value;
-					if (msg === undefined) msg = err.message;
-					setErrorMessage(msg);
-					setLoading(false); // Ensure loading state is reset on error
-				});
+		setLoading(true);
+		if (img !== null) {
+			try {
+				const url = await FirebaseImageUpload({ folder: "cages", img: img });
+				cageObj.Image = url;
+				uploadCageData();
+			} catch (err) {
+				var msg = err?.response?.data?.value;
+				if (msg === undefined) msg = "Something go wrong!";
+				setErrorMessage(msg);
+			}
 		} else {
-			// If no image to upload, proceed directly with data upload
 			uploadCageData();
 		}
+		setLoading(false);
 	};
 
 	const uploadCageData = () => {
@@ -81,7 +71,6 @@ function AddCage({ fetch }) {
 		};
 
 		const data = JSON.stringify(newCageObj);
-
 		axios
 			.post("odata/cages", data)
 			.then((res) => {
@@ -98,8 +87,10 @@ function AddCage({ fetch }) {
 				var msg = err?.response?.data?.value;
 				if (msg === undefined) msg = err.message;
 				setErrorMessage(msg);
-			})
-			.finally(() => setLoading(false));
+			}).finally(() => {
+				setCageObj(INITIAL_CAGE_OBJ);
+				setImg(null);
+			});
 	};
 
 	const updateFormValue = (updateType, value) => {
@@ -109,8 +100,7 @@ function AddCage({ fetch }) {
 
 	const onImageChange = (e) => {
 		if (e.target.files && e.target.files[0]) {
-			setImgViewable(URL.createObjectURL(e.target.files[0]));
-			setImgSendable(e.target.files[0]);
+			setImg(e.target.files[0]);
 		}
 	};
 
@@ -194,7 +184,7 @@ function AddCage({ fetch }) {
 								<select
 									type="text"
 									placeholder=""
-									value={cageObj.Area}
+									value={cageObj.AreaId}
 									onChange={(e) => updateFormValue("AreaId", e.target.value)}
 									className="select select-bordered w-full"
 								>
@@ -214,11 +204,12 @@ function AddCage({ fetch }) {
 									type="file"
 									onChange={onImageChange}
 									className="file-input file-input-bordered w-full"
+									accept="image/png, image/jpg, image/jpeg"
 								/>
 								<img
-									src={imgViewable ? imgViewable : "../img/noimage.jpg"}
+									src={img ? URL.createObjectURL(img) : "../img/noimage.jpg"}
 									alt="cage"
-									className="mt-2 border rounded-lg"
+									className="mt-2 border rounded-lg min-w-full"
 								/>
 							</div>
 						</div>

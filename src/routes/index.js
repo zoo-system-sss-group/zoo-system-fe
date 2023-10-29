@@ -10,6 +10,7 @@ const Animals = lazy(() => import('../pages/management/Animals'))
 const Areas = lazy(() => import('../pages/management/Areas'))
 const Species = lazy(() => import('../pages/management/Species'))
 const Cages = lazy(() => import('../pages/management/Cages'))
+const News = lazy(() => import('../pages/management/News'))
 
 
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
   {
     path: '/cages', 
     component: Cages, 
+  },
+  {
+    path: '/news', 
+    component: News, 
   },
   {
     path: '/404',

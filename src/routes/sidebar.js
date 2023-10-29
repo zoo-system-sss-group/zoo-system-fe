@@ -36,6 +36,11 @@ const routes = [
     icon: <ChartBarIcon className={iconClasses}/>, // icon component
     name: 'Analytics', // name that appear in Sidebar
   },
+  {
+    path: '/management/news', // url
+    icon: <ChartBarIcon className={iconClasses}/>, // icon component
+    name: 'News', // name that appear in Sidebar
+  },
 
   {
     path: '', //no url needed as this has submenu

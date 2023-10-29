@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import TitleCard from "../../components/common/Cards/TitleCard";
-import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import TitleCard from "../common/Cards/TitleCard";
+import {
+	TrashIcon,
+	PencilSquareIcon,
+	EyeIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
-import EditAnimal from "./components/EditAnimal";
-import AddAnimal from "./components/AddAnimal";
+import EditNews from "./components/EditNews";
+import AddNews from "./components/AddNews";
+import ViewNews from "./components/ViewNews";
 
-function Animals() {
+function News() {
 	const dispatch = useDispatch();
-	const [animals, setAnimals] = useState();
+	const [news, setNews] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
@@ -18,22 +23,21 @@ function Animals() {
 		limit: 10,
 		isEnd: false,
 	});
-
-	//lay danh sach animal
-	const fetchAnimalList = () => {
+	//lay danh sach news
+	const fetchNewsList = () => {
 		axios
 			.get(
-				`odata/animals?$filter=IsDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/news?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
 			.then((res) => {
-				let animals = res.data.value;
-				if (!pagination.isEnd && animals.length < pagination.limit)
+				let news = res.data.value;
+				if (!pagination.isEnd && news.length < pagination.limit)
 					setPagination({ ...pagination, isEnd: true });
-				else if (pagination.isEnd && animals.length === pagination.limit)
+				else if (pagination.isEnd && news.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
-				setAnimals(animals);
+				setNews(news);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -41,20 +45,21 @@ function Animals() {
 	};
 
 	useEffect(() => {
-		fetchAnimalList();
+		fetchNewsList();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pagination]);
 
-	const deactiveAnimal = (index) => {
+	const deleteNews = (index) => {
 		axios
-			.delete(`/odata/animals/${index}`)
+			.delete(`/odata/news/${index}`)
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Animal deleted!",
+						message: "News deleted!",
 						status: res.status,
 					})
 				);
-				fetchAnimalList();
+				fetchNewsList();
 			})
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
@@ -64,53 +69,40 @@ function Animals() {
 	return (
 		<>
 			<TitleCard
-				title="Animal table"
+				title="News table"
 				topMargin="mt-2"
-				TopSideButtons={<AddAnimal fetch={fetchAnimalList} />}
+				TopSideButtons={<AddNews fetch={fetchNewsList} />}
 			>
 				<div className="overflow-x-auto w-full">
-					{animals != null ? (
+					{news != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
 									<tr>
 										<th>ID</th>
+										<th>Code</th>
 										<th>Name</th>
+										<th>Location</th>
 										<th>Description</th>
-										<th>Weight</th>
-										<th>BirthDate</th>
-										<th>SpeciesId</th>
+										<th>Capacity</th>
 										<th>CreationDate</th>
 										<th>ModificationDate</th>
+										{/* <th>Status</th> */}
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
-									{animals.map((l, k) => {
+									{news.map((l, k) => {
 										return (
 											<tr key={k}>
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
 													{l.Id}
 												</td>
-												<td>
-													<div className="flex items-center space-x-3">
-														<div className="avatar">
-															<div className="mask mask-squircle w-12 h-12">
-																<img
-																	src={l.Image ? l.Image : "../img/noimage.jpg"}
-																	alt="Avatar"
-																/>
-															</div>
-														</div>
-														<div>
-															<div className="font-bold">{l.Name}</div>
-														</div>
-													</div>
-												</td>
+												<td>{l.Code}</td>
+												<td>{l.Name}</td>
+												<td>{l.Location}</td>
 												<td>{l.Description}</td>
-												<td>{l.Weight}</td>
-												<td>{moment(l.BirthDate).format("yyyy-MM-DD")}</td>
-												<td>{l.SpeciesId}</td>
+												<td>{l.Capacity}</td>
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
@@ -119,33 +111,51 @@ function Animals() {
 														"YYYY-MM-DD HH:mm:ss"
 													)}
 												</td>
-												<td>
-													{/* Nut sua animal */}
+												{/* <td>{getStatus(l.IsDeleted)}</td> */}
+												<td className="flex">
+													{/* Nut xem news */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
 															setIdSelect(l.Id);
-															document.getElementById("my_modal_1").showModal();
+															document
+																.getElementById("btnViewNews")
+																.showModal();
+														}}
+													>
+														<EyeIcon className="w-5 text-cor4 stroke-2" />
+													</button>
+
+													{/* Nut sua news */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															setIdSelect(l.Id);
+															document
+																.getElementById("btnEditNews")
+																.showModal();
 														}}
 													>
 														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 													</button>
 
-													{/* Nut doi status animal */}
+													{/* Nut doi status news */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
-															document.getElementById("my_modal_2").showModal();
+															document
+																.getElementById("btnDeleteNews")
+																.showModal();
 															setIdSelect(l.Id);
 														}}
 													>
 														<TrashIcon className="w-5 text-err stroke-2" />
 													</button>
-													<dialog id="my_modal_2" className="modal ">
+													<dialog id="btnDeleteNews" className="modal ">
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
-															<p className="py-4">
-																Are you sure you want to deactive this user?
+															<p className="py-4 text-2xl">
+																Are you want to delete news "{l.Name}"?
 															</p>
 															<div className="modal-action">
 																<form method="dialog">
@@ -153,9 +163,9 @@ function Animals() {
 
 																	<button
 																		className="btn btn-primary ml-4"
-																		onClick={() => deactiveAnimal(idSelect)}
+																		onClick={() => deleteNews(idSelect)}
 																	>
-																		Deactive
+																		Delete
 																	</button>
 																</form>
 															</div>
@@ -170,7 +180,8 @@ function Animals() {
 									})}
 								</tbody>
 							</table>
-							<EditAnimal id={idSelect} fetch={fetchAnimalList} />
+							<ViewNews id={idSelect} />
+							<EditNews id={idSelect} fetch={fetchNewsList} />
 
 							<div className="w-full flex justify-center">
 								<div className="join">
@@ -215,4 +226,4 @@ function Animals() {
 	);
 }
 
-export default Animals;
+export default News;
