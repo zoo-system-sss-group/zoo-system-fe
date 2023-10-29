@@ -35,6 +35,7 @@ function EditSpecies({ id, fetch }) {
 				...speciesObj,
 				...res.data,
 			});
+			setErrorMessage("")
 		});
 	}, [id]);
 

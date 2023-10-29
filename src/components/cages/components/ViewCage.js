@@ -9,6 +9,7 @@ const INITIAL_CAGE_OBJ = {
 	Id: "",
 	Code: "",
 	Name: "",
+	Image: "",
 	Location: "",
 	Description: "",
 	Capacity: 0,
@@ -18,8 +19,6 @@ const INITIAL_CAGE_OBJ = {
 };
 
 function ViewCage({ id }) {
-	// const [loading, setLoading] = useState(false);
-	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
 	const [cageObj, setCageObj] = useState(INITIAL_CAGE_OBJ);
 
@@ -35,11 +34,21 @@ function ViewCage({ id }) {
 	return (
 		<>
 			<dialog id="btnViewCage" className="modal ">
-				<div className="modal-box">
+				<div className="modal-box max-w-2xl">
 					<h3 className="font-bold text-lg">Cage information details</h3>
-					<div className="form-control w-full ">
+
+					<label className="label mt-4">
+						<span className="label-text">Image</span>
+					</label>
+					<img
+						src={cageObj.Image ? cageObj.Image : "../img/noimage.jpg"}
+						alt="cage"
+						className="mt-2 border rounded-lg min-w-full"
+					/>
+
+					<div className="form-control w-full">
 						<div className="flex gap-2">
-							<div>
+							<div className="w-full">
 								<label className="label">
 									<span className="label-text">ID</span>
 								</label>
@@ -50,7 +59,7 @@ function ViewCage({ id }) {
 								/>
 							</div>
 
-							<div>
+							<div className="w-full">
 								<label className="label">
 									<span className="label-text">Code</span>
 								</label>
@@ -104,7 +113,7 @@ function ViewCage({ id }) {
 						/>
 
 						<div className="flex gap-2">
-							<div>
+							<div className="w-full">
 								<label className="label mt-4">
 									<span className="label-text">CreationDate</span>
 								</label>
@@ -117,7 +126,7 @@ function ViewCage({ id }) {
 									disabled
 								/>
 							</div>
-							<div>
+							<div className="w-full">
 								<label className="label mt-4">
 									<span className="label-text">ModificationDate</span>
 								</label>
@@ -137,7 +146,7 @@ function ViewCage({ id }) {
 						</div>
 
 						<div className="flex gap-2">
-							<div>
+							<div className="w-full">
 								<label className="label mt-4">
 									<span className="label-text">DeletionDate</span>
 								</label>
@@ -149,7 +158,7 @@ function ViewCage({ id }) {
 								/>
 								<div className="text-err text-lg">{errorMessage}</div>
 							</div>
-							<div>
+							<div className="w-full">
 								<label className="label mt-4">
 									<span className="label-text">IsDeleted</span>
 								</label>

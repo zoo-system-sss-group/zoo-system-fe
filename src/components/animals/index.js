@@ -44,7 +44,7 @@ function Animals() {
 		fetchAnimalList();
 	}, [pagination]);
 
-	const deactiveAnimal = (index) => {
+	const deleteAnimal = (index) => {
 		axios
 			.delete(`/odata/animals/${index}`)
 			.then((res) => {
@@ -144,8 +144,8 @@ function Animals() {
 													<dialog id="my_modal_2" className="modal ">
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
-															<p className="py-4">
-																Are you sure you want to deactive this user?
+															<p className="py-4 text-2xl">
+																Are you sure you want to delete animal {l.Name}?
 															</p>
 															<div className="modal-action">
 																<form method="dialog">
@@ -153,9 +153,9 @@ function Animals() {
 
 																	<button
 																		className="btn btn-primary ml-4"
-																		onClick={() => deactiveAnimal(idSelect)}
+																		onClick={() => deleteAnimal(idSelect)}
 																	>
-																		Deactive
+																		Delete
 																	</button>
 																</form>
 															</div>

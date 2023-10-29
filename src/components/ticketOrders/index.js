@@ -9,13 +9,13 @@ import {
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
-import EditArea from "./components/EditArea";
-import AddArea from "./components/AddArea";
-import ViewArea from "./components/ViewArea";
+import EditTicketOrder from "./components/EditTicketOrder";
+import AddTicketOrder from "./components/AddTicketOrder";
+import ViewTicketOrder from "./components/ViewTicketOrder";
 
-function Areas() {
+function TicketOrders() {
 	const dispatch = useDispatch();
-	const [areas, setAreas] = useState();
+	const [ticketOrders, setTicketOrders] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
@@ -23,21 +23,21 @@ function Areas() {
 		limit: 10,
 		isEnd: false,
 	});
-	//lay danh sach area
-	const fetchAreaList = () => {
+	//lay danh sach ticketOrder
+	const fetchTicketOrderList = () => {
 		axios
 			.get(
-				`odata/areas?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/ticketOrders?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
 			.then((res) => {
-				let areas = res.data.value;
-				if (!pagination.isEnd && areas.length < pagination.limit)
+				let ticketOrders = res.data.value;
+				if (!pagination.isEnd && ticketOrders.length < pagination.limit)
 					setPagination({ ...pagination, isEnd: true });
-				else if (pagination.isEnd && areas.length === pagination.limit)
+				else if (pagination.isEnd && ticketOrders.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
-				setAreas(areas);
+				setTicketOrders(ticketOrders);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -45,21 +45,21 @@ function Areas() {
 	};
 
 	useEffect(() => {
-		fetchAreaList();
+		fetchTicketOrderList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pagination]);
 
-	const deleteArea = (index) => {
+	const deleteTicketOrder = (index) => {
 		axios
-			.delete(`/odata/areas/${index}`)
+			.delete(`/odata/ticketOrders/${index}`)
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Area deleted!",
+						message: "TicketOrder deleted!",
 						status: res.status,
 					})
 				);
-				fetchAreaList();
+				fetchTicketOrderList();
 			})
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
@@ -69,12 +69,12 @@ function Areas() {
 	return (
 		<>
 			<TitleCard
-				title="Area table"
+				title="TicketOrder table"
 				topMargin="mt-2"
-				TopSideButtons={<AddArea fetch={fetchAreaList} />}
+				TopSideButtons={<AddTicketOrder fetch={fetchTicketOrderList} />}
 			>
 				<div className="overflow-x-auto w-full">
-					{areas != null ? (
+					{ticketOrders != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
@@ -92,7 +92,7 @@ function Areas() {
 									</tr>
 								</thead>
 								<tbody>
-									{areas.map((l, k) => {
+									{ticketOrders.map((l, k) => {
 										return (
 											<tr key={k}>
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
@@ -113,49 +113,49 @@ function Areas() {
 												</td>
 												{/* <td>{getStatus(l.IsDeleted)}</td> */}
 												<td className="flex">
-													{/* Nut xem area */}
+													{/* Nut xem ticketOrder */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
 															setIdSelect(l.Id);
 															document
-																.getElementById("btnViewArea")
+																.getElementById("btnViewTicketOrder")
 																.showModal();
 														}}
 													>
 														<EyeIcon className="w-5 text-cor4 stroke-2" />
 													</button>
 
-													{/* Nut sua area */}
+													{/* Nut sua ticketOrder */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
 															setIdSelect(l.Id);
 															document
-																.getElementById("btnEditArea")
+																.getElementById("btnEditTicketOrder")
 																.showModal();
 														}}
 													>
 														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 													</button>
 
-													{/* Nut doi status area */}
+													{/* Nut doi status ticketOrder */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
 															document
-																.getElementById("btnDeleteArea")
+																.getElementById("btnDeleteTicketOrder")
 																.showModal();
 															setIdSelect(l.Id);
 														}}
 													>
 														<TrashIcon className="w-5 text-err stroke-2" />
 													</button>
-													<dialog id="btnDeleteArea" className="modal ">
+													<dialog id="btnDeleteTicketOrder" className="modal ">
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
 															<p className="py-4 text-2xl">
-																Are you want to delete area "{l.Name}"?
+																Are you want to delete ticketOrder "{l.Name}"?
 															</p>
 															<div className="modal-action">
 																<form method="dialog">
@@ -163,7 +163,7 @@ function Areas() {
 
 																	<button
 																		className="btn btn-primary ml-4"
-																		onClick={() => deleteArea(idSelect)}
+																		onClick={() => deleteTicketOrder(idSelect)}
 																	>
 																		Delete
 																	</button>
@@ -180,8 +180,8 @@ function Areas() {
 									})}
 								</tbody>
 							</table>
-							<ViewArea id={idSelect} />
-							<EditArea id={idSelect} fetch={fetchAreaList} />
+							<ViewTicketOrder id={idSelect} />
+							<EditTicketOrder id={idSelect} fetch={fetchTicketOrderList} />
 
 							<div className="w-full flex justify-center">
 								<div className="join">
@@ -226,4 +226,4 @@ function Areas() {
 	);
 }
 
-export default Areas;
+export default TicketOrders;

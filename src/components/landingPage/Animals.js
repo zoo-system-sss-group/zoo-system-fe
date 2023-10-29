@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ImgAnimal1 from "../../assets/an-1.jpg";
-import ImgAnimal2 from "../../assets/an-2.jpg";
-import ImgAnimal3 from "../../assets/an-3.jpg";
-import ImgAnimal4 from "../../assets/an-4.jpg";
-import ImgAnimal5 from "../../assets/an-5.jpg";
 import LayoutSections from "../layout/LayoutSections";
 import Slider from "../layout/Slider";
 import axios from "axios";
@@ -40,7 +35,7 @@ const Animals = () => {
             <li key={animal.id} className="p-4 rounded-xl bg-cor4 text-co">
               <img
                 className="w-full object-cover mb-4 h-[250px] md:h-[180px]"
-                src={animal.src}
+                src={animal.src ? animal.src : "img/noimage.jpg"}
                 alt={animal.Species.Name}
               />
               <h3 className="text-base mb-4 font-medium capitalize text-cor2">
