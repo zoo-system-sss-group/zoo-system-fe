@@ -54,7 +54,7 @@ const Login = () => {
 				}
 			})
 			.catch((err) => {
-				var msg = err.response.data.errorMessage;
+				var msg = err.response?.data?.errorMessage;
 				if (msg === undefined) msg = err.message;
 				setErrorMessage(msg);
 			})

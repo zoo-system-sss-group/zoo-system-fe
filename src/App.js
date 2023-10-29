@@ -15,6 +15,7 @@ import initializeApp from "./app/init";
 import checkAuth from "./app/auth";
 import LayoutSections from "./components/layout/LayoutSections";
 import Layout from "./containers/Layout";
+import Page404 from "./pages/Page404";
 
 initializeApp();
 
@@ -30,13 +31,14 @@ function App() {
         <Route path="/animals" element={<Animals />} />
         <Route path="/news" element={<News />} />
         <Route path="/buyticket" element={<BuyTicket />} />
-
         <Route path="/management/*" element={<Layout />} />
+        
+        <Route path="page404" element={<Page404 />} />
 
         <Route
           path="*"
           element={
-            <Navigate to={token ? "/management/dashboard" : "/"} replace />
+            <Navigate to={token ? "/management/dashboard" : "/page404"} replace />
           }
         />
       </Routes>

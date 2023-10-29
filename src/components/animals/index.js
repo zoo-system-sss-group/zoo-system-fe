@@ -23,7 +23,7 @@ function Animals() {
 	const fetchAnimalList = () => {
 		axios
 			.get(
-				`odata/animals?$orderby=CreationDate desc&$skip=${
+				`odata/animals?$filter=IsDeleted eq false&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
@@ -50,7 +50,7 @@ function Animals() {
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Animal deactive! - " + res.status,
+						message: "Animal deleted!",
 						status: res.status,
 					})
 				);
@@ -59,12 +59,6 @@ function Animals() {
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
 			});
-	};
-
-	const getStatus = (isDelete) => {
-		if (isDelete === false)
-			return <div className="badge badge-success">Active</div>;
-		else return <div className="badge badge-error">Deactive</div>;
 	};
 
 	return (
@@ -88,7 +82,6 @@ function Animals() {
 										<th>SpeciesId</th>
 										<th>CreationDate</th>
 										<th>ModificationDate</th>
-										<th>Status</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -126,7 +119,6 @@ function Animals() {
 														"YYYY-MM-DD HH:mm:ss"
 													)}
 												</td>
-												<td>{getStatus(l.IsDeleted)}</td>
 												<td>
 													{/* Nut sua animal */}
 													<button
