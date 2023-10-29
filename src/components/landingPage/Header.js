@@ -45,7 +45,6 @@ const Header = () => {
 				<ul className="flex flex-row gap-8">
 					{listLinks.map((link) => (
 						<li key={link.route}>
-							{console.log(location)}
 							<NavLink
 								to={`/${link.route}`}
 								className={`duration-200 hover:text-cor1 ${

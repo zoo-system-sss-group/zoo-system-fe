@@ -163,7 +163,6 @@ function EditAnimal({ id, fetch }) {
 						<label className="label mt-4">
 							<span className="label-text">BirthDate</span>
 						</label>
-						{console.log(animalObj.BirthDate)}
 						<input
 							type="date"
 							placeholder=""

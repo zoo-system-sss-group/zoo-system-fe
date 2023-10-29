@@ -62,7 +62,6 @@ function AddAccount({ fetch }) {
 		axios
 			.post("odata/accounts", data)
 			.then((res) => {
-				console.log(res);
 				document.getElementById("btnCloseAddAccount").click();
 				dispatch(
 					showNotification({

@@ -11,11 +11,11 @@ const checkAuth = () => {
 	);
 
 	if (!TOKEN && !isPublicPage) {
-		console.log("khong co token va la trang private");
+		// console.log("khong co token va la trang private");
 		window.location.href = "/";
 		return;
 	} else {
-		console.log("co token hoac la trang public");
+		// console.log("co token hoac la trang public");
 		axios.defaults.headers.post['Content-Type'] = 'application/json';
 		axios.defaults.headers.put['Content-Type'] = 'application/json';
 		axios.defaults.headers.common["Authorization"] = `Bearer ${TOKEN}`;

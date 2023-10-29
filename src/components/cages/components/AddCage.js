@@ -87,7 +87,8 @@ function AddCage({ fetch }) {
 				var msg = err?.response?.data?.value;
 				if (msg === undefined) msg = err.message;
 				setErrorMessage(msg);
-			}).finally(() => {
+			})
+			.finally(() => {
 				setCageObj(INITIAL_CAGE_OBJ);
 				setImg(null);
 			});

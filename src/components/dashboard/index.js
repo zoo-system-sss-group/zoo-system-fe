@@ -39,7 +39,6 @@ const statsData = [
 function Dashboard() {
 	const [animals, setAnimals] = useState([]);
 	const [ticketOrders, setTitketOrders] = useState([]);
-	console.log(statsData);
 	useEffect(() => {
 		axios
 			.get("odata/accounts?filter=IsDeleted eq false&$count=true")
@@ -54,7 +53,6 @@ function Dashboard() {
 				const obj = statsData[1];
 				obj.value = res.data["@odata.count"];
 				setTitketOrders(res.data.value)
-				console.log(ticketOrders);
 			})
 			.catch((err) => {});
 		axios
