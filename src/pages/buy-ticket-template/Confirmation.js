@@ -41,7 +41,6 @@ function Confirmation({
 		<section className="card card-compact w-full m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor4 relative shadow  my-10">
 			<div className="card-body ">
 				<div className="card-title text-cor2">Confirm Data</div>
-				<Progress max={totalStep} value={step} />
 
 				<div className="">
 					<table className="table table-zebra text-cor2">

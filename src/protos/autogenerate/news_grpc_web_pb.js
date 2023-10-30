@@ -141,6 +141,62 @@ proto.NewsServicePromiseClient.prototype.getNews =
  *   !proto.NewsId,
  *   !proto.NewsDTO>}
  */
+const methodDescriptor_NewsService_GetRandomNews = new grpc.web.MethodDescriptor(
+  '/NewsService/GetRandomNews',
+  grpc.web.MethodType.SERVER_STREAMING,
+  proto.NewsId,
+  proto.NewsDTO,
+  /**
+   * @param {!proto.NewsId} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.NewsDTO.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.NewsId} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServiceClient.prototype.getRandomNews =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/NewsService/GetRandomNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_GetRandomNews);
+};
+
+
+/**
+ * @param {!proto.NewsId} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServicePromiseClient.prototype.getRandomNews =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/NewsService/GetRandomNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_GetRandomNews);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.NewsId,
+ *   !proto.NewsDTO>}
+ */
 const methodDescriptor_NewsService_GetNewById = new grpc.web.MethodDescriptor(
   '/NewsService/GetNewById',
   grpc.web.MethodType.UNARY,
@@ -199,16 +255,16 @@ proto.NewsServicePromiseClient.prototype.getNewById =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.NewsDTO,
+ *   !proto.CreateNewsDTO,
  *   !proto.StringMessage>}
  */
 const methodDescriptor_NewsService_CreateNews = new grpc.web.MethodDescriptor(
   '/NewsService/CreateNews',
   grpc.web.MethodType.UNARY,
-  proto.NewsDTO,
+  proto.CreateNewsDTO,
   proto.StringMessage,
   /**
-   * @param {!proto.NewsDTO} request
+   * @param {!proto.CreateNewsDTO} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -219,7 +275,7 @@ const methodDescriptor_NewsService_CreateNews = new grpc.web.MethodDescriptor(
 
 
 /**
- * @param {!proto.NewsDTO} request The
+ * @param {!proto.CreateNewsDTO} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
@@ -240,7 +296,7 @@ proto.NewsServiceClient.prototype.createNews =
 
 
 /**
- * @param {!proto.NewsDTO} request The
+ * @param {!proto.CreateNewsDTO} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
