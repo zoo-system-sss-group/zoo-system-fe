@@ -7,11 +7,18 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
 message NewsDTO {
+  int32 id = 1;
+  string title = 2;
+  google.protobuf.StringValue thumbnail = 3;
+  string content = 4;
+  google.protobuf.Timestamp creationDate = 5;
+  google.protobuf.Timestamp modificationDate = 6;
+}
+message CreateNewsDTO {
   string title = 1;
   google.protobuf.StringValue thumbnail = 2;
   string content = 3;
 }
-
 message UpdateNewsDTO {
   int32 id = 1;
   string title = 2;
@@ -26,9 +33,9 @@ message NewsId {
 }
 
 service NewsService {
-  rpc GetNews (google.protobuf.Empty) returns (stream UpdateNewsDTO);
-  rpc GetNewById (NewsId) returns (UpdateNewsDTO);
-  rpc CreateNews (NewsDTO) returns (StringMessage);
+  rpc GetNews (google.protobuf.Empty) returns (stream NewsDTO);
+  rpc GetNewById (NewsId) returns (NewsDTO);
+  rpc CreateNews (CreateNewsDTO) returns (StringMessage);
   rpc UpdateNews (UpdateNewsDTO) returns (StringMessage);
   rpc RemoveNews (NewsId) returns (StringMessage);
 }
