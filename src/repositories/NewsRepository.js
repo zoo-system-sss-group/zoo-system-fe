@@ -7,7 +7,7 @@ import {
   StringMessage,
   NewsId,
 } from "../protos/autogenerate/news_grpc_web_pb";
-import * as google_protobuf_wrappers_pb from 'google-protobuf/google/protobuf/wrappers_pb'
+import * as google_protobuf_wrappers_pb from "google-protobuf/google/protobuf/wrappers_pb";
 function NewsRepository() {
   const client = new NewsServiceClient(process.env.REACT_APP_GRPC_BASE_URL);
 
@@ -26,7 +26,7 @@ function NewsRepository() {
 
         news.push(newObj);
       });
-      
+
       call.on("end", () => {
         // The streaming is complete
         const startIndex = (pageIndex - 1) * pageSize;
@@ -43,11 +43,36 @@ function NewsRepository() {
         reject(error);
       });
     });
+  const getRandomNews = (id) =>
+    new Promise((resolve, reject) => {
+      const news = [];
+      const request = new NewsId(); // Assuming GetNews takes an Empty request
+      request.setId(id);
 
+      const call = client.getRandomNews(request, {}); // Make the gRPC call
+
+      call.on("data", (response) => {
+        const newObj = response.toObject();
+        newObj.creationdate = toDate(newObj.creationdate);
+        newObj.modificationdate = toDate(newObj.modificationdate);
+        newObj.thumbnail = newObj.thumbnail?.value;
+
+        news.push(newObj);
+      });
+
+      call.on("end", () => {
+        // The streaming is complete
+        resolve(news);
+      });
+
+      call.on("error", (error) => {
+        console.error(`Error: ${error}`);
+        reject(error);
+      });
+    });
   const getNewsById = (id) =>
     new Promise((resolve, reject) => {
       var news = null;
-
       const request = new NewsId();
       request.setId(id);
       client.getNewById(request, {}, (err, response) => {
@@ -66,7 +91,7 @@ function NewsRepository() {
   const createNews = (newsDto) =>
     new Promise((resolve, reject) => {
       const request = new CreateNewsDTO();
-      var thumbnail =  new google_protobuf_wrappers_pb.StringValue();
+      var thumbnail = new google_protobuf_wrappers_pb.StringValue();
       thumbnail.setValue(newsDto.thumbnail);
       request.setTitle(newsDto.title);
       request.setThumbnail(thumbnail);
@@ -85,7 +110,7 @@ function NewsRepository() {
   const updateNews = (id, newsDto) =>
     new Promise((resolve, reject) => {
       const request = new UpdateNewsDTO();
-     var thumbnail =  new google_protobuf_wrappers_pb.StringValue();
+      var thumbnail = new google_protobuf_wrappers_pb.StringValue();
       thumbnail.setValue(newsDto.thumbnail);
       request.setId(id);
       request.setTitle(newsDto.title);
@@ -124,6 +149,7 @@ function NewsRepository() {
   };
   return {
     getNews,
+    getRandomNews,
     getNewsById,
     createNews,
     updateNews,

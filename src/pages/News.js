@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Pagination from "./../components/layout/Pagination";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DOMPurify from "dompurify";
+import { Progress } from "./buy-ticket-template/Progress";
 
 const pageSize = 9;
 
@@ -16,7 +17,7 @@ function News() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const [page, setPage] = useState(params.get("page")?? 1);
+  const [page, setPage] = useState(params.get("page") ?? 1);
   const [pageIndex, setPageIndex] = useState(page ?? 1);
   const [totalItems, setTotal] = useState(0);
 
@@ -28,14 +29,23 @@ function News() {
     try {
       const pageIndex = parseInt(page);
       setPageIndex(pageIndex);
-      _repo.getNews(pageIndex, pageSize).then((response) => {
-        setNews(response.value);
-        setTotal(response.count);
-      }).catch(err=>console.log("Server Not Loaded!"));
+      _repo
+        .getNews(pageIndex, pageSize)
+        .then((response) => {
+          setNews(response.value);
+          setTotal(response.count);
+        })
+        .catch((err) => console.log("Server Not Loaded!"));
     } catch (error) {
       setPageIndex(1);
     }
   }, [page]);
+
+  function cleanContent(content) {
+    const cleanedContent = document.createElement("div");
+    cleanedContent.innerHTML = DOMPurify.sanitize(content).toString();
+    return cleanedContent.innerText;
+  }
 
   return (
     <div>
@@ -53,7 +63,7 @@ function News() {
             </>
           ) : (
             news.map((newObj) => (
-              <Link 
+              <Link
                 to={`${newObj.id}`}
                 key={newObj.id}
                 className="card lg:w-[400px] w-[300px] mx-auto bg-cor4 shadow-md shadow-cor5 hover:scale-[1.075] cursor-pointer hover:transition"
@@ -68,7 +78,9 @@ function News() {
                 </figure>
                 <div className="card-body px-4 py-6">
                   <h2 className="card-title text-cor2">{newObj.title}</h2>
-                  <p className="text-cor7 line-clamp-4">{newObj.content}</p>
+                  <p className="text-cor7 line-clamp-4">
+                    {cleanContent(newObj.content)}
+                  </p>
                 </div>
               </Link>
             ))

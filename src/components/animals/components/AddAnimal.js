@@ -172,8 +172,6 @@ function AddAnimal({ fetch }) {
 								<span className="label-text">Species</span>
 							</label>
 							<select
-								type="date"
-								placeholder=""
 								value={animalObj.SpeciesId}
 								onChange={(e) => updateFormValue("SpeciesId", e.target.value)}
 								className="select select-bordered w-full"
@@ -198,7 +196,7 @@ function AddAnimal({ fetch }) {
 							/>
 							<img
 								src={img ? URL.createObjectURL(img) : "../img/noimage.jpg"}
-								alt="cage"
+								alt="animal"
 								className="mt-2 border rounded-lg min-w-full"
 							/>
 

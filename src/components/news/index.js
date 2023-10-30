@@ -12,6 +12,7 @@ import EditNews from "./components/EditNews";
 import AddNews from "./components/AddNews";
 import ViewNews from "./components/ViewNews";
 import NewsRepository from "../../repositories/NewsRepository";
+import DOMPurify from "dompurify";
 
 function News() {
   const dispatch = useDispatch();
@@ -62,6 +63,12 @@ function News() {
     fetchNewsList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
+
+  function cleanContent(content) {
+    const cleanedContent = document.createElement("div");
+    cleanedContent.innerHTML = DOMPurify.sanitize(content).toString();
+    return cleanedContent.innerText;
+  }
 
   const deleteNews = (id) => {
     // axios
@@ -133,7 +140,7 @@ function News() {
                           />
                         </td>
                         <td className="line-clamp-4 overflow-hidden ">
-                          {news.content}
+                          {cleanContent(news.content)}
                         </td>
                         <td>
                           {moment(news.creationdate).format(

@@ -148,13 +148,13 @@ function Accounts() {
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
-															document.getElementById("my_modal_2").showModal();
+															document.getElementById("btnDeactiveAccount").showModal();
 															setIdSelect(l.Id);
 														}}
 													>
 														<NoSymbolIcon className="w-5 text-err stroke-2" />
 													</button>
-													<dialog id="my_modal_2" className="modal ">
+													<dialog id="btnDeactiveAccount" className="modal ">
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
 															<p className="py-4">

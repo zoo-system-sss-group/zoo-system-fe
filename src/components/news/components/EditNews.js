@@ -34,7 +34,6 @@ function EditNews({ id, fetch }) {
           ...newsObj,
           ...res,
         });
-        console.log(newsObj.thumbnail);
         setImg(newsObj.thumbnail);
         setText(newsObj.content);
       })

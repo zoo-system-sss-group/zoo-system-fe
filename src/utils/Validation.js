@@ -33,15 +33,22 @@ export function ValidateNumber(min, max, msg) {
     return msg ?? `This Field value need to be in between ${min} and ${max}!`;
   };
 }
-export function ValidateMinDate(minDate, msg) {
+export function ValidateDateRange({ minDate, maxDate, msg1, msg2, msgCombine }) {
   return (value) => {
     try {
       var dateValue = new Date(value);
     } catch {
       return "Not Valid Date Value!";
     }
-    if (dateValue < minDate)
-      return msg ?? `This Field need to have Date larger than ${minDate}`;
+    if(minDate && maxDate && msgCombine){
+      if(dateValue < minDate || dateValue > maxDate )
+      return msgCombine ?? `This Field need to have Date larger than ${minDate} and smaller than ${maxDate}`;
+
+    }
+    if (minDate && dateValue < minDate)
+      return msg1 ?? `This Field need to have Date larger than ${minDate}`;
+    if (maxDate && dateValue > maxDate)
+      return msg2 ?? `This Field need to have Date smaller than ${maxDate}`;
   };
 }
 export function ValidateEmail(msg) {

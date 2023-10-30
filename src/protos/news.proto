@@ -26,7 +26,7 @@ message UpdateNewsDTO {
   string content = 4;
 }
 message StringMessage {
-  string message = 1;
+  string message = 1;	
 }
 message NewsId {
   int32 id = 1;
@@ -34,6 +34,7 @@ message NewsId {
 
 service NewsService {
   rpc GetNews (google.protobuf.Empty) returns (stream NewsDTO);
+  rpc GetRandomNews (NewsId) returns (stream NewsDTO);
   rpc GetNewById (NewsId) returns (NewsDTO);
   rpc CreateNews (CreateNewsDTO) returns (StringMessage);
   rpc UpdateNews (UpdateNewsDTO) returns (StringMessage);

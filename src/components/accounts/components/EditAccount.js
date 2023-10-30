@@ -3,12 +3,14 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
+import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
 
+const ROLE_ACCOUNT = ["Trainer", "Staff"];
 const INITIAL_ACCOUNT_OBJ = {
 	Id: "",
 	Username: "",
 	Password: "",
-	Role: "",
+	Role: ROLE_ACCOUNT[0],
 	Avatar: null,
 	Fullname: "",
 	Experiences: "",
@@ -19,6 +21,7 @@ function EditAccount({ id, fetch }) {
 	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
 	const [accountObj, setAccountObj] = useState(INITIAL_ACCOUNT_OBJ);
+	const [avatar, setAvatar] = useState(null);
 
 	useEffect(() => {
 		axios.get(`odata/accounts/${id}`).then((res) => {
@@ -26,16 +29,38 @@ function EditAccount({ id, fetch }) {
 				...accountObj,
 				...res.data,
 			});
+			setAvatar(null);
 		});
 	}, [id]);
 
-	const saveNewAccount = () => {
+	const saveNewAccount = async () => {
 		if (accountObj.Username.trim() === "")
 			return setErrorMessage("Username is required!");
 		if (accountObj.Role.trim() === "")
 			return setErrorMessage("Role is required!");
 		if (accountObj.Fullname.trim() === "")
 			return setErrorMessage("Fullname is required!");
+		setLoading(true);
+		if (avatar !== null) {
+			try {
+				const url = await FirebaseImageUpload({
+					folder: "accounts",
+					img: avatar,
+				});
+				accountObj.Avatar = url;
+				uploadAccountData();
+			} catch (err) {
+				var msg = err?.response?.data?.value;
+				if (msg === undefined) msg = "Something go wrong!";
+				setErrorMessage(msg);
+			}
+		} else {
+			uploadAccountData();
+		}
+		setLoading(false);
+	};
+
+	const uploadAccountData = () => {
 		let newAccountObj = {
 			Username: accountObj.Username,
 			Password: accountObj.Password,
@@ -61,10 +86,15 @@ function EditAccount({ id, fetch }) {
 				return setErrorMessage(err.response.data.value);
 			});
 	};
-
 	const updateFormValue = (updateType, value) => {
 		setErrorMessage("");
 		setAccountObj({ ...accountObj, [updateType]: value });
+	};
+
+	const onImageChange = (e) => {
+		if (e.target.files && e.target.files[0]) {
+			setAvatar(e.target.files[0]);
+		}
 	};
 
 	return (
@@ -116,6 +146,23 @@ function EditAccount({ id, fetch }) {
 						/>
 
 						<label className="label mt-4">
+							<span className="label-text">Role</span>
+						</label>
+						<select
+							type="text"
+							placeholder=""
+							value={accountObj.Role}
+							onChange={(e) => updateFormValue("Role", e.target.value)}
+							className="select select-bordered w-full"
+						>
+							{ROLE_ACCOUNT.map((l, k) => (
+								<option key={k} value={l}>
+									{l}
+								</option>
+							))}
+						</select>
+
+						<label className="label mt-4">
 							<span className="label-text">Experiences</span>
 						</label>
 						<textarea
@@ -125,18 +172,42 @@ function EditAccount({ id, fetch }) {
 							onChange={(e) => updateFormValue("Experiences", e.target.value)}
 							className="textarea textarea-bordered h-24"
 						/>
+
+						<label className="label mt-4">
+							<span className="label-text">Avatar</span>
+						</label>
+						<input
+							type="file"
+							onChange={onImageChange}
+							className="file-input file-input-bordered w-full"
+							accept="image/png, image/jpg, image/jpeg"
+						/>
+						<img
+							src={
+								avatar
+									? URL.createObjectURL(avatar)
+									: accountObj.Avatar
+									? accountObj.Avatar
+									: "../img/user.png"
+							}
+							alt="cage"
+							className="mt-2 border rounded-lg min-w-full"
+						/>
+
 						<div className="text-err text-lg">{errorMessage}</div>
 					</div>
 					<div className="modal-action">
 						<form method="dialog">
-							<button id="btnCloseEditAccount" className="btn">Close</button>
+							<button id="btnCloseEditAccount" className="btn">
+								Close
+							</button>
 						</form>
 
 						<button
 							className="btn btn-primary ml-4"
 							onClick={(e) => saveNewAccount()}
 						>
-							Save
+							Save <span className={loading ? " loading" : ""}></span>
 						</button>
 					</div>
 				</div>

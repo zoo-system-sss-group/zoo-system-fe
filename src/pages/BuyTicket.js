@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Footer from "../components/landingPage/Footer";
 import Header from "../components/landingPage/Header";
+import TpBank from "../assets/TpBank.png";
 import GuestLayout from "../components/layout/GuestLayout";
 import TicketSection from "./buy-ticket-template/TicketSection";
 import CustomerSection from "./buy-ticket-template/CustomerSection";
@@ -10,7 +11,7 @@ import {
   ValidateCheckboxAndRadio,
   ValidateEmail,
   ValidateEmpty,
-  ValidateMinDate,
+  ValidateDateRange,
   ValidateNumber,
   ValidatePhone,
   getValidationMessage,
@@ -19,6 +20,7 @@ import { format } from "date-fns";
 import axios from "axios";
 import CreateSuccess from "./buy-ticket-template/CreateSuccess";
 import { ApiImage } from "../components/common/ApiImage";
+import { Progress } from "./buy-ticket-template/Progress";
 // payment methods
 const paymentMethods = [
   {
@@ -26,11 +28,11 @@ const paymentMethods = [
     value: "ZaloPay",
     display: (
       <>
-        <ApiImage className="w-[75px]" value="ZaloPay" />
-        <div className="w-full flex gap-2 justify-center">
+        <ApiImage className="w-[200px]" value="ZaloPay" />
+        <div className="w-full flex gap-2 justify-center text-cor2 mt-4">
           <strong>Name: </strong>Huynh Van phu
         </div>
-        <div className="w-full flex gap-2 justify-center">
+        <div className="w-full flex gap-2 justify-center text-cor2">
           <strong>Send Information: </strong>FZOO-123339600
         </div>
       </>
@@ -41,24 +43,47 @@ const paymentMethods = [
     value: "Momo",
     display: (
       <>
-        <ApiImage className="w-[75px]" value="MoMo" />
-        <div className="w-full flex gap-2 justify-center">
+        <ApiImage
+          className="w-[200px]"
+          value="2|99|0979553494|Nguyen Thanh Binh||0|0|0||transfer_myqr"
+        />
+        <div className="w-full flex gap-2 justify-center text-cor2 mt-4">
           <strong>Name: </strong>Nguyen Thanh Binh
         </div>
-        <div className="w-full flex gap-2 justify-center">
+        <div className="w-full flex gap-2 justify-center text-cor2">
           <strong>Send Information: </strong>FZOO-321339600
         </div>
       </>
     ),
   },
-  { name: "By Card", value: "Card", display: "Not Implemented" },
+  {
+    name: "By Card",
+    value: "Card",
+    display: (
+      <>
+        <img src={TpBank} className="mb-4" />
+		<div className="w-full flex gap-2 justify-center text-cor2 ">
+          <strong>TpBank: </strong>0414 3329 301
+        </div>
+		<div className="w-full flex gap-2 justify-center text-cor2 ">
+          <strong>Name: </strong>Nguyen Thanh Binh
+        </div>
+        <div className="w-full flex gap-2 justify-center text-cor2">
+          <strong>Send Information: </strong>Your Name - FZOO - 993323
+        </div>
+      </>
+    ),
+  },
   { name: "By Cash", value: "Cash", display: null },
 ];
 const totalStep = 3;
 // set default Date
 const currentDate = new Date(format(new Date(), "yyyy-MM-dd"));
-const nextDate = new Date(currentDate);
-nextDate.setDate(currentDate.getDate() + 1);
+const minDate = new Date(currentDate);
+minDate.setDate(currentDate.getDate() + 1);
+const maxDate = new Date(currentDate);
+maxDate.setMonth(currentDate.getMonth() + 3);
+
 // main function
 function BuyTicket() {
   const [step, setStep] = useState(1);
@@ -67,7 +92,7 @@ function BuyTicket() {
     customerName: "",
     email: "",
     phoneNumber: "",
-    effectiveDate: format(nextDate, "yyyy-MM-dd"),
+    effectiveDate: format(minDate, "yyyy-MM-dd"),
     adultTicket: 1,
     kidTicket: 0,
   });
@@ -77,19 +102,19 @@ function BuyTicket() {
     phoneNumber: [ValidateEmpty(), ValidatePhone()],
     effectiveDate: [
       Validate(".+"),
-      ValidateMinDate(
-        nextDate,
-        "You can only buy tickets for at least 1 day in advance from the current date"
-      ),
+      ValidateDateRange({
+        minDate: minDate,
+        maxDate: maxDate,
+        msg1:
+          "You can only buy tickets for at least 1 day in advance from the current date!",
+        msg2: "You can only buy tickets in 3 month prior!",
+      }),
     ],
     adultTicket: [
       ValidateNumber(1, 100, "Need at least one Adult to buy Tickets"),
     ],
     paymentMethod: [
-      ValidateCheckboxAndRadio(
-        "paymentMethod",
-        "Please Select Payment"
-      ),
+      ValidateCheckboxAndRadio("paymentMethod", "Please Select Payment"),
     ],
   };
   // go back to previous step
@@ -101,7 +126,13 @@ function BuyTicket() {
   // proceed to the next step
   const nextStep = () => {
     var msg = null;
-    Object.keys(validations).forEach((key) => {
+    const final_validations = {
+      ...validations,
+      adultTicket: [
+        ValidateNumber(1, 100, "Need at least one Adult to buy Tickets"),
+      ],
+    };
+    Object.keys(final_validations).forEach((key) => {
       if (msg) return;
       const input = document.querySelector(`[name=${key}]`);
       msg = getValidationMessage(validations[key], input);
@@ -129,8 +160,13 @@ function BuyTicket() {
   return (
     <div>
       <Header />
-      <GuestLayout title="Buy ticket" className="flex justify-center  ">
+      <GuestLayout
+        title="Buy ticket"
+        className="flex items-center flex-col  pb-16"
+      >
         <>
+          <Progress max={totalStep} value={step - 1} />
+
           {step === 1 && (
             <CustomerSection
               step={step}
@@ -148,6 +184,8 @@ function BuyTicket() {
               nextStep={nextStep}
               handleChange={handleChange}
               values={values}
+              minDate={minDate}
+              maxDate={maxDate}
             />
           )}
           {step === 3 && (
@@ -162,10 +200,7 @@ function BuyTicket() {
             />
           )}
           {step === 4 && (
-            <CreateSuccess
-              paymentMethods={paymentMethods}
-              values={submitVal}
-            />
+            <CreateSuccess paymentMethods={paymentMethods} values={submitVal} />
           )}
         </>
       </GuestLayout>

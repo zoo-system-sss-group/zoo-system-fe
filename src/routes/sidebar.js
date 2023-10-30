@@ -2,10 +2,9 @@
 import DocumentTextIcon from '@heroicons/react/24/outline/DocumentTextIcon'
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon'
 import TableCellsIcon from '@heroicons/react/24/outline/TableCellsIcon'
-import WalletIcon from '@heroicons/react/24/outline/WalletIcon'
 import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquareIcon'
 import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
-import CurrencyDollarIcon from '@heroicons/react/24/outline/CurrencyDollarIcon'
+import TicketIcon from '@heroicons/react/24/outline/TicketIcon'
 import TagIcon from '@heroicons/react/24/outline/TagIcon'
 import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
 import BugAntIcon from '@heroicons/react/24/outline/BugAntIcon'
@@ -27,14 +26,14 @@ const routes = [
     name: 'Accounts',
   },
   {
-    path: '/management/orders', // url
-    icon: <CurrencyDollarIcon className={iconClasses}/>, // icon component
-    name: 'Orders', // name that appear in Sidebar
+    path: '/management/ticketOrders',
+    icon: <TicketIcon className={iconClasses}/>, 
+    name: 'Ticket Orders', 
   },
   {
-    path: '/management/charts', // url
-    icon: <ChartBarIcon className={iconClasses}/>, // icon component
-    name: 'Analytics', // name that appear in Sidebar
+    path: '/management/charts', 
+    icon: <ChartBarIcon className={iconClasses}/>,
+    name: 'Analytics', 
   },
   {
     path: '/management/news', // url

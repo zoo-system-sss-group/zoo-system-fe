@@ -61,6 +61,7 @@ function AddSpecies({ fetch }) {
 			.catch((err) => {
 				return setErrorMessage(err.response.data.value);
 			}).finally(() => {
+				setSpeciesObj(INITIAL_SPECIES_OBJ)
 				setLoading(false)
 			});
 	};

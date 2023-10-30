@@ -141,6 +141,62 @@ proto.NewsServicePromiseClient.prototype.getNews =
  *   !proto.NewsId,
  *   !proto.NewsDTO>}
  */
+const methodDescriptor_NewsService_GetRandomNews = new grpc.web.MethodDescriptor(
+  '/NewsService/GetRandomNews',
+  grpc.web.MethodType.SERVER_STREAMING,
+  proto.NewsId,
+  proto.NewsDTO,
+  /**
+   * @param {!proto.NewsId} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.NewsDTO.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.NewsId} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServiceClient.prototype.getRandomNews =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/NewsService/GetRandomNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_GetRandomNews);
+};
+
+
+/**
+ * @param {!proto.NewsId} request The request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
+ *     The XHR Node Readable Stream
+ */
+proto.NewsServicePromiseClient.prototype.getRandomNews =
+    function(request, metadata) {
+  return this.client_.serverStreaming(this.hostname_ +
+      '/NewsService/GetRandomNews',
+      request,
+      metadata || {},
+      methodDescriptor_NewsService_GetRandomNews);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.NewsId,
+ *   !proto.NewsDTO>}
+ */
 const methodDescriptor_NewsService_GetNewById = new grpc.web.MethodDescriptor(
   '/NewsService/GetNewById',
   grpc.web.MethodType.UNARY,

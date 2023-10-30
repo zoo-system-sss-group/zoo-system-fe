@@ -4,9 +4,11 @@ import { Progress } from "./Progress";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
+
 function TicketSection({
-  step,
-  totalStep,
+  minDate,
+  maxDate,
   prevStep,
   nextStep,
   handleChange,
@@ -78,8 +80,9 @@ function TicketSection({
       value = min;
     }
     node.value = value;
-    return handleChange(input,node,value)(e);
+    return handleChange(input, node, value)(e);
   };
+
   const ALLOWED_KEYCODES = [8, 37, 38, 39, 40];
   const handleInput = (e) => {
     if (ALLOWED_KEYCODES.includes(e.keyCode) || ("0" <= e.key && e.key <= "9"))
@@ -89,17 +92,15 @@ function TicketSection({
 
   return (
     <form
-      className="card card-compact w-full  m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor3 border-cor6  shadow relative  my-10"
+      className="card card-compact w-full  m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor4 shadow relative  my-10"
       onSubmit={(e) => e.preventDefault()}
     >
       <div className="card-body ">
-        <div className="card-title">Buy Ticket</div>
+        <div className="card-title text-cor2">Buy Ticket</div>
         {/* Ticket Type */}
-        <Progress max={totalStep} value={step} />
-
         <div className="form-control  flex flex-row flex-wrap justify-between items-center ">
           <label className="label ">
-            <span className="label-text text-lg">Adult Tickets</span>
+            <span className="label-text text-lg text-cor2">Adult Tickets</span>
           </label>
           <div className="input-group w-min">
             <span className="btn  font-mono" onClick={handleSub("adultTicket")}>
@@ -122,8 +123,8 @@ function TicketSection({
           <p className="label-text-alt text-red-600 w-[100%]"></p>
         </div>
         <div className="form-control flex flex-row flex-wrap justify-between">
-          <label className="label ">
-            <span className="label-text text-lg">Kid Tickets</span>
+          <label className="label">
+            <span className="label-text text-lg text-cor2">Kid Tickets</span>
           </label>
           <div className="input-group w-min">
             <span className="btn  font-mono" onClick={handleSub("kidTicket")}>
@@ -145,15 +146,16 @@ function TicketSection({
           </div>
           <p className="label-text-alt text-red-600 w-[100%]"></p>
         </div>
-        <div className="form-control flex flex-row flex-wrap  justify-between">
+        <div className="form-control flex flex-row flex-wrap justify-between">
           <label className="label ">
-            <span className="label-text text-lg">Date</span>
+            <span className="label-text text-lg text-cor2">Date</span>
           </label>
           <ReactDatePicker
             className="input"
             wrapperClassName="ms-auto"
             dateFormat={"yyyy-MM-dd"}
-            minDate={new Date().setDate(new Date().getDate() + 1)}
+            minDate={minDate}
+            maxDate={maxDate}
             name="effectiveDate"
             selected={date}
             onChange={(date) => setDate(date)}
@@ -162,12 +164,16 @@ function TicketSection({
             <p className="label-text-alt text-red-600 w-[100%]"></p>
           </label>
         </div>
-        <div className="ms-auto text-xl">
-          {loading && <div className="loading mx-6"></div>}
-          {total?.toLocaleString("en-US", {
-            style: "currency",
-            currency: "VND",
-          })}
+        <div className="flex flex-row flex-wrap justify-between items-center text-cor2">
+          <label className="label">
+            <span className="label-text text-lg text-cor2">Total</span>
+          </label>
+          <span className="text-lg">
+            {total?.toLocaleString("en-US", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </span>
         </div>
         <span className="label-text-alt text-red-600"></span>
         <div className="w-auto flex justify-between">
@@ -179,7 +185,7 @@ function TicketSection({
               prevStep();
             }}
           >
-            {"<"}
+            <ArrowLeftIcon className="h-6 w-6" />
           </button>
           <button
             className="btn"
@@ -188,7 +194,7 @@ function TicketSection({
               nextStep();
             }}
           >
-            {">"}
+            <ArrowRightIcon className="h-6 w-6" />
           </button>
         </div>
       </div>
