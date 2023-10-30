@@ -2,10 +2,12 @@ import { NewsServiceClient } from "../protos/autogenerate/news_grpc_web_pb";
 import {
   Empty,
   NewsDTO,
+  CreateNewsDTO,
   UpdateNewsDTO,
   StringMessage,
   NewsId,
 } from "../protos/autogenerate/news_grpc_web_pb";
+import * as google_protobuf_wrappers_pb from 'google-protobuf/google/protobuf/wrappers_pb'
 function NewsRepository() {
   const client = new NewsServiceClient(process.env.REACT_APP_GRPC_BASE_URL);
 
@@ -18,9 +20,13 @@ function NewsRepository() {
 
       call.on("data", (response) => {
         const newObj = response.toObject();
+        newObj.creationdate = toDate(newObj.creationdate);
+        newObj.modificationdate = toDate(newObj.modificationdate);
+        newObj.thumbnail = newObj.thumbnail?.value;
+
         news.push(newObj);
       });
-
+      
       call.on("end", () => {
         // The streaming is complete
         const startIndex = (pageIndex - 1) * pageSize;
@@ -38,7 +44,7 @@ function NewsRepository() {
       });
     });
 
-  const getNewsById =  (id) =>
+  const getNewsById = (id) =>
     new Promise((resolve, reject) => {
       var news = null;
 
@@ -50,26 +56,72 @@ function NewsRepository() {
           reject(err);
         } else {
           news = response.toObject();
+          news.creationdate = toDate(news.creationdate);
+          news.modificationdate = toDate(news.modificationdate);
+          news.thumbnail = news.thumbnail?.value;
           resolve(news);
         }
       });
     });
-  const createNews = async (newsDto) => {
-    try {
-      const request = new NewsDTO();
+  const createNews = (newsDto) =>
+    new Promise((resolve, reject) => {
+      const request = new CreateNewsDTO();
+      var thumbnail =  new google_protobuf_wrappers_pb.StringValue();
+      thumbnail.setValue(newsDto.thumbnail);
       request.setTitle(newsDto.title);
-      request.setThumbnail(newsDto.thumbnail);
+      request.setThumbnail(thumbnail);
       request.setContent(newsDto.content);
-      const response = await client.createNews(request, {});
-      const message = response.toObject().message;
-      return message;
-    } catch (err) {
-      console.error(err);
-      throw err;
-    }
+
+      client.createNews(request, {}, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          const message = response.toObject().message;
+          resolve(message);
+        }
+      });
+    });
+  const updateNews = (id, newsDto) =>
+    new Promise((resolve, reject) => {
+      const request = new UpdateNewsDTO();
+     var thumbnail =  new google_protobuf_wrappers_pb.StringValue();
+      thumbnail.setValue(newsDto.thumbnail);
+      request.setId(id);
+      request.setTitle(newsDto.title);
+      request.setThumbnail(thumbnail);
+      request.setContent(newsDto.content);
+      client.updateNews(request, {}, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          const message = response.toObject().message;
+          resolve(message);
+        }
+      });
+    });
+  const removeNews = (id) =>
+    new Promise((resolve, reject) => {
+      const request = new NewsId();
+      request.setId(id);
+      client.removeNews(request, {}, (err, response) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          const message = response.toObject().message;
+          resolve(message);
+        }
+      });
+    });
+  const toDate = (timestamp) => {
+    if (!timestamp) return null;
+    const seconds = timestamp.seconds;
+    const nanos = timestamp.nanos;
+    const milliseconds = seconds * 1000 + nanos / 1000000;
+    return new Date(milliseconds);
   };
-  const updateNews = (id, news) => {};
-  const removeNews = (id) => {};
   return {
     getNews,
     getNewsById,

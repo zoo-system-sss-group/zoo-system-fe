@@ -8,7 +8,7 @@ function Page404() {
 			<Header />
 			<GuestLayout>
 				<div class="h-[40rem] flex flex-col justify-center items-center">
-					<h1 class="text-5xl text-err font-semibold">404 - Page Not Found</h1>
+					<h1 class="text-5xl text-err  font-semibold">404 - Page Not Found</h1>
 					<p class="mt-4 text-xl ">
 						The page you are looking for doesn't exist.
 					</p>

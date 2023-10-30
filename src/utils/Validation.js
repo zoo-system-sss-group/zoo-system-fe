@@ -2,9 +2,9 @@
  * these function help you use quick validation for form inputs
  * various from text,number,date,checkboxes,and radio
  * config the validation by
- * 
+ *
  * const validations = {input1:[ValidationEmpty()]}
- * 
+ *
  * then call the function getValidationMessage()
  * it will solve your problem
  * */
@@ -29,9 +29,8 @@ export function ValidateNumber(min, max, msg) {
     } catch {
       return "This Field is not a Number!";
     }
-    if (value < min || max < value)
-      return msg ?? `This Field value need to be in between ${min} and ${max}!`;
-    else return undefined;
+    if (min <= value && value <= max) return undefined;
+    return msg ?? `This Field value need to be in between ${min} and ${max}!`;
   };
 }
 export function ValidateMinDate(minDate, msg) {
@@ -72,10 +71,10 @@ export function ValidateValueInList(list, msg) {
 }
 /** getValidationMessage(validation, input)
  * validation  is an array of Validation Function
- * input is the name of the input 
+ * input is the name of the input
  * return msg and print the input error if validation is false
  * note: after this you can or cannot submit the form based on your choice
-*/
+ */
 export function getValidationMessage(validation, input) {
   if (validation && input) {
     for (var i = 0; i < validation.length; i++) {

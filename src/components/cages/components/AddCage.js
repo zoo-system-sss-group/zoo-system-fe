@@ -207,7 +207,7 @@ function AddCage({ fetch }) {
 									accept="image/png, image/jpg, image/jpeg"
 								/>
 								<img
-									src={img ? URL.createObjectURL(img) : "../img/noimage.jpg"}
+									src={img ?? "../img/noimage.jpg"}
 									alt="cage"
 									className="mt-2 border rounded-lg min-w-full"
 								/>
