@@ -55,7 +55,7 @@ function AddNews({ fetch }) {
       })
       .catch((err) => {
         return setErrorMessage(err.message);
-      });
+      }).finally(()=>{setLoading(false)});
   };
 
   const updateFormValue = (updateType, value) => {

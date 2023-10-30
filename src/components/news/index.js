@@ -115,7 +115,7 @@ function News() {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th className="w-2/12" >Title</th>
+                    <th className="w-2/12">Title</th>
                     <th>Thumbnail</th>
                     <th>Content</th>
                     <th>CreationDate</th>
@@ -139,8 +139,10 @@ function News() {
                             alt="Avatar"
                           />
                         </td>
-                        <td className="line-clamp-4 overflow-hidden ">
-                          {cleanContent(news.content)}
+                        <td>
+                          <div className="line-clamp-4 ">
+                            {cleanContent(news.content)}
+                          </div>
                         </td>
                         <td>
                           {moment(news.creationdate).format(
