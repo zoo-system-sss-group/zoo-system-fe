@@ -5,6 +5,7 @@ import NewsRepository from "../repositories/NewsRepository";
 import { useEffect, useState } from "react";
 import Pagination from "./../components/layout/Pagination";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 const pageSize = 9;
 
@@ -60,7 +61,7 @@ function News() {
               >
                 <figure>
                   <img
-                    className="w-full h-40 object-cover"
+                    className="w-full h-40 object-cover object-top"
                     src={newObj.thumbnail}
                     alt={newObj.title}
                   />

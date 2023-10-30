@@ -5,6 +5,7 @@ import Footer from "../../components/landingPage/Footer";
 import Header from "../../components/landingPage/Header";
 
 import GuestLayout from "../../components/layout/GuestLayout";
+import DOMPurify from "dompurify";
 
 export function NewsDetail() {
   const { id } = useParams();
@@ -45,11 +46,15 @@ export function NewsDetail() {
             <div className="text-3xl font-bold ">{news?.title}</div>
             <div className="flex flex-col justify-center ">
               <img
-                className="image-full w-full min-h-[16rem] border my-6"
+                className="image-full  w-2/3 block m-auto max-w-[500px] min-h-[16rem] border my-6"
                 src={news?.thumbnail}
                 alt={news?.title}
               />
-              <div>{news?.content}</div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(news.content),
+                }}
+              ></div>
             </div>
           </section>
         )}
