@@ -17,16 +17,16 @@ const INITIAL_ACCOUNT_OBJ = {
 	IsDeleted: false,
 };
 
-function ViewArea({ id }) {
+function ViewTicketOrder({ id }) {
 	// const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
-	const [areaObj, setAreaObj] = useState(INITIAL_ACCOUNT_OBJ);
+	const [ticketOrderObj, setTicketOrderObj] = useState(INITIAL_ACCOUNT_OBJ);
 
 	useEffect(() => {
-		axios.get(`odata/areas/${id}`).then((res) => {
-			setAreaObj({
-				...areaObj,
+		axios.get(`odata/ticketOrders/${id}`).then((res) => {
+			setTicketOrderObj({
+				...ticketOrderObj,
 				...res.data,
 			});
 		});
@@ -34,9 +34,9 @@ function ViewArea({ id }) {
 
 	return (
 		<>
-			<dialog id="btnViewArea" className="modal ">
+			<dialog id="btnViewTicketOrder" className="modal ">
 				<div className="modal-box">
-					<h3 className="font-bold text-lg">Area information details</h3>
+					<h3 className="font-bold text-lg">TicketOrder information details</h3>
 					<div className="form-control w-full ">
 						<div className="flex gap-2">
 							<div>
@@ -44,7 +44,7 @@ function ViewArea({ id }) {
 									<span className="label-text">ID</span>
 								</label>
 								<input
-									value={areaObj.Id}
+									value={ticketOrderObj.Id}
 									className="input input-bordered w-full "
 									disabled
 								/>
@@ -56,7 +56,7 @@ function ViewArea({ id }) {
 								</label>
 								<input
 									type="text"
-									value={areaObj.Code}
+									value={ticketOrderObj.Code}
 									className="input input-bordered w-full "
 									disabled
 								/>
@@ -68,7 +68,7 @@ function ViewArea({ id }) {
 						</label>
 						<input
 							type="text"
-							value={areaObj.Name}
+							value={ticketOrderObj.Name}
 							className="input input-bordered w-full"
 							disabled
 						/>
@@ -78,7 +78,7 @@ function ViewArea({ id }) {
 						</label>
 						<input
 							type="text"
-							value={areaObj.Location}
+							value={ticketOrderObj.Location}
 							className="input input-bordered w-full"
 							disabled
 						/>
@@ -88,7 +88,7 @@ function ViewArea({ id }) {
 						</label>
 						<textarea
 							type="text"
-							value={areaObj.Description}
+							value={ticketOrderObj.Description}
 							className="textarea textarea-bordered h-24"
 							disabled
 						/>
@@ -98,7 +98,7 @@ function ViewArea({ id }) {
 						</label>
 						<input
 							type="number"
-							value={areaObj.Capacity}
+							value={ticketOrderObj.Capacity}
 							className="input input-bordered w-full"
 							disabled
 						/>
@@ -110,7 +110,7 @@ function ViewArea({ id }) {
 								</label>
 								<input
 									type="text"
-									value={moment(areaObj.CreationDate).format(
+									value={moment(ticketOrderObj.CreationDate).format(
 										"YYYY-mm-DD hh:mm:ss"
 									)}
 									className="input input-bordered w-full"
@@ -124,8 +124,8 @@ function ViewArea({ id }) {
 								<input
 									type="text"
 									value={
-										areaObj.ModificationDate
-											? moment(areaObj.ModificationDate).format(
+										ticketOrderObj.ModificationDate
+											? moment(ticketOrderObj.ModificationDate).format(
 													"YYYY-mm-DD hh:mm:ss"
 											  )
 											: ""
@@ -143,7 +143,7 @@ function ViewArea({ id }) {
 								</label>
 								<input
 									type="text"
-									value={areaObj.DeletionDate ? areaObj.DeletionDate : ""}
+									value={ticketOrderObj.DeletionDate ? ticketOrderObj.DeletionDate : ""}
 									className="input input-bordered w-full"
 									disabled
 								/>
@@ -155,7 +155,7 @@ function ViewArea({ id }) {
 								</label>
 								<input
 									type="text"
-									value={areaObj.IsDeleted}
+									value={ticketOrderObj.IsDeleted}
 									className="input input-bordered w-full"
 									disabled
 								/>
@@ -166,7 +166,7 @@ function ViewArea({ id }) {
 					</div>
 					<div className="modal-action">
 						<form method="dialog">
-							<button id="btnCloseViewArea" className="btn">
+							<button id="btnCloseViewTicketOrder" className="btn">
 								Close
 							</button>
 						</form>
@@ -180,4 +180,4 @@ function ViewArea({ id }) {
 	);
 }
 
-export default ViewArea;
+export default ViewTicketOrder;

@@ -45,36 +45,44 @@ function TicketSection({
 	}, [values]);
 	const handleSub = (input) => (e) => {
 		e.preventDefault();
+		var node = e.target.nextSibling;
 		values[input] = parseInt(values[input]);
-		if (values[input] < 1) {
-			values[input] = 0;
+		var min = parseInt(node.min);
+		if (values[input] <= min) {
+			values[input] = min;
 			return;
 		}
-		var node = e.target.nextSibling;
 		handleChange([input], node, values[input] - 1)();
 	};
 	const handleAdd = (input) => (e) => {
 		e.preventDefault();
+		var node = e.target.previousSibling;
+		var max = parseInt(node.max);
 		values[input] = parseInt(values[input]);
-		if (values[input] > 99) {
-			values[input] = 100;
+		if (values[input] >= max) {
+			values[input] = max;
 			return;
 		}
-		var node = e.target.previousSibling;
 		handleChange([input], node, values[input] + 1)(e);
 	};
 	useEffect(() => {}, [values]);
 
 	const handleNumberChange = (input) => (e) => {
 		var value;
+		const node = e.target;
+		var min = parseInt(node.min);
+		var max = parseInt(node.max);
 		try {
-			value = parseInt(e.target.value);
-			if (value < 0) value = 0;
+			value = parseInt(node.value);
+			if (value <= min) value = min;
+			if (value >= max) value = max;
 		} catch {
-			value = 0;
+			value = min;
 		}
-		return handleChange(input)(e);
+		node.value = value;
+		return handleChange(input, node, value)(e);
 	};
+
 	const ALLOWED_KEYCODES = [8, 37, 38, 39, 40];
 	const handleInput = (e) => {
 		if (ALLOWED_KEYCODES.includes(e.keyCode) || ("0" <= e.key && e.key <= "9"))

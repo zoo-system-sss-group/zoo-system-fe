@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Progress } from "./Progress";
 import "./Confirmation.css";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { ApiImage } from "../../components/common/ApiImage";
 
 function Confirmation({
@@ -128,17 +129,17 @@ function Confirmation({
 							prevStep();
 						}}
 					>
-						{"<"}
+						<ArrowLeftIcon className="h-6 w-6" />
 					</button>
 					<button
-						className="btn ms-auto"
+						className="btn ms-auto btn-success"
 						type="submit"
 						onClick={(e) => {
 							e.preventDefault();
 							nextStep();
 						}}
 					>
-						{"Create Ticket"}
+						Create Ticket
 					</button>
 				</div>
 			</div>

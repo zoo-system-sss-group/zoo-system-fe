@@ -136,7 +136,7 @@ function BuyTicket() {
 	return (
 		<div>
 			<Header />
-			<GuestLayout title="Buy ticket" className="flex justify-center  ">
+			<GuestLayout title="Buy ticket" className="flex justify-center pb-16">
 				<>
 					{step === 1 && (
 						<CustomerSection

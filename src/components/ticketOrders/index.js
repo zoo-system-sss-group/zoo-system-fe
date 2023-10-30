@@ -27,7 +27,7 @@ function TicketOrders() {
 	const fetchTicketOrderList = () => {
 		axios
 			.get(
-				`odata/ticketOrders?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/ticketorders?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
@@ -55,7 +55,7 @@ function TicketOrders() {
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "TicketOrder deleted!",
+						message: "Ticket Order deleted!",
 						status: res.status,
 					})
 				);
@@ -69,7 +69,7 @@ function TicketOrders() {
 	return (
 		<>
 			<TitleCard
-				title="TicketOrder table"
+				title="Ticket Order table"
 				topMargin="mt-2"
 				TopSideButtons={<AddTicketOrder fetch={fetchTicketOrderList} />}
 			>
@@ -81,13 +81,16 @@ function TicketOrders() {
 									<tr>
 										<th>ID</th>
 										<th>Code</th>
-										<th>Name</th>
-										<th>Location</th>
-										<th>Description</th>
-										<th>Capacity</th>
+										<th>CustomerName</th>
+										<th>Email</th>
+										<th>PhoneNumber</th>
+										<th>EffectiveDate</th>
+										<th>PaymentMethod</th>
+										<th>TotalTicket</th>
+										<th>TotalMoney</th>
 										<th>CreationDate</th>
 										<th>ModificationDate</th>
-										{/* <th>Status</th> */}
+										<th>Status</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -95,14 +98,21 @@ function TicketOrders() {
 									{ticketOrders.map((l, k) => {
 										return (
 											<tr key={k}>
-												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
+												<td className="min-w-[3rem] max-w-[6rem] whitespace-normal">
 													{l.Id}
 												</td>
 												<td>{l.Code}</td>
-												<td>{l.Name}</td>
-												<td>{l.Location}</td>
-												<td>{l.Description}</td>
-												<td>{l.Capacity}</td>
+												<td>{l.CustomerName}</td>
+												<td>{l.Email}</td>
+												<td>{l.PhoneNumber}</td>
+												<td>
+													{moment(l.EffectiveDate).format(
+														"YYYY-MM-DD HH:mm:ss"
+													)}
+												</td>
+												<td>{l.PaymentMethod}</td>
+												<td>{l.TotalTicket}</td>
+												<td>{l.TotalMoney}</td>
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
