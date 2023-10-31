@@ -20,6 +20,7 @@ function TicketSection({
   useEffect(() => {
     handleChange("effectiveDate", undefined, format(date, "yyyy-MM-dd"))();
   }, [date]);
+
   useEffect(() => {
     setLoading(true);
     axios

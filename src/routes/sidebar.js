@@ -3,13 +3,17 @@ import DocumentTextIcon from '@heroicons/react/24/outline/DocumentTextIcon'
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon'
 import TableCellsIcon from '@heroicons/react/24/outline/TableCellsIcon'
 import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquareIcon'
-import ChartBarIcon from '@heroicons/react/24/outline/ChartBarIcon'
 import TicketIcon from '@heroicons/react/24/outline/TicketIcon'
 import TagIcon from '@heroicons/react/24/outline/TagIcon'
 import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
 import BugAntIcon from '@heroicons/react/24/outline/BugAntIcon'
 import MapIcon from '@heroicons/react/24/outline/MapIcon'
+<<<<<<< HEAD
 import { BellIcon, NewspaperIcon } from '@heroicons/react/24/outline'
+=======
+import CubeIcon from '@heroicons/react/24/outline/CubeIcon'
+import NewspaperIcon from '@heroicons/react/24/outline/NewspaperIcon'
+>>>>>>> cb4182559b32e0558f08ccba03ebda6b77a39c96
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
@@ -32,14 +36,9 @@ const routes = [
     name: 'Ticket Orders', 
   },
   {
-    path: '/management/charts', 
-    icon: <ChartBarIcon className={iconClasses}/>,
-    name: 'Analytics', 
-  },
-  {
-    path: '/management/news', // url
-    icon: <BellIcon className={iconClasses}/>, // icon component
-    name: 'News', // name that appear in Sidebar
+    path: '/management/news',
+    icon: <NewspaperIcon className={iconClasses}/>, 
+    name: 'News',
   },
 
   {
@@ -64,34 +63,11 @@ const routes = [
       },
       {
         path: '/management/cages',
-        icon: <MapIcon className={iconClasses}/>, 
+        icon: <CubeIcon className={iconClasses}/>, 
         name: 'Cages',
       },
     ]
   },
-  {
-    path: '', //no url needed as this has submenu
-    icon: <DocumentTextIcon className={`${iconClasses} inline` }/>, // icon component
-    name: 'Documentation', // name that appear in Sidebar
-    submenu : [
-      {
-        path: '/management/getting-started', // url
-        icon: <DocumentTextIcon className={submenuIconClasses}/>, // icon component
-        name: 'Getting Started', // name that appear in Sidebar
-      },
-      {
-        path: '/management/features',
-        icon: <TableCellsIcon className={submenuIconClasses}/>, 
-        name: 'Features',
-      },
-      {
-        path: '/management/components',
-        icon: <CodeBracketSquareIcon className={submenuIconClasses}/>, 
-        name: 'Components',
-      }
-    ]
-  },
-  
 ]
 
 export default routes

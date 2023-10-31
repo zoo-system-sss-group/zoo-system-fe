@@ -38,7 +38,7 @@ function AddNews({ fetch, VALIDATIONS }) {
     let hasError = false;
     Object.keys(VALIDATIONS).forEach((key) => {
       if (hasError) return;
-      const input = document.querySelector(`[name=${key}]`);
+      const input = form.current.querySelector(`[name=${key}]`);
       const data = {
         validation: VALIDATIONS[key],
         inputNode: input,
@@ -68,7 +68,7 @@ function AddNews({ fetch, VALIDATIONS }) {
         if (msg === undefined) msg = "Something go wrong!";
         setErrorMessage(msg);
       }
-    }else{
+    } else {
       newsObj.thumbnail = img;
     }
     let { creationDate, modificationDate, ...newNewsObj } = newsObj;

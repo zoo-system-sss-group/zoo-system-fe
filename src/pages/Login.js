@@ -64,7 +64,7 @@ const Login = () => {
 	};
 
 	return (
-		<div className="grid grid-cols-1 gap-2  sm:grid-cols-2 h-screen w-full bg-cor5">
+		<div className="grid grid-cols-1 gap-2  sm:grid-cols-2 min-h-screen w-full bg-cor5">
 			<div className="hidden sm:block">
 				<img className="w-full h-full object-cover" src={image} alt="" />
 			</div>

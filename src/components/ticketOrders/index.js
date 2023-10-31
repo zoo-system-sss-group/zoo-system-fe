@@ -17,7 +17,7 @@ function TicketOrders() {
 	const dispatch = useDispatch();
 	const [ticketOrders, setTicketOrders] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -38,6 +38,7 @@ function TicketOrders() {
 				else if (pagination.isEnd && ticketOrders.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setTicketOrders(ticketOrders);
+				setIdSelect(ticketOrders[0].Id);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -64,6 +65,14 @@ function TicketOrders() {
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
 			});
+	};
+
+	const getPaymentMethod = (paymentMethod) => {
+		if (paymentMethod === "ZaloPay")
+			return <div className="badge badge-info">{paymentMethod}</div>;
+		if (paymentMethod === "Momo")
+			return <div className="badge badge-info bg-[#d82d8b] text-white">{paymentMethod}</div>;
+		return <div className="badge badge-error">{paymentMethod}</div>;
 	};
 
 	return (
@@ -110,7 +119,7 @@ function TicketOrders() {
 														"YYYY-MM-DD HH:mm:ss"
 													)}
 												</td>
-												<td>{l.PaymentMethod}</td>
+												<td>{getPaymentMethod(l.PaymentMethod)}</td>
 												<td>{l.TotalTicket}</td>
 												<td>{l.TotalMoney}</td>
 												<td>

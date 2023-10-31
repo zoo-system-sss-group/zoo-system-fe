@@ -118,7 +118,7 @@ function News() {
               <table className="table w-full">
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>No.</th>
                     <th className="w-2/12">Title</th>
                     <th>Thumbnail</th>
                     <th>Content</th>
@@ -131,18 +131,15 @@ function News() {
                 <tbody>
                   {news.map((news, index) => {
                     return (
-                      <tr key={index}>
+                      <tr key={news.id + 1}>
                         <td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
-                          {news.id}
+                          {index + pagination.page * 10 - 9}
                         </td>
                         <td>{news.title}</td>
                         <td>
-                          {console.log(news.id, news.thumbnail)}
                           <img
                             className="max-h-[100px] rounded shadow block m-auto"
-                            src={
-                              news.thumbnail ?? "../img/noimage.jpg"
-                            }
+                            src={news.thumbnail ?? "../img/noimage.jpg"}
                             alt="Avatar"
                           />
                         </td>
@@ -231,8 +228,8 @@ function News() {
                 </tbody>
               </table>
               <ViewNews id={idSelect} />
-              <EditNews id={idSelect} fetch={fetchNewsList} />
-
+              <EditNews id={idSelect} VALIDATIONS={VALIDATIONS} fetch={fetchNewsList} />
+              {console.log(pagination)}
               <div className="w-full flex justify-center">
                 <div className="join">
                   <button

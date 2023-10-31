@@ -43,7 +43,7 @@ const News = () => {
 		<section className="bg-cor4 text-cor2 flex flex-col sm:flex-row pt-0 sm:pt-16 pb-16 ">
 			<LayoutSections title="News">
 				<p className="mb-8 w-max-[450px]">
-					News news news news news news news news
+					Discover the Latest Happenings at Our Zoo!
 				</p>
 				<Link to="/news" className="btn btn-primary">
 					Read news

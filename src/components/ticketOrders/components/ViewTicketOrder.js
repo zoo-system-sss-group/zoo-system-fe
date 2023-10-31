@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { showNotification } from "../../common/headerSlice";
+import {formatVndCurrency} from "../../../utils/MyUtils" 
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment";
@@ -8,100 +7,171 @@ import moment from "moment";
 const INITIAL_ACCOUNT_OBJ = {
 	Id: "",
 	Code: "",
-	Name: "",
-	Location: "",
-	Description: "",
-	Capacity: 0,
+	CustomerName: "",
+	Email: "",
+	PhoneNumber: "",
+	EffectiveDate: "",
+	PaymentMethod: "",
+	TotalMoney: 0,
+	TotalTicket: 0,
+	Status: "",
 	CreationDate: "",
+	ModificationDate: "",
 	DeletionDate: "",
 	IsDeleted: false,
+	Tickets: [],
 };
 
 function ViewTicketOrder({ id }) {
-	// const [loading, setLoading] = useState(false);
-	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
 	const [ticketOrderObj, setTicketOrderObj] = useState(INITIAL_ACCOUNT_OBJ);
 
 	useEffect(() => {
-		axios.get(`odata/ticketOrders/${id}`).then((res) => {
-			setTicketOrderObj({
-				...ticketOrderObj,
-				...res.data,
+		axios
+			.get(`https://localhost:7195/odata/ticketOrders(${id})?$expand=tickets`)
+			.then((res) => {
+				setTicketOrderObj({
+					...ticketOrderObj,
+					...res.data,
+				});
 			});
-		});
 	}, [id]);
 
 	return (
 		<>
 			<dialog id="btnViewTicketOrder" className="modal ">
-				<div className="modal-box">
+				<div className="modal-box max-w-2xl">
 					<h3 className="font-bold text-lg">TicketOrder information details</h3>
 					<div className="form-control w-full ">
-						<div className="flex gap-2">
-							<div>
-								<label className="label">
-									<span className="label-text">ID</span>
-								</label>
-								<input
-									value={ticketOrderObj.Id}
-									className="input input-bordered w-full "
-									disabled
-								/>
-							</div>
+						<label className="label">
+							<span className="label-text">ID</span>
+						</label>
+						<input
+							value={ticketOrderObj.Id}
+							className="input input-bordered w-full "
+							disabled
+						/>
 
-							<div>
-								<label className="label">
-									<span className="label-text">Code</span>
-								</label>
-								<input
-									type="text"
-									value={ticketOrderObj.Code}
-									className="input input-bordered w-full "
-									disabled
-								/>
-							</div>
-						</div>
-
-						<label className="label mt-4">
-							<span className="label-text">Name</span>
+						<label className="label">
+							<span className="label-text">Code</span>
 						</label>
 						<input
 							type="text"
-							value={ticketOrderObj.Name}
+							value={ticketOrderObj.Code}
+							className="input input-bordered w-full "
+							disabled
+						/>
+
+						<label className="label mt-4">
+							<span className="label-text">CustomerName</span>
+						</label>
+						<input
+							type="text"
+							value={ticketOrderObj.CustomerName}
 							className="input input-bordered w-full"
 							disabled
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">Location</span>
+							<span className="label-text">Email</span>
 						</label>
 						<input
-							type="text"
-							value={ticketOrderObj.Location}
+							type="email"
+							value={ticketOrderObj.Email}
 							className="input input-bordered w-full"
 							disabled
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">Description</span>
+							<span className="label-text">PhoneNumber</span>
 						</label>
-						<textarea
+						<input
 							type="text"
-							value={ticketOrderObj.Description}
-							className="textarea textarea-bordered h-24"
+							value={ticketOrderObj.PhoneNumber}
+							className="input input-bordered w-full"
 							disabled
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">Capacity</span>
+							<span className="label-text">EffectiveDate</span>
+						</label>
+						<input
+							type="text"
+							value={moment(ticketOrderObj.EffectiveDate).format(
+								"YYYY-mm-DD hh:mm:ss"
+							)}
+							className="input input-bordered w-full"
+							disabled
+						/>
+
+						<label className="label mt-4">
+							<span className="label-text">PaymentMethod</span>
+						</label>
+						<input
+							type="text"
+							value={ticketOrderObj.PaymentMethod}
+							className="input input-bordered w-full"
+							disabled
+						/>
+
+						<label className="label mt-4">
+							<span className="label-text">TotalMoney</span>
+						</label>
+						<input
+							type="text"
+							value={formatVndCurrency(ticketOrderObj.TotalMoney)}
+							className="input input-bordered w-full"
+							disabled
+						/>
+
+						<label className="label mt-4">
+							<span className="label-text">TotalTicket</span>
 						</label>
 						<input
 							type="number"
-							value={ticketOrderObj.Capacity}
+							value={ticketOrderObj.TotalTicket}
 							className="input input-bordered w-full"
 							disabled
 						/>
+
+						<label className="label mt-4">
+							<span className="label-text">Status</span>
+						</label>
+						<input
+							type="text"
+							value={ticketOrderObj.Status}
+							className="input input-bordered w-full"
+							disabled
+						/>
+						{ticketOrderObj.Tickets ? (
+							<>
+								<label className="label mt-4">
+									<span className="label-text">Tickets</span>
+								</label>
+								<table className="table">
+									<thead>
+										<tr>
+											<th>Code</th>
+											<th>TicketType</th>
+											<th>Price</th>
+											<th>IsActive</th>
+										</tr>
+									</thead>
+									<tbody>
+										{ticketOrderObj.Tickets.map((ticket) => (
+											<tr key={ticket.Id}>
+												<th>{ticket.Code}</th>
+												<td>{ticket.TicketType}</td>
+												<td>{formatVndCurrency(ticket.Price)}</td>
+												<td>{ticket.IsActive ? "Active" : "Deactive"}</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</>
+						) : (
+							""
+						)}
 
 						<div className="flex gap-2">
 							<div>
@@ -143,7 +213,11 @@ function ViewTicketOrder({ id }) {
 								</label>
 								<input
 									type="text"
-									value={ticketOrderObj.DeletionDate ? ticketOrderObj.DeletionDate : ""}
+									value={
+										ticketOrderObj.DeletionDate
+											? ticketOrderObj.DeletionDate
+											: ""
+									}
 									className="input input-bordered w-full"
 									disabled
 								/>

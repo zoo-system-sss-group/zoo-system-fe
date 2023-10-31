@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./Home.module.css";
 import { ReactComponent as IconPin } from "../../assets/pin.svg";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
+const HOME_VALUE = {
+	animals: 0,
+	species: 0,
+	areas: 0,
+};
 const Home = () => {
+	const [homeValue, setHomeValue] = useState(HOME_VALUE);
+	useEffect(() => {
+		axios
+			.all([
+				axios.get("odata/animals?$count=true"),
+				axios.get("odata/species?$count=true"),
+				axios.get("odata/areas?$count=true"),
+			])
+			.then((res) => {
+				let newValue = {
+					animals: res[0].data["@odata.count"],
+					species: res[1].data["@odata.count"],
+					areas: res[2].data["@odata.count"],
+				};
+				setHomeValue(newValue);
+			});
+	}, [homeValue]);
+
 	return (
 		<section className="h-screen w-full py-12 flex flex-col text-cor2 bg-[url('/src/assets/img-entrada-2.jpg')] bg-center bg-cover shadow-[inset_0_250px_10px_rgba(9,11,9,0.3)] sm:shadow-[inset_0_250px_70px_rgba(9,11,9,0.3)]">
 			<div className="flex flex-col items-center sm:items-stretch flex-1 sm:flex-row text-center sm:text-left pt-28 pb-4 px-6 sm:py-14 sm:px-12">
@@ -27,15 +52,15 @@ const Home = () => {
 				<div className={classes.aside}>
 					<ul>
 						<li>
-							<span>2506</span>
+							<span>{homeValue.animals}</span>
 							<p>animals</p>
 						</li>
 						<li>
-							<span>315</span>
+							<span>{homeValue.species}</span>
 							<p>species</p>
 						</li>
 						<li>
-							<span>+20</span>
+							<span>{homeValue.areas}</span>
 							<p>areas</p>
 						</li>
 					</ul>

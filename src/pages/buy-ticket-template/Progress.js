@@ -5,7 +5,7 @@ export function Progress({ value, max }) {
         className={"progress block transition h-6 progress-success"}
         value={value}
         max={max}
-      />
+      /> 
     </div>
   );
 }
