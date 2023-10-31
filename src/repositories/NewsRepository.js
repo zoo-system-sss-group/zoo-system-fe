@@ -11,6 +11,14 @@ import * as google_protobuf_wrappers_pb from "google-protobuf/google/protobuf/wr
 function NewsRepository() {
   const client = new NewsServiceClient(process.env.REACT_APP_GRPC_BASE_URL);
 
+  function modifyNewsObject(newObj) {
+    newObj.creationdate = toDate(newObj.creationdate);
+    newObj.modificationdate = toDate(newObj.modificationdate);
+    newObj.thumbnail = newObj.thumbnail?.value;
+    if (newObj.thumbnail === "") newObj.thumbnail = null;
+    return newObj;
+  }
+
   const getNews = (pageIndex, pageSize) =>
     new Promise((resolve, reject) => {
       const news = [];
@@ -19,11 +27,7 @@ function NewsRepository() {
       const call = client.getNews(request, {}); // Make the gRPC call
 
       call.on("data", (response) => {
-        const newObj = response.toObject();
-        newObj.creationdate = toDate(newObj.creationdate);
-        newObj.modificationdate = toDate(newObj.modificationdate);
-        newObj.thumbnail = newObj.thumbnail?.value;
-
+        const newObj = modifyNewsObject(response.toObject());
         news.push(newObj);
       });
 
@@ -52,11 +56,7 @@ function NewsRepository() {
       const call = client.getRandomNews(request, {}); // Make the gRPC call
 
       call.on("data", (response) => {
-        const newObj = response.toObject();
-        newObj.creationdate = toDate(newObj.creationdate);
-        newObj.modificationdate = toDate(newObj.modificationdate);
-        newObj.thumbnail = newObj.thumbnail?.value;
-
+        const newObj = modifyNewsObject(response.toObject());
         news.push(newObj);
       });
 
@@ -80,10 +80,7 @@ function NewsRepository() {
           console.error(err);
           reject(err);
         } else {
-          news = response.toObject();
-          news.creationdate = toDate(news.creationdate);
-          news.modificationdate = toDate(news.modificationdate);
-          news.thumbnail = news.thumbnail?.value;
+          news = modifyNewsObject(response.toObject());
           resolve(news);
         }
       });

@@ -17,7 +17,7 @@ const INITIAL_NEWS_OBJ = {
 };
 
 function EditNews({ id, fetch }) {
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const _repo = NewsRepository();
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,7 +25,8 @@ function EditNews({ id, fetch }) {
   const editorRef = useRef(null);
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
-
+  const [imgloading, setImgLoading] = useState(true);
+  console.log(id,img,newsObj)
   useEffect(() => {
     _repo
       .getNewsById(id)
@@ -34,6 +35,7 @@ function EditNews({ id, fetch }) {
           ...newsObj,
           ...res,
         });
+        setImgLoading(true);
         setImg(newsObj.thumbnail);
         setText(newsObj.content);
       })
@@ -43,6 +45,7 @@ function EditNews({ id, fetch }) {
   }, [id]);
 
   const saveNewNews = async () => {
+    setLoading(true);
     if (img !== null && typeof img !== "string") {
       try {
         const url = await FirebaseImageUpload({
@@ -78,9 +81,11 @@ function EditNews({ id, fetch }) {
       })
       .catch((err) => {
         return setErrorMessage(err.message);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
+  useEffect(() => setImgLoading(false), [img]);
   const updateFormValue = (updateType, value) => {
     setErrorMessage();
     setNewsObj({ ...newsObj, [updateType]: value });
@@ -93,8 +98,8 @@ function EditNews({ id, fetch }) {
   };
   return (
     <>
-      <dialog id="btnEditNews" className="modal ">
-        <div className="modal-box max-w-full w-11/12">
+      <dialog id="btnEditNews" className="modal">
+        <div className="modal-box w-11/12 max-w-5xl">
           <h3 className="font-bold text-lg">Edit news</h3>
           <div className="form-control w-full mt-4">
             <label className="label">
@@ -126,18 +131,15 @@ function EditNews({ id, fetch }) {
                 className="file-input file-input-bordered w-full"
                 accept="image/png, image/jpg, image/jpeg"
               />
-              {typeof img}
-              <img
-                src={
-                  img
-                    ? typeof img === "object"
-                      ? URL.createObjectURL(img)
-                      : newsObj.thumbnail
-                    : "../img/noimage.jpg"
-                }
-                alt={img}
-                className="image w-2/3 max-w-[500px] block m-auto my-2 shadow rounded-lg "
-              />
+              {imgloading ? (
+                <div className=" block m-auto loading"></div>
+              ) : (
+                <img
+                  src={img ?? "../img/noimage.jpg"}
+                  alt={img}
+                  className="image w-2/3 max-w-[500px] block m-auto my-2 shadow rounded-lg "
+                />
+              )}
             </div>
             <label className="label mt-4">
               <span className="label-text">Content</span>
@@ -181,7 +183,7 @@ function EditNews({ id, fetch }) {
               className="btn btn-primary ml-4"
               onClick={(e) => saveNewNews()}
             >
-              Save
+              Save<span className={loading ? " loading" : ""}></span>
             </button>
           </div>
         </div>

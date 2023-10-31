@@ -9,6 +9,7 @@ import TagIcon from '@heroicons/react/24/outline/TagIcon'
 import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
 import BugAntIcon from '@heroicons/react/24/outline/BugAntIcon'
 import MapIcon from '@heroicons/react/24/outline/MapIcon'
+import { BellIcon, NewspaperIcon } from '@heroicons/react/24/outline'
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`
@@ -37,7 +38,7 @@ const routes = [
   },
   {
     path: '/management/news', // url
-    icon: <ChartBarIcon className={iconClasses}/>, // icon component
+    icon: <BellIcon className={iconClasses}/>, // icon component
     name: 'News', // name that appear in Sidebar
   },
 

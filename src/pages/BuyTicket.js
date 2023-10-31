@@ -82,7 +82,7 @@ const currentDate = new Date(format(new Date(), "yyyy-MM-dd"));
 const minDate = new Date(currentDate);
 minDate.setDate(currentDate.getDate() + 1);
 const maxDate = new Date(currentDate);
-maxDate.setMonth(currentDate.getMonth() + 3);
+maxDate.setMonth(currentDate.getMonth() + 1);
 
 // main function
 function BuyTicket() {
@@ -107,7 +107,7 @@ function BuyTicket() {
         maxDate: maxDate,
         msg1:
           "You can only buy tickets for at least 1 day in advance from the current date!",
-        msg2: "You can only buy tickets in 3 month prior!",
+        msg2: "You can only buy tickets in 1 month prior!",
       }),
     ],
     adultTicket: [

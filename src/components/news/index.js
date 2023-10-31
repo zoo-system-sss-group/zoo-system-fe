@@ -13,6 +13,14 @@ import AddNews from "./components/AddNews";
 import ViewNews from "./components/ViewNews";
 import NewsRepository from "../../repositories/NewsRepository";
 import DOMPurify from "dompurify";
+import { ValidateEmpty } from "../../utils/Validation";
+import { cleanContent } from "../../utils/MyUtils";
+
+const VALIDATIONS = {
+  title: [ValidateEmpty()],
+  thumbnail: [],
+  content: [ValidateEmpty()],
+};
 
 function News() {
   const dispatch = useDispatch();
@@ -64,12 +72,6 @@ function News() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
 
-  function cleanContent(content) {
-    const cleanedContent = document.createElement("div");
-    cleanedContent.innerHTML = DOMPurify.sanitize(content).toString();
-    return cleanedContent.innerText;
-  }
-
   const deleteNews = (id) => {
     // axios
     //   .delete(`/odata/news/${id}`)
@@ -106,7 +108,9 @@ function News() {
       <TitleCard
         title="News table"
         topMargin="mt-2"
-        TopSideButtons={<AddNews fetch={fetchNewsList} />}
+        TopSideButtons={
+          <AddNews VALIDATIONS={VALIDATIONS} fetch={fetchNewsList} />
+        }
       >
         <div className="overflow-x-auto w-full">
           {news != null ? (
@@ -133,9 +137,12 @@ function News() {
                         </td>
                         <td>{news.title}</td>
                         <td>
+                          {console.log(news.id, news.thumbnail)}
                           <img
                             className="max-h-[100px] rounded shadow block m-auto"
-                            src={news.thumbnail ?? "../img/noimage.jpg"}
+                            src={
+                              news.thumbnail ?? "../img/noimage.jpg"
+                            }
                             alt="Avatar"
                           />
                         </td>
