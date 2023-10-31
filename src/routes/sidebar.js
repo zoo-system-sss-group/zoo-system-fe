@@ -8,12 +8,8 @@ import TagIcon from '@heroicons/react/24/outline/TagIcon'
 import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
 import BugAntIcon from '@heroicons/react/24/outline/BugAntIcon'
 import MapIcon from '@heroicons/react/24/outline/MapIcon'
-<<<<<<< HEAD
-import { BellIcon, NewspaperIcon } from '@heroicons/react/24/outline'
-=======
 import CubeIcon from '@heroicons/react/24/outline/CubeIcon'
 import NewspaperIcon from '@heroicons/react/24/outline/NewspaperIcon'
->>>>>>> cb4182559b32e0558f08ccba03ebda6b77a39c96
 
 const iconClasses = `h-6 w-6`
 const submenuIconClasses = `h-5 w-5`

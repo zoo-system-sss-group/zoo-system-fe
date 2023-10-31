@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import DOMPurify from "dompurify";
 
 export function cleanContent(content) {
@@ -6,7 +5,6 @@ export function cleanContent(content) {
   cleanedContent.innerHTML = DOMPurify.sanitize(content).toString();
   return cleanedContent.textContent;
 }
-=======
 function formatVndCurrency(amount) {
     if (typeof amount !== 'number' || isNaN(amount)) {
       return 'Invalid input';
@@ -21,4 +19,3 @@ function formatVndCurrency(amount) {
   }
   
   export { formatVndCurrency };
->>>>>>> cb4182559b32e0558f08ccba03ebda6b77a39c96
