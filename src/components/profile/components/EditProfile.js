@@ -11,7 +11,6 @@ const INITIAL_PROFILE_OBJ = {
 	Fullname: "",
 	Experiences: "",
 	Avatar: null,
-	Password: "",
 };
 
 function EditProfile({ id, fetch }) {
@@ -62,7 +61,6 @@ function EditProfile({ id, fetch }) {
 			Fullname: profileObj.Fullname,
 			Experiences: profileObj.Experiences,
 			Avatar: profileObj.Avatar,
-			Password: profileObj.Password,
 		};
 		const data = JSON.stringify(newProfileObj);
 		setLoading(true);
@@ -103,26 +101,6 @@ function EditProfile({ id, fetch }) {
 				<div className="modal-box">
 					<h3 className="font-bold text-lg">Edit profile</h3>
 					<div className="form-control w-full ">
-						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={profileObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
-						<label className="label">
-							<span className="label-text">Username</span>
-						</label>
-						<input
-							type="text"
-							placeholder=""
-							value={profileObj.Username ?? ""}
-							onChange={(e) => updateFormValue("Username", e.target.value)}
-							className="input input-bordered w-full "
-						/>
-
 						<label className="label mt-4">
 							<span className="label-text">Fullname</span>
 						</label>

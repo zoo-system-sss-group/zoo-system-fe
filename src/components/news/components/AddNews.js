@@ -71,7 +71,7 @@ function AddNews({ fetch }) {
     <>
       <div className="inline-block float-right">
         <button
-          className="btn px-6 btn-sm normal-case btn-primary"
+          className="btn px-6  normal-case btn-primary"
           onClick={() => document.getElementById("btnAddNews").showModal()}
         >
           Add New

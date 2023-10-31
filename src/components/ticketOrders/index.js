@@ -95,10 +95,9 @@ function TicketOrders() {
 										<th>PhoneNumber</th>
 										<th>EffectiveDate</th>
 										<th>PaymentMethod</th>
-										<th>TotalTicket</th>
-										<th>TotalMoney</th>
+										<th>Ticket</th>
+										<th>Money</th>
 										<th>CreationDate</th>
-										<th>ModificationDate</th>
 										<th>Status</th>
 										<th></th>
 									</tr>
@@ -125,12 +124,6 @@ function TicketOrders() {
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
-												<td>
-													{moment(l.ModificationDate).format(
-														"YYYY-MM-DD HH:mm:ss"
-													)}
-												</td>
-												{/* <td>{getStatus(l.IsDeleted)}</td> */}
 												<td className="flex">
 													{/* Nut xem ticketOrder */}
 													<button

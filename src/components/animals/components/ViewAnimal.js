@@ -7,69 +7,59 @@ import moment from "moment";
 
 const INITIAL_CAGE_OBJ = {
 	Id: "",
-	Code: "",
 	Name: "",
 	Image: "",
-	Location: "",
 	Description: "",
-	Capacity: 0,
+	Weight: 0,
+	BirthDate: "",
+	SpeciesId: 0,
+	Species: {},
+	CageHistories: [],
 	CreationDate: "",
 	DeletionDate: "",
 	IsDeleted: false,
 };
 
-function ViewCage({ id }) {
+function ViewAnimal({ id }) {
 	const [errorMessage, setErrorMessage] = useState("");
-	const [cageObj, setCageObj] = useState(INITIAL_CAGE_OBJ);
+	const [animalObj, setAnimalObj] = useState(INITIAL_CAGE_OBJ);
 
 	useEffect(() => {
-		axios.get(`odata/cages/${id}`).then((res) => {
-			setCageObj({
-				...cageObj,
-				...res.data,
+		axios
+			.get(`odata/animals(${id})?$expand=species,cageHistories`)
+			.then((res) => {
+				setAnimalObj({
+					...animalObj,
+					...res.data,
+				});
 			});
-		});
 	}, [id]);
 
 	return (
 		<>
-			<dialog id="btnViewCage" className="modal ">
+			<dialog id="btnViewAnimal" className="modal ">
 				<div className="modal-box max-w-2xl">
-					<h3 className="font-bold text-lg">Cage information details</h3>
+					<h3 className="font-bold text-lg">Animal information details</h3>
 
 					<label className="label mt-4">
 						<span className="label-text">Image</span>
 					</label>
 					<img
-						src={cageObj.Image ?? "../img/noimage.jpg"}
-						alt="cage"
+						src={animalObj.Image ?? "../img/noimage.jpg"}
+						alt="animal"
 						className="mt-2 border rounded-lg min-w-full"
 					/>
 
 					<div className="form-control w-full">
-						<div className="flex gap-2">
-							<div className="w-full">
-								<label className="label">
-									<span className="label-text">ID</span>
-								</label>
-								<input
-									value={cageObj.Id}
-									className="input input-bordered w-full "
-									disabled
-								/>
-							</div>
-
-							<div className="w-full">
-								<label className="label">
-									<span className="label-text">Code</span>
-								</label>
-								<input
-									type="text"
-									value={cageObj.Code}
-									className="input input-bordered w-full "
-									disabled
-								/>
-							</div>
+						<div className="w-full">
+							<label className="label">
+								<span className="label-text">ID</span>
+							</label>
+							<input
+								value={animalObj.Id ?? ""}
+								className="input input-bordered w-full "
+								disabled
+							/>
 						</div>
 
 						<label className="label mt-4">
@@ -77,17 +67,7 @@ function ViewCage({ id }) {
 						</label>
 						<input
 							type="text"
-							value={cageObj.Name}
-							className="input input-bordered w-full"
-							disabled
-						/>
-
-						<label className="label mt-4">
-							<span className="label-text">Location</span>
-						</label>
-						<input
-							type="text"
-							value={cageObj.Location}
+							value={animalObj.Name ?? ""}
 							className="input input-bordered w-full"
 							disabled
 						/>
@@ -97,20 +77,80 @@ function ViewCage({ id }) {
 						</label>
 						<textarea
 							type="text"
-							value={cageObj.Description}
+							value={animalObj.Description}
 							className="textarea textarea-bordered h-24"
 							disabled
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">Capacity</span>
+							<span className="label-text">Weight</span>
 						</label>
 						<input
 							type="number"
-							value={cageObj.Capacity}
+							value={animalObj.Weight ?? 0}
 							className="input input-bordered w-full"
 							disabled
 						/>
+
+						<label className="label mt-4">
+							<span className="label-text">BirthDate</span>
+						</label>
+						<input
+							type="text"
+							value={moment(animalObj.BirthDate).format("YYYY-mm-DD hh:mm:ss")}
+							className="input input-bordered w-full"
+							disabled
+						/>
+
+						<label className="label mt-4">
+							<span className="label-text">Species</span>
+						</label>
+						<input
+							type="text"
+							value={animalObj.Species.Name ?? ""}
+							className="input input-bordered w-full"
+							disabled
+						/>
+
+						{animalObj.CageHistories ? (
+							<>
+								<label className="label mt-4">
+									<span className="label-text">Cage Histories</span>
+								</label>
+								<table className="table">
+									<thead>
+										<tr>
+											<th>CageId</th>
+											<th>StartDate</th>
+											<th>EndDate</th>
+										</tr>
+									</thead>
+									<tbody>
+										{animalObj.CageHistories.map((cageHistories) => (
+											<tr key={cageHistories.CageId}>
+												<th>{cageHistories.CageId}</th>
+												<th>
+													{moment(cageHistories.StartDate).format(
+														"YYYY-MM-DD hh:mm:ss"
+													)}
+												</th>
+												<th>
+													{cageHistories.EndDate ? (
+														moment(cageHistories.EndDate).format("YYYY-MM-DD HH:mm:ss")
+													) : (
+														<span className="text-cor1 font-semibold">
+															Not end yet
+														</span>
+													)}
+												</th>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</>
+						) : (
+							""
+						)}
 
 						<div className="flex gap-2">
 							<div className="w-full">
@@ -119,7 +159,7 @@ function ViewCage({ id }) {
 								</label>
 								<input
 									type="text"
-									value={moment(cageObj.CreationDate).format(
+									value={moment(animalObj.CreationDate).format(
 										"YYYY-mm-DD hh:mm:ss"
 									)}
 									className="input input-bordered w-full"
@@ -133,8 +173,8 @@ function ViewCage({ id }) {
 								<input
 									type="text"
 									value={
-										cageObj.ModificationDate
-											? moment(cageObj.ModificationDate).format(
+										animalObj.ModificationDate
+											? moment(animalObj.ModificationDate).format(
 													"YYYY-mm-DD hh:mm:ss"
 											  )
 											: ""
@@ -152,7 +192,7 @@ function ViewCage({ id }) {
 								</label>
 								<input
 									type="text"
-									value={cageObj.DeletionDate ? cageObj.DeletionDate : ""}
+									value={animalObj.DeletionDate ? animalObj.DeletionDate : ""}
 									className="input input-bordered w-full"
 									disabled
 								/>
@@ -164,7 +204,7 @@ function ViewCage({ id }) {
 								</label>
 								<input
 									type="text"
-									value={cageObj.IsDeleted}
+									value={animalObj.IsDeleted}
 									className="input input-bordered w-full"
 									disabled
 								/>
@@ -175,7 +215,7 @@ function ViewCage({ id }) {
 					</div>
 					<div className="modal-action">
 						<form method="dialog">
-							<button id="btnCloseViewCage" className="btn">
+							<button id="btnCloseViewAnimal" className="btn">
 								Close
 							</button>
 						</form>
@@ -189,4 +229,4 @@ function ViewCage({ id }) {
 	);
 }
 
-export default ViewCage;
+export default ViewAnimal;

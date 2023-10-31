@@ -2,16 +2,18 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import TitleCard from "../../components/common/Cards/TitleCard";
-import { NoSymbolIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, NoSymbolIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
 import EditAccount from "./components/EditAccount";
 import AddAccount from "./components/AddAccount";
+import ViewAccount from "./components/ViewAccount";
 
 function Accounts() {
 	const dispatch = useDispatch();
 	const [accounts, setAccounts] = useState();
 	const [error, setError] = useState("");
+	const [search, setSearch] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
 		page: 1,
@@ -23,7 +25,7 @@ function Accounts() {
 	const fetchAccountList = () => {
 		axios
 			.get(
-				`odata/accounts?$orderby=CreationDate desc&$skip=${(pagination.page - 1) * 10}&$top=${
+				`odata/accounts?$filter=contains(tolower(Username), '${search}') or contains(tolower(Fullname), '${search}')&$orderby=CreationDate desc&$skip=${(pagination.page - 1) * 10}&$top=${
 					pagination.limit
 				}`
 			)
@@ -73,6 +75,17 @@ function Accounts() {
 			<TitleCard
 				title="Account table"
 				topMargin="mt-2"
+				searchInput={<div className="join">
+				<input
+					className="input input-bordered join-item w-80"
+					placeholder="Search by Username or Fullname"
+					value={search}
+					onChange={(e) => setSearch(e.target.value.toLowerCase())}
+				/>
+				<div className="indicator">
+					<button className="btn join-item" onClick={() => fetchAccountList()}>Search</button>
+				</div>
+			</div>}
 				TopSideButtons={<AddAccount fetch={fetchAccountList}/>}
 			>
 				<div className="overflow-x-auto w-full">
@@ -132,7 +145,20 @@ function Accounts() {
 													)}
 												</td>
 												<td>{getStatus(l.IsDeleted)}</td>
-												<td>
+												<td className="flex">
+													{/* Nut xem account */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															setIdSelect(l.Id);
+															document
+																.getElementById("btnViewAccount")
+																.showModal();
+														}}
+													>
+														<EyeIcon className="w-5 text-cor4 stroke-2" />
+													</button>
+
 													{/* Nut sua account */}
 													<button
 														className="btn btn-ghost inline"
@@ -183,6 +209,7 @@ function Accounts() {
 									})}
 								</tbody>
 							</table>
+							<ViewAccount id={idSelect} />
 							<EditAccount id={idSelect} fetch={fetchAccountList} />
 
 							<div className="w-full flex justify-center">

@@ -2,15 +2,21 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import TitleCard from "../../components/common/Cards/TitleCard";
-import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import {
+	TrashIcon,
+	PencilSquareIcon,
+	EyeIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
 import EditAnimal from "./components/EditAnimal";
 import AddAnimal from "./components/AddAnimal";
+import ViewAnimal from "./components/ViewAnimal";
 
 function Animals() {
 	const dispatch = useDispatch();
 	const [animals, setAnimals] = useState();
+	const [search, setSearch] = useState("");
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
@@ -23,9 +29,9 @@ function Animals() {
 	const fetchAnimalList = () => {
 		axios
 			.get(
-				`odata/animals?$filter=IsDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/animals?$filter=IsDeleted eq false and contains(Name, '${search}')&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
-				}&$top=${pagination.limit}`
+				}&$top=${pagination.limit}&$expand=species`
 			)
 			.then((res) => {
 				let animals = res.data.value;
@@ -66,6 +72,19 @@ function Animals() {
 			<TitleCard
 				title="Animal table"
 				topMargin="mt-2"
+				searchInput={
+					<div className="join">
+						<input
+							className="input input-bordered join-item"
+							placeholder="Search by Name"
+							value={search}
+							onChange={(e) => setSearch(e.target.value)}
+						/>
+						<div className="indicator">
+							<button className="btn join-item" onClick={() => fetchAnimalList()}>Search</button>
+						</div>
+					</div>
+				}
 				TopSideButtons={<AddAnimal fetch={fetchAnimalList} />}
 			>
 				<div className="overflow-x-auto w-full">
@@ -79,7 +98,7 @@ function Animals() {
 										<th>Description</th>
 										<th>Weight</th>
 										<th>BirthDate</th>
-										<th>SpeciesId</th>
+										<th>Species</th>
 										<th>CreationDate</th>
 										<th>ModificationDate</th>
 										<th></th>
@@ -88,19 +107,18 @@ function Animals() {
 								<tbody>
 									{animals.map((l, k) => {
 										return (
-											<tr key={k}>
+											<tr key={k} className="">
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
 													{l.Id}
 												</td>
 												<td>
 													<div className="flex items-center space-x-3">
-														<div className="avatar">
-															<div className="mask mask-squircle w-12 h-12">
-																<img
-																	src={l.Image ? l.Image : "../img/noimage.jpg"}
-																	alt="Avatar"
-																/>
-															</div>
+														<div className="w-20 h-20">
+															<img
+																src={l.Image ? l.Image : "../img/noimage.jpg"}
+																className=" border rounded-lg"
+																alt="Avatar"
+															/>
 														</div>
 														<div>
 															<div className="font-bold">{l.Name}</div>
@@ -110,7 +128,7 @@ function Animals() {
 												<td>{l.Description}</td>
 												<td>{l.Weight}</td>
 												<td>{moment(l.BirthDate).format("yyyy-MM-DD")}</td>
-												<td>{l.SpeciesId}</td>
+												<td>{l.Species.Name}</td>
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
@@ -119,57 +137,77 @@ function Animals() {
 														"YYYY-MM-DD HH:mm:ss"
 													)}
 												</td>
-												<td>
-													{/* Nut sua animal */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															setIdSelect(l.Id);
-															document.getElementById("my_modal_1").showModal();
-														}}
-													>
-														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
-													</button>
+												<td className="">
+													{/* Nut xem cage */}
+													<div className="flex flex-nowrap">
+														<button
+															className="btn btn-ghost inline"
+															onClick={() => {
+																setIdSelect(l.Id);
+																document
+																	.getElementById("btnViewAnimal")
+																	.showModal();
+															}}
+														>
+															<EyeIcon className="w-5 text-cor4 stroke-2" />
+														</button>
+														{/* Nut sua animal */}
+														<button
+															className="btn btn-ghost inline"
+															onClick={() => {
+																setIdSelect(l.Id);
+																document
+																	.getElementById("my_modal_1")
+																	.showModal();
+															}}
+														>
+															<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
+														</button>
 
-													{/* Nut doi status animal */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															document.getElementById("my_modal_2").showModal();
-															setIdSelect(l.Id);
-														}}
-													>
-														<TrashIcon className="w-5 text-err stroke-2" />
-													</button>
-													<dialog id="my_modal_2" className="modal ">
-														<div className="modal-box">
-															<h3 className="font-bold text-lg">Confirm</h3>
-															<p className="py-4 text-2xl">
-																Are you sure you want to delete animal {l.Name}?
-															</p>
-															<div className="modal-action">
-																<form method="dialog">
-																	<button className="btn">Close</button>
+														{/* Nut doi status animal */}
+														<button
+															className="btn btn-ghost inline"
+															onClick={() => {
+																document
+																	.getElementById("my_modal_2")
+																	.showModal();
+																setIdSelect(l.Id);
+															}}
+														>
+															<TrashIcon className="w-5 text-err stroke-2" />
+														</button>
+														<dialog id="my_modal_2" className="modal ">
+															<div className="modal-box">
+																<h3 className="font-bold text-lg">Confirm</h3>
+																<p className="py-4 text-2xl">
+																	Are you sure you want to delete animal{" "}
+																	{l.Name}?
+																</p>
+																<div className="modal-action">
+																	<form method="dialog">
+																		<button className="btn">Close</button>
 
-																	<button
-																		className="btn btn-primary ml-4"
-																		onClick={() => deleteAnimal(idSelect)}
-																	>
-																		Delete
-																	</button>
-																</form>
+																		<button
+																			className="btn btn-primary ml-4"
+																			onClick={() => deleteAnimal(idSelect)}
+																		>
+																			Delete
+																		</button>
+																	</form>
+																</div>
 															</div>
-														</div>
-														<form method="dialog" className="modal-backdrop">
-															<button>close</button>
-														</form>
-													</dialog>
+															<form method="dialog" className="modal-backdrop">
+																<button>close</button>
+															</form>
+														</dialog>
+													</div>
 												</td>
 											</tr>
 										);
 									})}
 								</tbody>
 							</table>
+							<ViewAnimal id={idSelect} />
 							<EditAnimal id={idSelect} fetch={fetchAnimalList} />
 
 							<div className="w-full flex justify-center">

@@ -13,6 +13,7 @@ const Cages = lazy(() => import('../pages/management/Cages'))
 const News = lazy(() => import('../pages/management/News'))
 const TicketOrders = lazy(() => import('../pages/management/TicketOrders'))
 const Profile = lazy(() => import('../pages/management/Profile'))
+const Training = lazy(() => import('../pages/management/Training'))
 
 
 const routes = [
@@ -51,6 +52,10 @@ const routes = [
   {
     path: '/profile', 
     component: Profile, 
+  },
+  {
+    path: '/training', 
+    component: Training, 
   },
   {
     path: '/404',
