@@ -82,9 +82,9 @@ function Confirmation({
 					</table>
 					<div className="form-control">
 						<label className="label">
-							<span className="label-text">Payment Method</span>
+							<span className="label-text text-cor2 text-lg">Payment Method</span>
 						</label>
-						<div className="flex flex-row gap-5 justify-center ">
+						<div className="flex flex-row gap-5 justify-center mt-4">
 							{paymentMethods.map((payment, index) => (
 								<label
 									for={`pay-${[payment.value]}`}

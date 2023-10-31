@@ -7,7 +7,6 @@ function Header() {
 	const loginInfoJSON = localStorage.getItem("loginInfo");
 	if (loginInfoJSON == null) window.location.href = "/";
 	const loginInfo = JSON.parse(loginInfoJSON);
-
 	function logoutUser() {
 		localStorage.clear();
 		window.location.href = "/";
@@ -35,20 +34,25 @@ function Header() {
 								loginInfo.role === "Staff" ? "badge-primary" : "badge-secondary"
 							} `}
 						>
-							{loginInfo.role} | {loginInfo.username}
+							{loginInfo.role} | {loginInfo.fullname}
 						</span>
 					</div>
 					<div className="dropdown dropdown-end ml-4">
 						<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
 							<div className="w-10 rounded-full border-2 border-cor1">
-								<img src="../img/user.png" alt="profile" />
+								<img src={loginInfo.avatar ?? "../img/user.png"} alt="profile" />
 							</div>
 						</label>
 						<ul
 							tabIndex={0}
 							className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
 						>
-							{/* <div className="divider mt-0 mb-0"></div> */}
+							<li className="font-medium text-md">
+								<button onClick={() => {
+									window.location.href = "profile";
+								}}>Profile</button>
+							</li>
+							<div className="divider mt-0 mb-0"></div>
 							<li className="font-medium text-md">
 								<button onClick={logoutUser}>Logout</button>
 							</li>
