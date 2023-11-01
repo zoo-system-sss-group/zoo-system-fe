@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { useDispatch } from "react-redux";
 import TitleCard from "../common/Cards/TitleCard";
-import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import { showNotification } from "../common/headerSlice";
-import EditTraining from "./components/EditTraining";
-import AddTraining from "./components/AddTraining";
+import ViewDiet from "./components/ViewDiet";
+import AddDiet from "./components/AddDiet";
 
 function Training() {
-	const dispatch = useDispatch();
 	const [training, setTraining] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
@@ -21,7 +18,7 @@ function Training() {
 	const fetchTrainingList = () => {
 		axios
 			.get(
-				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal&$orderby=CreationDate desc`
+				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
 			)
 			.then((res) => {
 				let training = res.data.value;
@@ -36,29 +33,11 @@ function Training() {
 		fetchTrainingList();
 	}, []);
 
-	const deleteTraining = (index) => {
-		axios
-			.delete(`/odata/training/${index}`)
-			.then((res) => {
-				dispatch(
-					showNotification({
-						message: "Training deleted!",
-						status: res.status,
-					})
-				);
-				fetchTrainingList();
-			})
-			.catch((err) => {
-				dispatch(showNotification({ message: err.message, status: 400 }));
-			});
-	};
-
 	return (
 		<>
 			<TitleCard
 				title="Training table"
 				topMargin="mt-2"
-				TopSideButtons={<AddTraining fetch={fetchTrainingList} />}
 			>
 				<div className="overflow-x-auto w-full">
 					{training != null ? (
@@ -68,7 +47,13 @@ function Training() {
 									<tr>
 										<th>AnimalId</th>
 										<th>AnimalName</th>
+										<th>Description</th>
+										<th>Weight</th>
+										<th>Height</th>
+										<th>BirthDate</th>
 										<th>Status</th>
+										<th>Species</th>
+										<th>Cage Recent</th>
 										<th>StartDate</th>
 										<th>EndDate</th>
 										<th></th>
@@ -85,7 +70,7 @@ function Training() {
 													<div className="flex items-center space-x-3">
 														<div className="mask mask-squircle w-20 h-20">
 															<img
-																src={l.Animal?.Image ?? "../img/user.png"}
+																src={l.Animal?.Image ?? "../img/noimage.jpg"}
 																alt="animal"
 															/>
 														</div>
@@ -94,7 +79,13 @@ function Training() {
 														</div>
 													</div>
 												</td>
+												<td>{l.Animal?.Description}</td>
+												<td>{l.Animal?.Weight}</td>
+												<td>{l.Animal?.Height}</td>
+												<td>{moment(l.Animal?.BirthDate).format("YYYY-MM-DD")}</td>
 												<td>{l.Animal?.Status}</td>
+												<td>{l.Animal?.Species.Name}</td>
+												<td>{l.Animal?.CageHistories[0]?.Cage.Name}</td>
 												<td>
 													{moment(l.StartDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
@@ -108,17 +99,30 @@ function Training() {
 													)}
 												</td>
 												<td className="flex">
-													{/* Nut sua training */}
+													{/* Nut xem account */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
 															setIdSelect(l.Id);
 															document
-																.getElementById("btnEditTraining")
+																.getElementById("btnViewDiet")
 																.showModal();
 														}}
 													>
-														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
+														<EyeIcon className="w-5 text-cor4 stroke-2" />
+													</button>
+													
+													{/* Nut them diet */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															setIdSelect(l.Id);
+															document
+																.getElementById("btnAddDiet")
+																.showModal();
+														}}
+													>
+														<PlusCircleIcon className="w-6 text-cor1 stroke-2" />
 													</button>
 												</td>
 											</tr>
@@ -126,7 +130,8 @@ function Training() {
 									})}
 								</tbody>
 							</table>
-							{/* <EditTraining id={idSelect} fetch={fetchTrainingList} /> */}
+							<ViewDiet id={idSelect} />
+							<AddDiet id={idSelect}  fetch={fetchTrainingList}/>
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">
