@@ -1,8 +1,6 @@
 /** Icons are imported separatly to reduce build time */
 import DocumentTextIcon from '@heroicons/react/24/outline/DocumentTextIcon'
 import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon'
-import TableCellsIcon from '@heroicons/react/24/outline/TableCellsIcon'
-import CodeBracketSquareIcon from '@heroicons/react/24/outline/CodeBracketSquareIcon'
 import TicketIcon from '@heroicons/react/24/outline/TicketIcon'
 import TagIcon from '@heroicons/react/24/outline/TagIcon'
 import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
@@ -12,7 +10,6 @@ import CubeIcon from '@heroicons/react/24/outline/CubeIcon'
 import NewspaperIcon from '@heroicons/react/24/outline/NewspaperIcon'
 
 const iconClasses = `h-6 w-6`
-const submenuIconClasses = `h-5 w-5`
 
 const routes = [
 

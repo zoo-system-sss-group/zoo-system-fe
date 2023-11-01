@@ -50,7 +50,7 @@ export function NewsDetail() {
     // .catch((err)=>(
     //     document.location.href = "/404"
     // ));
-  }, [id]);
+  }, [id, navigate, _repo]);
   useEffect(() => {
     if (newsObj && news) setLoading(false);
   }, [newsObj, news]);
@@ -84,7 +84,7 @@ export function NewsDetail() {
                   ></div>
                 </div>
               </div>
-              <div className="w-full md:w-1/3 my-10  rounded-lg  text-cor2">
+              <div className="w-full md:w-1/3 my-10  rounded-lg  text-cor2 ">
                 <div className="z-10">
                   {news.map((newObj) => (
                     <div className="relative">
@@ -93,7 +93,7 @@ export function NewsDetail() {
                         <Link
                           to={`../news/${newObj.id}`}
                           onClick={() => setLoading(true)}
-                          className="whitespace-nowrap overflow-hidden "
+                          className="whitespace-nowrap overflow-hidden  visited:text-cor7 "
                         >
                           <li className="list-item py-2 list-none  pe-4 list-inside overflow-hidden ">
                             {newObj.title}
@@ -110,7 +110,7 @@ export function NewsDetail() {
                     >
                       <li className="flex items-center py-2 list-none   pe-4 list-inside overflow-hidden text-cor6 ">
                         <ArrowRightIcon className="w-6 inline mr-3 " />
-                        View All News 
+                        View All News
                       </li>
                     </Link>
                   </div>

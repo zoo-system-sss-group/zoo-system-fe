@@ -1,15 +1,14 @@
 import { NewsServiceClient } from "../protos/autogenerate/news_grpc_web_pb";
 import {
   Empty,
-  NewsDTO,
   CreateNewsDTO,
   UpdateNewsDTO,
-  StringMessage,
   NewsId,
 } from "../protos/autogenerate/news_grpc_web_pb";
 import * as google_protobuf_wrappers_pb from "google-protobuf/google/protobuf/wrappers_pb";
 function NewsRepository() {
   const client = new NewsServiceClient(process.env.REACT_APP_GRPC_BASE_URL);
+  const TOKEN = localStorage.getItem("token");
 
   function modifyNewsObject(newObj) {
     newObj.creationdate = toDate(newObj.creationdate);
@@ -85,16 +84,20 @@ function NewsRepository() {
         }
       });
     });
+
   const createNews = (newsDto) =>
     new Promise((resolve, reject) => {
       const request = new CreateNewsDTO();
+      const headers = {
+        "Authorization": TOKEN
+      }
       var thumbnail = new google_protobuf_wrappers_pb.StringValue();
       thumbnail.setValue(newsDto.thumbnail);
       request.setTitle(newsDto.title);
       request.setThumbnail(thumbnail);
       request.setContent(newsDto.content);
 
-      client.createNews(request, {}, (err, response) => {
+      client.createNews(request, headers, (err, response) => {
         if (err) {
           console.error(err);
           reject(err);
@@ -107,13 +110,16 @@ function NewsRepository() {
   const updateNews = (id, newsDto) =>
     new Promise((resolve, reject) => {
       const request = new UpdateNewsDTO();
+      const headers = {
+        "Authorization": TOKEN
+      }
       var thumbnail = new google_protobuf_wrappers_pb.StringValue();
       thumbnail.setValue(newsDto.thumbnail);
       request.setId(id);
       request.setTitle(newsDto.title);
       request.setThumbnail(thumbnail);
       request.setContent(newsDto.content);
-      client.updateNews(request, {}, (err, response) => {
+      client.updateNews(request, headers, (err, response) => {
         if (err) {
           console.error(err);
           reject(err);
@@ -127,7 +133,10 @@ function NewsRepository() {
     new Promise((resolve, reject) => {
       const request = new NewsId();
       request.setId(id);
-      client.removeNews(request, {}, (err, response) => {
+      const headers = {
+        "Authorization": TOKEN
+      }
+      client.removeNews(request, headers, (err, response) => {
         if (err) {
           console.error(err);
           reject(err);

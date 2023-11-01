@@ -132,7 +132,7 @@ export function getValidationMessageAdvance({
     (errorNode || errorSelector) &&
     (inputNode || inputSelector)
   ) {
-    inputSelector ??=`[name=${inputNode.name}]`
+    inputSelector ??= `[name=${inputNode.name}]`;
     inputNode ??= container.querySelector(inputSelector);
     errorNode ??= container.querySelector(errorSelector);
     for (var i = 0; i < validation.length; i++) {
@@ -153,4 +153,24 @@ export function getValidationMessageAdvance({
   } else {
     throw new Error("please input all field!");
   }
+}
+export function clearErrorValidation({
+  container,
+  inputSelector,
+  errorSelector,
+}) {
+  container ??= document;
+  inputSelector ??= "[name]";
+  errorSelector ??= ".text-red-600";
+
+  const inputNodes = container.querySelectorAll(inputSelector);
+  const errorNodes = container.querySelectorAll(errorSelector);
+
+   inputNodes.forEach((inputNode) => {
+    inputNode.classList?.remove("border");
+    inputNode.classList?.remove("border-error");
+  });
+  errorNodes.forEach((errorNode) => {
+    errorNode.textContent = "";
+  });
 }

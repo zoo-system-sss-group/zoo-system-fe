@@ -6,7 +6,10 @@ import NewsRepository from "../../../repositories/NewsRepository";
 import { Editor } from "@tinymce/tinymce-react";
 import { useRef } from "react";
 import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
-import { getValidationMessageAdvance } from "../../../utils/Validation";
+import {
+  clearErrorValidation,
+  getValidationMessageAdvance,
+} from "../../../utils/Validation";
 import { ref } from "firebase/storage";
 import { cleanContent } from "../../../utils/MyUtils";
 
@@ -49,6 +52,10 @@ function EditNews({ id, VALIDATIONS, fetch }) {
           prev = res.thumbnail;
           return prev;
         });
+        clearErrorValidation({
+          container: form.current,
+          errorSelector: ".text-err",
+        });
       })
       .catch((err) => {
         setErrorMessage(err);
@@ -72,7 +79,6 @@ function EditNews({ id, VALIDATIONS, fetch }) {
         data.inputNode = textEditorRef.current;
         data.value = cleanContent(text)?.trim() ?? "";
       }
-      console.log(data,input.value);
       msg = getValidationMessageAdvance(data);
       if (msg) hasError = true;
     });
@@ -90,7 +96,7 @@ function EditNews({ id, VALIDATIONS, fetch }) {
         if (msg === undefined) msg = "Something go wrong!";
         setErrorMessage(msg);
       }
-    } 
+    }
     if (typeof img === "string") {
       newsObj.thumbnail = img;
     }
@@ -168,7 +174,7 @@ function EditNews({ id, VALIDATIONS, fetch }) {
                 onChange={(e) => updateFormValue("title", e.target)}
                 className="input input-bordered w-full "
               />
-              <div className="text-err text-lg">{errorMessage}</div>
+              <div className="text-err text-lg"></div>
             </div>
             <div className="form-control">
               <label className="label mt-4">
@@ -196,7 +202,7 @@ function EditNews({ id, VALIDATIONS, fetch }) {
                   className="image w-2/3 max-w-[500px] block m-auto my-2 shadow rounded-lg "
                 />
               )}
-              <div className="text-err text-lg my-2">{errorMessage}</div>
+              <div className="text-err text-lg my-2"></div>
             </div>
             <div className="form-control">
               <label className="label mt-4">
