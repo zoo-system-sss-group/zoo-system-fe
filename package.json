@@ -34,6 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "debug": "node --nolazy --inspect-brk=5858 src/App.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

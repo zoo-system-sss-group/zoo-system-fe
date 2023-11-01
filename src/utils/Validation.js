@@ -1,4 +1,5 @@
 /** Thanh Binh Form Validation v1.0
+import { getValidationMessage } from './Validation';
  * these function help you use quick validation for form inputs
  * various from text,number,date,checkboxes,and radio
  * config the validation by
@@ -33,17 +34,25 @@ export function ValidateNumber(min, max, msg) {
     return msg ?? `This Field value need to be in between ${min} and ${max}!`;
   };
 }
-export function ValidateDateRange({ minDate, maxDate, msg1, msg2, msgCombine }) {
+export function ValidateDateRange({
+  minDate,
+  maxDate,
+  msg1,
+  msg2,
+  msgCombine,
+}) {
   return (value) => {
     try {
       var dateValue = new Date(value);
     } catch {
       return "Not Valid Date Value!";
     }
-    if(minDate && maxDate && msgCombine){
-      if(dateValue < minDate || dateValue > maxDate )
-      return msgCombine ?? `This Field need to have Date larger than ${minDate} and smaller than ${maxDate}`;
-
+    if (minDate && maxDate && msgCombine) {
+      if (dateValue < minDate || dateValue > maxDate)
+        return (
+          msgCombine ??
+          `This Field need to have Date larger than ${minDate} and smaller than ${maxDate}`
+        );
     }
     if (minDate && dateValue < minDate)
       return msg1 ?? `This Field need to have Date larger than ${minDate}`;
@@ -82,22 +91,86 @@ export function ValidateValueInList(list, msg) {
  * return msg and print the input error if validation is false
  * note: after this you can or cannot submit the form based on your choice
  */
-export function getValidationMessage(validation, input) {
-  if (validation && input) {
+export function getValidationMessage(
+  validation,
+  inputNode,
+  errorSelector,
+  container
+) {
+  if (validation && inputNode) {
+    container ??= document;
     for (var i = 0; i < validation.length; i++) {
       const vtion = validation[i];
-      var msg = vtion(input.value);
-      var errorNode = document
-        .querySelector(`.form-control:has(input[name=${input.name}])`)
-        .querySelector(".text-red-600");
+      var msg = vtion(inputNode.value);
+      var errorNode = container
+        .querySelector(`.form-control:has([name=${inputNode.name}])`)
+        .querySelector(errorSelector ?? ".text-red-600");
       if (msg) {
         errorNode.textContent = msg;
-        input.classList.add("border-error");
+        inputNode.classList.add("border-error");
+        inputNode.focus();
         return msg;
       } else {
         errorNode.textContent = "";
-        input.classList.remove("border-error");
+        inputNode.classList?.remove("border-error");
       }
     }
   }
+}
+export function getValidationMessageAdvance({
+  validation,
+  value,
+  container,
+  errorNode,
+  errorSelector,
+  inputNode,
+  inputSelector,
+}) {
+  if (
+    validation &&
+    container &&
+    (errorNode || errorSelector) &&
+    (inputNode || inputSelector)
+  ) {
+    inputSelector ??= `[name=${inputNode.name}]`;
+    inputNode ??= container.querySelector(inputSelector);
+    errorNode ??= container.querySelector(errorSelector);
+    for (var i = 0; i < validation.length; i++) {
+      const vtion = validation[i];
+      var msg = vtion(value);
+      if (msg) {
+        errorNode.textContent = msg;
+        inputNode.classList.add("border");
+        inputNode.classList.add("border-error");
+        inputNode.focus();
+        return msg;
+      } else {
+        errorNode.textContent = "";
+        inputNode.classList?.remove("border");
+        inputNode.classList?.remove("border-error");
+      }
+    }
+  } else {
+    throw new Error("please input all field!");
+  }
+}
+export function clearErrorValidation({
+  container,
+  inputSelector,
+  errorSelector,
+}) {
+  container ??= document;
+  inputSelector ??= "[name]";
+  errorSelector ??= ".text-red-600";
+
+  const inputNodes = container.querySelectorAll(inputSelector);
+  const errorNodes = container.querySelectorAll(errorSelector);
+
+   inputNodes.forEach((inputNode) => {
+    inputNode.classList?.remove("border");
+    inputNode.classList?.remove("border-error");
+  });
+  errorNodes.forEach((errorNode) => {
+    errorNode.textContent = "";
+  });
 }

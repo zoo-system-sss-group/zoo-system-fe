@@ -13,6 +13,16 @@ import AddNews from "./components/AddNews";
 import ViewNews from "./components/ViewNews";
 import NewsRepository from "../../repositories/NewsRepository";
 import DOMPurify from "dompurify";
+import { ValidateEmpty } from "../../utils/Validation";
+import { cleanContent } from "../../utils/MyUtils";
+
+const VALIDATIONS = {
+  title: [ValidateEmpty()],
+  thumbnail: [],
+  content: [ValidateEmpty()],
+};
+
+const user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function News() {
   const dispatch = useDispatch();
@@ -64,12 +74,6 @@ function News() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
 
-  function cleanContent(content) {
-    const cleanedContent = document.createElement("div");
-    cleanedContent.innerHTML = DOMPurify.sanitize(content).toString();
-    return cleanedContent.innerText;
-  }
-
   const deleteNews = (id) => {
     // axios
     //   .delete(`/odata/news/${id}`)
@@ -106,7 +110,11 @@ function News() {
       <TitleCard
         title="News table"
         topMargin="mt-2"
-        TopSideButtons={<AddNews fetch={fetchNewsList} />}
+        TopSideButtons={
+          user.role === "Staff" && (
+            <AddNews VALIDATIONS={VALIDATIONS} fetch={fetchNewsList} />
+          )
+        }
       >
         <div className="overflow-x-auto w-full">
           {news != null ? (
@@ -114,8 +122,8 @@ function News() {
               <table className="table w-full">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th className="w-2/12" >Title</th>
+                    <th>No.</th>
+                    <th className="w-2/12">Title</th>
                     <th>Thumbnail</th>
                     <th>Content</th>
                     <th>CreationDate</th>
@@ -127,9 +135,9 @@ function News() {
                 <tbody>
                   {news.map((news, index) => {
                     return (
-                      <tr key={index}>
+                      <tr key={news.id + 1}>
                         <td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
-                          {news.id}
+                          {index + pagination.page * 10 - 9}
                         </td>
                         <td>{news.title}</td>
                         <td>
@@ -139,8 +147,10 @@ function News() {
                             alt="Avatar"
                           />
                         </td>
-                        <td className="line-clamp-4 overflow-hidden ">
-                          {cleanContent(news.content)}
+                        <td>
+                          <div className="line-clamp-4 ">
+                            {cleanContent(news.content)}
+                          </div>
                         </td>
                         <td>
                           {moment(news.creationdate).format(
@@ -155,6 +165,7 @@ function News() {
                         {/* <td>{getStatus(news.IsDeleted)}</td> */}
                         <td className="flex">
                           {/* Nut xem news */}
+
                           <button
                             className="btn btn-ghost inline"
                             onClick={() => {
@@ -168,53 +179,62 @@ function News() {
                           </button>
 
                           {/* Nut sua news */}
-                          <button
-                            className="btn btn-ghost inline"
-                            onClick={() => {
-                              setIdSelect(news.id);
-                              document
-                                .getElementById("btnEditNews")
-                                .showModal();
-                            }}
-                          >
-                            <PencilSquareIcon className="w-5 text-cor3 stroke-2" />
-                          </button>
+                          {user.role === "Staff" && (
+                            <>
+                              <button
+                                className="btn btn-ghost inline"
+                                onClick={() => {
+                                  setIdSelect(news.id);
+                                  document
+                                    .getElementById("btnEditNews")
+                                    .showModal();
+                                }}
+                              >
+                                <PencilSquareIcon className="w-5 text-cor3 stroke-2" />
+                              </button>
 
-                          {/* Nut doi status news */}
-                          <button
-                            className="btn btn-ghost inline"
-                            onClick={() => {
-                              setIdSelect(news.id);
-                              document
-                                .getElementById("btnDeleteNews")
-                                .showModal();
-                            }}
-                          >
-                            <TrashIcon className="w-5 text-err stroke-2" />
-                          </button>
-                          <dialog id="btnDeleteNews" className="modal ">
-                            <div className="modal-box">
-                              <h3 className="font-bold text-lg">Confirm</h3>
-                              <p className="py-4 text-2xl">
-                                Are you want to delete news "{news.title}"?
-                              </p>
-                              <div className="modal-action">
-                                <form method="dialog">
-                                  <button className="btn">Close</button>
+                              {/* Nut doi status news */}
+                              <button
+                                className="btn btn-ghost inline"
+                                onClick={() => {
+                                  setIdSelect(news.id);
+                                  document
+                                    .getElementById("btnDeleteNews")
+                                    .showModal();
+                                }}
+                              >
+                                <TrashIcon className="w-5 text-err stroke-2" />
+                              </button>
 
-                                  <button
-                                    className="btn btn-primary ml-4"
-                                    onClick={() => deleteNews(idSelect)}
-                                  >
-                                    Delete
-                                  </button>
+                              <dialog id="btnDeleteNews" className="modal ">
+                                <div className="modal-box">
+                                  <h3 className="font-bold text-lg">Confirm</h3>
+                                  <p className="py-4 text-2xl">
+                                    Are you want to delete news "{news.title}"?
+                                  </p>
+                                  <div className="modal-action">
+                                    <form method="dialog">
+                                      <button className="btn">Close</button>
+
+                                      <button
+                                        className="btn btn-primary ml-4"
+                                        onClick={() => deleteNews(idSelect)}
+                                      >
+                                        Delete
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+
+                                <form
+                                  method="dialog"
+                                  className="modal-backdrop"
+                                >
+                                  <button>close</button>
                                 </form>
-                              </div>
-                            </div>
-                            <form method="dialog" className="modal-backdrop">
-                              <button>close</button>
-                            </form>
-                          </dialog>
+                              </dialog>
+                            </>
+                          )}
                         </td>
                       </tr>
                     );
@@ -222,8 +242,13 @@ function News() {
                 </tbody>
               </table>
               <ViewNews id={idSelect} />
-              <EditNews id={idSelect} fetch={fetchNewsList} />
-
+              {user.role === "Staff" && (
+                <EditNews
+                  id={idSelect}
+                  VALIDATIONS={VALIDATIONS}
+                  fetch={fetchNewsList}
+                />
+              )}
               <div className="w-full flex justify-center">
                 <div className="join">
                   <button

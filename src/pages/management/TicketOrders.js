@@ -8,7 +8,7 @@ function InternalPage(){
 
     useEffect(() => {
         dispatch(setPageTitle({ title : "Ticket Orders Management"}))
-      }, [])
+      }, [dispatch])
 
 
     return(

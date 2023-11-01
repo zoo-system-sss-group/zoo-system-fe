@@ -20,7 +20,8 @@ const Login = () => {
 		setLoginObj({ ...loginObj, [updateType]: value });
 	};
 
-	const submitForm = () => {
+	const submitForm = (e) => {
+		e.preventDefault();
 		setErrorMessage("");
 		if (loginObj.userName.trim() === "")
 			return setErrorMessage("Username is required!");
@@ -69,7 +70,7 @@ const Login = () => {
 				<img className="w-full h-full object-cover" src={image} alt="" />
 			</div>
 			<div className="flex flex-col justify-center">
-				<div className="max-w-[400px] w-full mx-auto bg-cor1 p-9 px-8 rounded-lg">
+				<form className="max-w-[400px] w-full mx-auto bg-cor1 p-9 px-8 rounded-lg" onSubmit={submitForm}>
 					<div className="relative">
 						<Link
 							to=":id"
@@ -104,11 +105,11 @@ const Login = () => {
 						className={
 							"w-full my-5 py-2 btn btn-accent text-white font-semibold rounded-lg "
 						}
-						onClick={submitForm}
+						
 					>
 						Sign In <span className={loading ? " loading" : ""}></span>
 					</button>
-				</div>
+				</form>
 			</div>
 		</div>
 	);
