@@ -66,12 +66,12 @@ function Animals() {
               animals.map((animal) => (
                 <div
                   key={animal.Id}
-                  className="card w-72  md:w-90 mx-auto bg-cor4 shadow-xl hover:scale-[1.05] hover:transition"
+                  className="card w-full  mx-auto bg-cor4 shadow-xl hover:scale-[1.05] hover:transition"
                   title={animal.Description}
                 >
                   <figure>
                     <img
-                      className="w-full h-[250px] object-cover  "
+                      className="w-full aspect-square object-cover  "
                       src={animal.Image ? animal.Image : "img/noimage.jpg"}
                       alt={animal.Species.Name}
                     />

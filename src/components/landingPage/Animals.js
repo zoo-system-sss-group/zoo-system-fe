@@ -37,7 +37,7 @@ const Animals = () => {
 						<li key={animal.Id} className="p-4 rounded-xl bg-cor4 text-co">
 							<img
 								className="w-full object-cover mb-4 h-[250px] md:h-[180px]"
-								src={animal.Image ?? "img/noimage.jpg"}
+								src={animal.Image ?? "../img/noImage.jpg"}
 								alt={animal.Species.Name}
 							/>
 							<h3 className="text-base mb-4 font-medium capitalize text-cor2">

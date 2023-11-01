@@ -71,7 +71,7 @@ function News() {
                 <figure>
                   <img
                     className="w-full h-52 object-cover object-top"
-                    src={newObj.thumbnail ?? "/public/img/noimage.jpg"}
+                    src={newObj.thumbnail ?? "../img/noImage.jpg"}
                     alt={newObj.title}
                   />
                 </figure>

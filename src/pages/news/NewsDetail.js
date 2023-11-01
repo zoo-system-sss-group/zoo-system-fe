@@ -74,7 +74,7 @@ export function NewsDetail() {
                 <div className="flex flex-col justify-center ">
                   <img
                     className="image-full rounded-md shadow-lg bg-transparent w-full lg:w-2/3 block m-auto max-w-[500px] min-h-[16rem] border my-6"
-                    src={newsObj?.thumbnail}
+                    src={newsObj?.thumbnail ?? "../img/noImage.jpg"}
                     alt={newsObj?.title}
                   />
                   <div
