@@ -2,17 +2,23 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import TitleCard from "../../components/common/Cards/TitleCard";
-import { NoSymbolIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  NoSymbolIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
 import EditAccount from "./components/EditAccount";
 import AddAccount from "./components/AddAccount";
-var user = JSON.parse(localStorage.getItem("loginInfo"));
+import ViewAccount from "./components/ViewAccount";
 
+var user = JSON.parse(localStorage.getItem("loginInfo"));
 function Accounts() {
   const dispatch = useDispatch();
   const [accounts, setAccounts] = useState();
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
   const [idSelect, setIdSelect] = useState(1);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -24,7 +30,7 @@ function Accounts() {
   const fetchAccountList = () => {
     axios
       .get(
-        `odata/accounts?$orderby=CreationDate desc&$skip=${
+        `odata/accounts?$filter=contains(tolower(Username), '${search}') or contains(tolower(Fullname), '${search}')&$orderby=CreationDate desc&$skip=${
           (pagination.page - 1) * 10
         }&$top=${pagination.limit}`
       )
@@ -37,7 +43,7 @@ function Accounts() {
         setAccounts(accounts);
       })
       .catch((err) => {
-        if (err.response.status == 403)
+        if (err.response && err.response.status == 403)
           setError(`${user.role} is not Allowed to View User Accounts`);
         else setError(err.message);
       });
@@ -76,6 +82,24 @@ function Accounts() {
       <TitleCard
         title="Account table"
         topMargin="mt-2"
+        searchInput={
+          <div className="join">
+            <input
+              className="input input-bordered join-item w-80"
+              placeholder="Search by Username or Fullname"
+              value={search}
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            />
+            <div className="indicator">
+              <button
+                className="btn join-item"
+                onClick={() => fetchAccountList()}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        }
         TopSideButtons={
           user.role == "Staff" && <AddAccount fetch={fetchAccountList} />
         }
@@ -198,7 +222,10 @@ function Accounts() {
                 </tbody>
               </table>
               {user.role === "Staff" && (
-                <EditAccount id={idSelect} fetch={fetchAccountList} />
+                <>
+                  <ViewAccount id={idSelect} />
+                  <EditAccount id={idSelect} fetch={fetchAccountList} />
+                </>
               )}
               <div className="w-full flex justify-center">
                 <div className="join">
@@ -211,9 +238,7 @@ function Accounts() {
                           page: pagination.page - 1,
                         });
                     }}
-                  >
-                    «
-                  </button>
+                  ></button>
                   <button className="join-item btn">
                     Page {pagination.page}
                   </button>

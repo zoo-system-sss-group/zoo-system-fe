@@ -17,6 +17,7 @@ function TicketOrders() {
   const dispatch = useDispatch();
   const [ticketOrders, setTicketOrders] = useState();
   const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
   const [idSelect, setIdSelect] = useState();
   const [pagination, setPagination] = useState({
     page: 1,
@@ -27,7 +28,7 @@ function TicketOrders() {
   const fetchTicketOrderList = () => {
     axios
       .get(
-        `odata/ticketorders?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+        `odata/ticketorders?$filter=isDeleted eq false and (contains(tolower(CustomerName), '${search}') or contains(tolower(Email), '${search}') or contains(PhoneNumber, '${search}'))&$orderby=CreationDate desc&$skip=${
           (pagination.page - 1) * 10
         }&$top=${pagination.limit}`
       )
@@ -41,7 +42,7 @@ function TicketOrders() {
         setIdSelect(ticketOrders[0].Id);
       })
       .catch((err) => {
-        if (err.response.status === 403)
+        if (err.response && err.response.status === 403)
           setError(`${user.role} Is Not Allowed to view Ticket Orders!`);
         else setError(err.message);
       });
@@ -86,6 +87,24 @@ function TicketOrders() {
       <TitleCard
         title="Ticket Order table"
         topMargin="mt-2"
+        searchInput={
+          <div className="join">
+            <input
+              className="input input-bordered join-item w-96"
+              placeholder="Search by Name, Email or PhoneNumber"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div className="indicator">
+              <button
+                className="btn join-item"
+                onClick={() => fetchTicketOrderList()}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+        }
         TopSideButtons={
           user.role === "Staff" && (
             <AddTicketOrder fetch={fetchTicketOrderList} />

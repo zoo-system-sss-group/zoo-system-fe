@@ -43,7 +43,7 @@ function Profile() {
 									document.getElementById("btnEditProfile").showModal();
 								}}
 							>
-								<span className="btn btn-sm btn-primary">
+								<span className="btn  btn-primary">
 									<PencilSquareIcon className="w-5 stroke-2" />
 									Edit
 								</span>

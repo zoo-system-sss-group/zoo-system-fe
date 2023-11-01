@@ -7,6 +7,7 @@ import moment from "moment";
 import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
 
 const INITIAL_ACCOUNT_OBJ = {
+	Id: "",
 	Name: "",
 	Image: null,
 	Description: "",
@@ -201,9 +202,7 @@ function EditAnimal({ id, fetch }) {
 							src={
 								img
 									? URL.createObjectURL(img)
-									: animalObj.Image
-									? animalObj.Image
-									: "../img/noimage.jpg"
+									: animalObj.Image ?? "../img/noimage.jpg"
 							}
 							alt="animal"
 							className="mt-2 border rounded-lg min-w-full"

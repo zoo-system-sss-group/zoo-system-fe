@@ -15,7 +15,7 @@ function LeftSidebar() {
 	};
 
 	return (
-		<div className="drawer-side ">
+		<div className="drawer-side z-10">
 			<label
 				htmlFor="left-sidebar-drawer"
 				aria-label="close sidebar"

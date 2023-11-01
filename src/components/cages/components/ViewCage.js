@@ -16,6 +16,7 @@ const INITIAL_CAGE_OBJ = {
 	CreationDate: "",
 	DeletionDate: "",
 	IsDeleted: false,
+	CageHistories: [],
 };
 
 function ViewCage({ id }) {
@@ -23,7 +24,7 @@ function ViewCage({ id }) {
 	const [cageObj, setCageObj] = useState(INITIAL_CAGE_OBJ);
 
 	useEffect(() => {
-		axios.get(`odata/cages/${id}`).then((res) => {
+		axios.get(`odata/cages(${id})?$expand=cageHistories($filter=EndDate eq null;$expand=animal)`).then((res) => {
 			setCageObj({
 				...cageObj,
 				...res.data,
@@ -41,7 +42,7 @@ function ViewCage({ id }) {
 						<span className="label-text">Image</span>
 					</label>
 					<img
-						src={cageObj.Image ? cageObj.Image : "../img/noimage.jpg"}
+						src={cageObj.Image ?? "../img/noimage.jpg"}
 						alt="cage"
 						className="mt-2 border rounded-lg min-w-full"
 					/>
@@ -111,6 +112,50 @@ function ViewCage({ id }) {
 							className="input input-bordered w-full"
 							disabled
 						/>
+
+						{cageObj.CageHistories ? (
+							<>
+								<label className="label mt-4">
+									<span className="label-text">Cage Histories</span>
+								</label>
+								<table className="table">
+									<thead>
+										<tr>
+											<th>Animal Id</th>
+											<th>Animal Name</th>
+											<th>Animal Status</th>
+											<th>Start Date</th>
+											<th>End Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										{cageObj.CageHistories.map((cageHistories) => (
+											<tr key={cageHistories.Id}>
+												<th>{cageHistories.AnimalId}</th>
+												<th>{cageHistories.Animal.Name}</th>
+												<th>{cageHistories.Animal.Status}</th>
+												<th>
+													{moment(cageHistories.StartDate).format(
+														"YYYY-MM-DD hh:mm:ss"
+													)}
+												</th>
+												<th>
+													{cageHistories.EndDate ? (
+														moment(cageHistories.EndDate).format("YYYY-MM-DD HH:mm:ss")
+													) : (
+														<span className="text-cor1 font-semibold">
+															Not end yet
+														</span>
+													)}
+												</th>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</>
+						) : (
+							""
+						)}
 
 						<div className="flex gap-2">
 							<div className="w-full">

@@ -10,9 +10,11 @@ const Animals = lazy(() => import('../pages/management/Animals'))
 const Areas = lazy(() => import('../pages/management/Areas'))
 const Species = lazy(() => import('../pages/management/Species'))
 const Cages = lazy(() => import('../pages/management/Cages'))
+const Diets = lazy(() => import('../pages/management/Diets'))
 const News = lazy(() => import('../pages/management/News'))
 const TicketOrders = lazy(() => import('../pages/management/TicketOrders'))
 const Profile = lazy(() => import('../pages/management/Profile'))
+const Training = lazy(() => import('../pages/management/Training'))
 
 
 const routes = [
@@ -41,6 +43,10 @@ const routes = [
     component: Cages, 
   },
   {
+    path: '/diets', 
+    component: Diets, 
+  },
+  {
     path: '/news', 
     component: News, 
   },
@@ -51,6 +57,10 @@ const routes = [
   {
     path: '/profile', 
     component: Profile, 
+  },
+  {
+    path: '/training', 
+    component: Training, 
   },
   {
     path: '/404',
