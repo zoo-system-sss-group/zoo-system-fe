@@ -26,8 +26,9 @@ const user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function News() {
   const dispatch = useDispatch();
-  const [news, setNews] = useState();
   const _repo = NewsRepository();
+  const [news, setNews] = useState();
+  const [search, setSearch] = useState("");
   const [error, setError] = useState("");
   const [idSelect, setIdSelect] = useState(1);
   const [pagination, setPagination] = useState({
@@ -54,8 +55,9 @@ function News() {
     // 	.catch((err) => {
     // 		setError(err.message);
     // 	});
+    console.log(pagination.page, pagination.limit, search);
     _repo
-      .getNews(pagination.page, pagination.limit,user)
+      .getNews(pagination.page, pagination.limit, search)
       .then((res) => {
         let news = res.value;
         if (!pagination.isEnd && news.length < pagination.limit)
@@ -73,7 +75,7 @@ function News() {
     fetchNewsList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
-  const deleteNews = (id,user) => {
+  const deleteNews = (id, user) => {
     // axios
     //   .delete(`/odata/news/${id}`)
     //   .then((res) => {
@@ -109,6 +111,21 @@ function News() {
       <TitleCard
         title="News table"
         topMargin="mt-2"
+        searchInput={
+          <div className="join">
+            <input
+              className="input input-bordered join-item"
+              placeholder="Search by Name"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <div className="indicator">
+              <button className="btn join-item" onClick={() => fetchNewsList()}>
+                Search
+              </button>
+            </div>
+          </div>
+        }
         TopSideButtons={
           user.role === "Staff" && (
             <AddNews VALIDATIONS={VALIDATIONS} fetch={fetchNewsList} />

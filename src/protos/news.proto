@@ -2,10 +2,11 @@ syntax = "proto3";
 
 option csharp_namespace = "Grpc";
 
-import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto"; 
 import "google/protobuf/wrappers.proto";
-
+message Search {
+	string search =1; 	
+}
 message NewsDTO {
   int32 id = 1;
   string title = 2;
@@ -33,7 +34,7 @@ message NewsId {
 }
 
 service NewsService {
-  rpc GetNews (google.protobuf.Empty) returns (stream NewsDTO);
+  rpc GetNews (Search) returns (stream NewsDTO);
   rpc GetRandomNews (NewsId) returns (stream NewsDTO);
   rpc GetNewById (NewsId) returns (NewsDTO);
   rpc CreateNews (CreateNewsDTO) returns (StringMessage);

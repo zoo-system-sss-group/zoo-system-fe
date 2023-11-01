@@ -1,6 +1,6 @@
 import { NewsServiceClient } from "../protos/autogenerate/news_grpc_web_pb";
 import {
-  Empty,
+  Search,
   CreateNewsDTO,
   UpdateNewsDTO,
   NewsId,
@@ -18,11 +18,12 @@ function NewsRepository() {
     return newObj;
   }
 
-  const getNews = (pageIndex, pageSize) =>
+  const getNews = (pageIndex, pageSize,search) =>
     new Promise((resolve, reject) => {
       const news = [];
-      const request = new Empty(); // Assuming GetNews takes an Empty request
-
+      const request = new Search();
+      console.log(request)
+      request.setSearch(search ?? "");
       const call = client.getNews(request, {}); // Make the gRPC call
 
       call.on("data", (response) => {

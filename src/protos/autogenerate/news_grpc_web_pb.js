@@ -20,8 +20,6 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 
-var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
-
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js')
 
 var google_protobuf_wrappers_pb = require('google-protobuf/google/protobuf/wrappers_pb.js')
@@ -82,16 +80,16 @@ proto.NewsServicePromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.google.protobuf.Empty,
+ *   !proto.Search,
  *   !proto.NewsDTO>}
  */
 const methodDescriptor_NewsService_GetNews = new grpc.web.MethodDescriptor(
   '/NewsService/GetNews',
   grpc.web.MethodType.SERVER_STREAMING,
-  google_protobuf_empty_pb.Empty,
+  proto.Search,
   proto.NewsDTO,
   /**
-   * @param {!proto.google.protobuf.Empty} request
+   * @param {!proto.Search} request
    * @return {!Uint8Array}
    */
   function(request) {
@@ -102,7 +100,7 @@ const methodDescriptor_NewsService_GetNews = new grpc.web.MethodDescriptor(
 
 
 /**
- * @param {!proto.google.protobuf.Empty} request The request proto
+ * @param {!proto.Search} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
  * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
@@ -119,7 +117,7 @@ proto.NewsServiceClient.prototype.getNews =
 
 
 /**
- * @param {!proto.google.protobuf.Empty} request The request proto
+ * @param {!proto.Search} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
  * @return {!grpc.web.ClientReadableStream<!proto.NewsDTO>}
