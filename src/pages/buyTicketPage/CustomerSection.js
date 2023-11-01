@@ -9,9 +9,9 @@ function CustomerSection({
 	paymentMethods,
 }) {
 	return (
-		<form className="card card-compact w-full m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor4 text-cor2 shadow relative">
+		<form className="card card-compact  m-8 md:w-2/3 lg:w-3/5 w-full max-w-[650px] bg-cor4 text-cor2 shadow relative">
 			<div className="card-body ">
-				<Progress value={0} max={3} />
+				<Progress value={step} max={totalStep} />
 				<div className="card-title">Your Information</div>
 				<div className="flex justify-between gap-6">
 					<div className="form-control w-1/2">

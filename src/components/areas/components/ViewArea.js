@@ -29,7 +29,7 @@ function ViewArea({ id }) {
 				...areaObj,
 				...res.data,
 			});
-		});
+		}).catch(err=>console.log(err));
 	}, [id]);
 
 	return (
