@@ -52,7 +52,7 @@ function ViewAccount({ id }) {
 								<span className="label-text">ID</span>
 							</label>
 							<input
-								value={accountObj.Id}
+								value={accountObj.Id ?? ""}
 								className="input input-bordered w-full "
 								disabled
 							/>

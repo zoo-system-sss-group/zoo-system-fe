@@ -31,7 +31,7 @@ function Animals() {
 			.get(
 				`odata/animals?$filter=IsDeleted eq false and contains(tolower(Name), '${search}')&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
-				}&$top=${pagination.limit}&$expand=species`
+				}&$top=${pagination.limit}&$expand=species,cageHistories($filter=EndDate eq null;$expand=cage)`
 			)
 			.then((res) => {
 				let animals = res.data.value;
@@ -99,8 +99,9 @@ function Animals() {
 										<th>Weight</th>
 										<th>BirthDate</th>
 										<th>Species</th>
-										<th>CreationDate</th>
-										<th>ModificationDate</th>
+										<th>Current Cage</th>
+										<th>Creation Date</th>
+										<th>Modification Date</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -129,6 +130,7 @@ function Animals() {
 												<td>{l.Weight}</td>
 												<td>{moment(l.BirthDate).format("yyyy-MM-DD")}</td>
 												<td>{l.Species.Name}</td>
+												<td>{l.CageHistories[0]?.Cage.Name}</td>
 												<td>
 													{moment(l.CreationDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>

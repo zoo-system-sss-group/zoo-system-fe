@@ -12,19 +12,21 @@ const INITIAL_DIET_OBJ = {
 };
 
 const UNIT = [
-	"Milliliter (mL)",
-	"Liter (L)",
-	"Gallon (gal)",
-	"Gram (g)",
-	"Kilogram (kg)",
-	"Ounce (oz)",
-	"Pound (lb)",
-	"Each (ea)",
-	"Dozen (dz)",
+	"Milliliter",
+	"Liter",
+	"Gallon",
+	"Gram",
+	"Kilogram",
+	"Ounce",
+	"Pound",
+	"Each",
+	"Dozen",
 	"Pair",
-	"Teaspoon (tsp)",
-	"Tablespoon (tbsp)",
+	"Teaspoon",
+	"Tablespoon",
 	"Cup",
+	"kilograms",
+	"liters",
 ];
 
 function AddDiet({ fetch }) {
@@ -130,7 +132,6 @@ function AddDiet({ fetch }) {
 								<span className="label-text">Unit</span>
 							</label>
 							<select
-								type="text"
 								placeholder=""
 								value={dietObj.Unit}
 								onChange={(e) => updateFormValue("Unit", e.target.value)}
