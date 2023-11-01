@@ -9,6 +9,8 @@ import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 function TicketSection({
 	minDate,
 	maxDate,
+	step,
+	totalStep,
 	prevStep,
 	nextStep,
 	handleChange,
@@ -97,7 +99,7 @@ function TicketSection({
 			onSubmit={(e) => e.preventDefault()}
 		>
 			<div className="card-body ">
-			<Progress value={1} max={3}/>
+			<Progress value={step} max={totalStep}/>
 				<div className="card-title text-cor2">Buy Ticket</div>
 				{/* Ticket Type */}
 				<div className="form-control  flex flex-row flex-wrap justify-between items-center ">

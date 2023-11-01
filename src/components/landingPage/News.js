@@ -37,7 +37,7 @@ const News = () => {
           <li key={newsObj.id} className="bg-[#1b3323] p-4 h-full rounded-xl">
             <img
               className="h-[180px] w-full md:h-[250px] object-cover mb-4"
-              src={newsObj.thumbnail ?? "/public/img/noImage.jpg" }
+              src={newsObj.thumbnail ?? "../img/noImage.jpg" }
               alt={newsObj.title}
             />
             <h3 className="mb-4 text-base font-medium">{newsObj.title}</h3>
