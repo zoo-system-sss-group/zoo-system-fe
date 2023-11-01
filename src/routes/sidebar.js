@@ -35,9 +35,14 @@ const routes = [
 		name: "News",
 	},
 	{
-		path: "/management/training",
+		path: "/management/myTraining",
 		icon: <PuzzlePieceIcon className={iconClasses} />,
 		name: "Training",
+	},
+	{
+		path: "/management/TrainingDetails",
+		icon: <PuzzlePieceIcon className={iconClasses} />,
+		name: "Training Details",
 	},
 
 	{
