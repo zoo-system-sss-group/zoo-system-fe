@@ -11,6 +11,7 @@ const INITIAL_CAGE_OBJ = {
 	Image: "",
 	Description: "",
 	Weight: 0,
+	Height: 0,
 	BirthDate: "",
 	SpeciesId: 0,
 	Species: {},
@@ -76,15 +77,30 @@ function ViewAnimal({ id }) {
 								disabled
 							/>
 
-							<label className="label mt-4">
-								<span className="label-text">Weight</span>
-							</label>
-							<input
-								type="number"
-								value={animalObj.Weight ?? 0}
-								className="input input-bordered w-full"
-								disabled
-							/>
+							<div className="flex gap-2">
+								<div className="w-full">
+									<label className="label mt-4">
+										<span className="label-text">Weight</span>
+									</label>
+									<input
+										type="number"
+										value={animalObj.Weight ?? 0}
+										className="input input-bordered w-full"
+										disabled
+									/>
+								</div>
+								<div className="w-full">
+									<label className="label mt-4">
+										<span className="label-text">Height</span>
+									</label>
+									<input
+										type="number"
+										value={animalObj.Height ?? 0}
+										className="input input-bordered w-full"
+										disabled
+									/>
+								</div>
+							</div>
 
 							<label className="label mt-4">
 								<span className="label-text">BirthDate</span>
@@ -115,7 +131,7 @@ function ViewAnimal({ id }) {
 							<img
 								src={animalObj.Image ?? "../img/noimage.jpg"}
 								alt="animal"
-								className="mt-2 border rounded-lg min-w-full"
+								className="border rounded-lg min-w-full"
 							/>
 
 							<div className="flex gap-2">
@@ -179,50 +195,6 @@ function ViewAnimal({ id }) {
 						</div>
 					</div>
 
-					{animalObj.CageHistories ? (
-						<>
-							<label className="label mt-4">
-								<span className="label-text">Cage Histories</span>
-							</label>
-							<table className="table">
-								<thead>
-									<tr>
-										<th>CageId</th>
-										<th>CageName</th>
-										<th>StartDate</th>
-										<th>EndDate</th>
-									</tr>
-								</thead>
-								<tbody>
-									{animalObj.CageHistories.map((cageHistories) => (
-										<tr key={cageHistories.CageId}>
-											<th>{cageHistories.CageId}</th>
-											<th>{cageHistories.Cage.Name}</th>
-											<th>
-												{moment(cageHistories.StartDate).format(
-													"YYYY-MM-DD hh:mm:ss"
-												)}
-											</th>
-											<th>
-												{cageHistories.EndDate ? (
-													moment(cageHistories.EndDate).format(
-														"YYYY-MM-DD HH:mm:ss"
-													)
-												) : (
-													<span className="text-cor1 font-semibold">
-														Not end yet
-													</span>
-												)}
-											</th>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</>
-					) : (
-						""
-					)}
-
 					{animalObj.DietDetails ? (
 						<>
 							<label className="label mt-4">
@@ -258,6 +230,50 @@ function ViewAnimal({ id }) {
 											<th>
 												{dietDetails.EndDate ? (
 													moment(dietDetails.EndDate).format(
+														"YYYY-MM-DD HH:mm:ss"
+													)
+												) : (
+													<span className="text-cor1 font-semibold">
+														Not end yet
+													</span>
+												)}
+											</th>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</>
+					) : (
+						""
+					)}
+
+					{animalObj.CageHistories ? (
+						<>
+							<label className="label mt-4">
+								<span className="label-text">Cage Histories</span>
+							</label>
+							<table className="table">
+								<thead>
+									<tr>
+										<th>CageId</th>
+										<th>CageName</th>
+										<th>StartDate</th>
+										<th>EndDate</th>
+									</tr>
+								</thead>
+								<tbody>
+									{animalObj.CageHistories.map((cageHistories) => (
+										<tr key={cageHistories.CageId}>
+											<th>{cageHistories.CageId}</th>
+											<th>{cageHistories.Cage.Name}</th>
+											<th>
+												{moment(cageHistories.StartDate).format(
+													"YYYY-MM-DD hh:mm:ss"
+												)}
+											</th>
+											<th>
+												{cageHistories.EndDate ? (
+													moment(cageHistories.EndDate).format(
 														"YYYY-MM-DD HH:mm:ss"
 													)
 												) : (
