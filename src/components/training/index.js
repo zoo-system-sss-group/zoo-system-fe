@@ -13,7 +13,7 @@ function Training() {
 	const [training, setTraining] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
-	
+
 	const loginInfoJSON = localStorage.getItem("loginInfo");
 	const loginInfo = JSON.parse(loginInfoJSON);
 
@@ -21,7 +21,7 @@ function Training() {
 	const fetchTrainingList = () => {
 		axios
 			.get(
-				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$orderby=CreationDate desc`
+				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal&$orderby=CreationDate desc`
 			)
 			.then((res) => {
 				let training = res.data.value;
@@ -67,6 +67,8 @@ function Training() {
 								<thead>
 									<tr>
 										<th>AnimalId</th>
+										<th>AnimalName</th>
+										<th>Status</th>
 										<th>StartDate</th>
 										<th>EndDate</th>
 										<th></th>
@@ -79,21 +81,45 @@ function Training() {
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
 													{l.AnimalId}
 												</td>
-												<td>{moment(l.StartDate).format("YYYY-MM-DD HH:mm:ss")}</td>
-												<td>{l.EndDate ? moment(l.EndDate).format("YYYY-MM-DD HH:mm:ss") : (<span className="text-cor1 font-semibold">Not end yet</span>)}</td>
+												<td>
+													<div className="flex items-center space-x-3">
+														<div className="mask mask-squircle w-20 h-20">
+															<img
+																src={l.Animal?.Image ?? "../img/user.png"}
+																alt="animal"
+															/>
+														</div>
+														<div>
+															<div className="font-bold">{l.Animal.Name}</div>
+														</div>
+													</div>
+												</td>
+												<td>{l.Animal?.Status}</td>
+												<td>
+													{moment(l.StartDate).format("YYYY-MM-DD HH:mm:ss")}
+												</td>
+												<td>
+													{l.EndDate ? (
+														moment(l.EndDate).format("YYYY-MM-DD HH:mm:ss")
+													) : (
+														<span className="text-cor1 font-semibold">
+															Not end yet
+														</span>
+													)}
+												</td>
 												<td className="flex">
 													{/* Nut sua training */}
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
 															setIdSelect(l.Id);
-															document.getElementById("btnEditTraining").showModal();
+															document
+																.getElementById("btnEditTraining")
+																.showModal();
 														}}
 													>
 														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 													</button>
-
-													
 												</td>
 											</tr>
 										);

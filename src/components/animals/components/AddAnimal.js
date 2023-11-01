@@ -13,15 +13,29 @@ const INITIAL_ANIMAL_OBJ = {
 	Weight: 0,
 	BirthDate: moment().format("YYYY-MM-DD"),
 	SpeciesId: 0,
+	cageHistory: {
+		cageId: 0,
+	},
 };
 
 function AddAnimal({ fetch }) {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
+	const [cages, setCages] = useState([]);
 	const [animalObj, setAnimalObj] = useState(INITIAL_ANIMAL_OBJ);
 	const [speciesObj, setSpeciesObj] = useState([]);
 	const [img, setImg] = useState(null);
+
+	useEffect(() => {
+		axios
+			.get("odata/cages?$filter=IsDeleted eq false&$select=Id,Name")
+			.then((res) => {
+				let arr = res.data.value;
+				setCages(arr);
+				animalObj.cageHistory.cageId = arr[0].Id;
+			});
+	}, []);
 
 	useEffect(() => {
 		axios
@@ -66,7 +80,6 @@ function AddAnimal({ fetch }) {
 			uploadAnimalData();
 		}
 		setLoading(false);
-
 	};
 
 	const uploadAnimalData = () => {
@@ -77,6 +90,7 @@ function AddAnimal({ fetch }) {
 			BirthDate: animalObj.BirthDate,
 			SpeciesId: animalObj.SpeciesId,
 			Image: animalObj.Image,
+			cageHistory: animalObj.cageHistory,
 		};
 		const data = JSON.stringify(newAnimalObj);
 		axios
@@ -93,7 +107,8 @@ function AddAnimal({ fetch }) {
 			})
 			.catch((err) => {
 				return setErrorMessage(err.response.data.value);
-			}).finally(() => {
+			})
+			.finally(() => {
 				setAnimalObj(INITIAL_ANIMAL_OBJ);
 				setImg(null);
 			});
@@ -102,6 +117,16 @@ function AddAnimal({ fetch }) {
 	const updateFormValue = (updateType, value) => {
 		setErrorMessage("");
 		setAnimalObj({ ...animalObj, [updateType]: value });
+	};
+
+	const updateCageId = (value) => {
+		setErrorMessage("");
+		setAnimalObj({
+			...animalObj,
+			cageHistory: {
+				cageId: value,
+			},
+		});
 	};
 
 	const onImageChange = (e) => {
@@ -163,7 +188,7 @@ function AddAnimal({ fetch }) {
 							<input
 								type="date"
 								placeholder=""
-								value={animalObj.BirthDate }
+								value={animalObj.BirthDate}
 								onChange={(e) => updateFormValue("BirthDate", e.target.value)}
 								className="input input-bordered w-full"
 							/>
@@ -185,6 +210,22 @@ function AddAnimal({ fetch }) {
 									: ""}
 							</select>
 
+							<label className="label mt-4">
+								<span className="label-text">Cage</span>
+							</label>
+							<select
+								value={animalObj.cageHistory.cageId}
+								onChange={(e) => updateCageId(e.target.value)}
+								className="select select-bordered w-full"
+							>
+								{cages.length > 0
+									? cages.map((l) => (
+											<option key={l.Id} value={l.Id}>
+												{l.Name}
+											</option>
+									  ))
+									: ""}
+							</select>
 							<label className="label mt-4">
 								<span className="label-text">Image</span>
 							</label>

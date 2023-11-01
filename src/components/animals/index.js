@@ -6,6 +6,7 @@ import {
 	TrashIcon,
 	PencilSquareIcon,
 	EyeIcon,
+	ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
@@ -16,6 +17,8 @@ import ViewAnimal from "./components/ViewAnimal";
 function Animals() {
 	const dispatch = useDispatch();
 	const [animals, setAnimals] = useState();
+	const [cages, setCages] = useState([]);
+	const [cageId, setCageId] = useState();
 	const [search, setSearch] = useState("");
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
@@ -25,13 +28,24 @@ function Animals() {
 		isEnd: false,
 	});
 
+	useEffect(() => {
+		axios
+			.get("odata/cages?$filter=IsDeleted eq false&$select=Id,Name")
+			.then((res) => {
+				setCages(res.data.value);
+				setCageId(res.data.value[0].Id);
+			});
+	}, []);
+
 	//lay danh sach animal
 	const fetchAnimalList = () => {
 		axios
 			.get(
 				`odata/animals?$filter=IsDeleted eq false and contains(tolower(Name), '${search}')&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
-				}&$top=${pagination.limit}&$expand=species,cageHistories($filter=EndDate eq null;$expand=cage)`
+				}&$top=${
+					pagination.limit
+				}&$expand=species,cageHistories($filter=EndDate eq null;$expand=cage)`
 			)
 			.then((res) => {
 				let animals = res.data.value;
@@ -67,6 +81,27 @@ function Animals() {
 			});
 	};
 
+	const insertAnimalToCage = (index) => {
+		const data = {
+			"cageId": cageId,
+			"animalId": index
+		}
+		axios
+			.post(`/api/cagehistory`, data)
+			.then((res) => {
+				dispatch(
+					showNotification({
+						message: "Animal inserted!",
+						status: res.status,
+					})
+				);
+				fetchAnimalList();
+			})
+			.catch((err) => {
+				dispatch(showNotification({ message: err.message, status: 400 }));
+			});
+	}
+
 	return (
 		<>
 			<TitleCard
@@ -81,7 +116,12 @@ function Animals() {
 							onChange={(e) => setSearch(e.target.value.toLowerCase())}
 						/>
 						<div className="indicator">
-							<button className="btn join-item" onClick={() => fetchAnimalList()}>Search</button>
+							<button
+								className="btn join-item"
+								onClick={() => fetchAnimalList()}
+							>
+								Search
+							</button>
 						</div>
 					</div>
 				}
@@ -97,6 +137,7 @@ function Animals() {
 										<th>Name</th>
 										<th>Description</th>
 										<th>Weight</th>
+										<th>Height</th>
 										<th>BirthDate</th>
 										<th>Species</th>
 										<th>Current Cage</th>
@@ -128,6 +169,7 @@ function Animals() {
 												</td>
 												<td>{l.Description}</td>
 												<td>{l.Weight}</td>
+												<td>{l.Height}</td>
 												<td>{moment(l.BirthDate).format("yyyy-MM-DD")}</td>
 												<td>{l.Species.Name}</td>
 												<td>{l.CageHistories[0]?.Cage.Name}</td>
@@ -166,19 +208,73 @@ function Animals() {
 															<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 														</button>
 
-														{/* Nut doi status animal */}
+														{/* Nut cho animal vao chuong */}
 														<button
 															className="btn btn-ghost inline"
 															onClick={() => {
 																document
-																	.getElementById("my_modal_2")
+																	.getElementById("btnInsertAnimalToCage")
+																	.showModal();
+																setIdSelect(l.Id);
+															}}
+														>
+															<ArrowLeftOnRectangleIcon className="w-5 text-blue-500 stroke-2" />
+														</button>
+														<dialog
+															id="btnInsertAnimalToCage"
+															className="modal "
+														>
+															<div className="modal-box">
+																<h3 className="font-bold text-lg">
+																	Insert animal to cage
+																</h3>
+																<p className="py-4 text-2xl">
+																	Are you want to insert animal "{l.Name}" to this cage?
+																</p>
+																<select
+																	value={cageId}
+																	onChange={(e) => setCageId(e.target.value)}
+																	className="select select-bordered w-full"
+																>
+																	{cages.length > 0
+																		? cages.map((l) => (
+																				<option key={l.Id} value={l.Id}>
+																					{l.Name}
+																				</option>
+																		  ))
+																		: ""}
+																</select>
+																<div className="modal-action">
+																	<form method="dialog">
+																		<button className="btn">Close</button>
+
+																		<button
+																			className="btn btn-primary ml-4"
+																			onClick={() => insertAnimalToCage(idSelect)}
+																		>
+																			Insert
+																		</button>
+																	</form>
+																</div>
+															</div>
+															<form method="dialog" className="modal-backdrop">
+																<button>close</button>
+															</form>
+														</dialog>
+
+														{/* Nut xoa animal */}
+														<button
+															className="btn btn-ghost inline"
+															onClick={() => {
+																document
+																	.getElementById("btnDeleteAnimal")
 																	.showModal();
 																setIdSelect(l.Id);
 															}}
 														>
 															<TrashIcon className="w-5 text-err stroke-2" />
 														</button>
-														<dialog id="my_modal_2" className="modal ">
+														<dialog id="btnDeleteAnimal" className="modal ">
 															<div className="modal-box">
 																<h3 className="font-bold text-lg">Confirm</h3>
 																<p className="py-4 text-2xl">
