@@ -7,7 +7,6 @@ import Pagination from "./../components/layout/Pagination";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { Progress } from "./buy-ticket-template/Progress";
-
 const pageSize = 9;
 
 function News() {
@@ -71,8 +70,8 @@ function News() {
               >
                 <figure>
                   <img
-                    className="w-full h-40 object-cover object-top"
-                    src={newObj.thumbnail}
+                    className="w-full h-52 object-cover object-top"
+                    src={newObj.thumbnail ?? "/public/img/noimage.jpg"}
                     alt={newObj.title}
                   />
                 </figure>

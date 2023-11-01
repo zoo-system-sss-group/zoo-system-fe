@@ -50,7 +50,7 @@ export function NewsDetail() {
     // .catch((err)=>(
     //     document.location.href = "/404"
     // ));
-  }, [id, navigate, _repo]);
+  }, [id]);
   useEffect(() => {
     if (newsObj && news) setLoading(false);
   }, [newsObj, news]);
@@ -73,7 +73,7 @@ export function NewsDetail() {
                 </div>
                 <div className="flex flex-col justify-center ">
                   <img
-                    className="image-full rounded-md w-full lg:w-2/3 block m-auto max-w-[500px] min-h-[16rem] border my-6"
+                    className="image-full rounded-md shadow-lg bg-transparent w-full lg:w-2/3 block m-auto max-w-[500px] min-h-[16rem] border my-6"
                     src={newsObj?.thumbnail}
                     alt={newsObj?.title}
                   />

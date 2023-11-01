@@ -35,7 +35,7 @@ const statsData = [
     description: "",
   },
 ];
-var user = JSON.parse(localStorage.getItem("loginInfo"));
+const user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function Dashboard() {
   const [animals, setAnimals] = useState([]);
