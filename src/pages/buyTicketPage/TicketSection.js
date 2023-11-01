@@ -97,7 +97,7 @@ function TicketSection({
 			onSubmit={(e) => e.preventDefault()}
 		>
 			<div className="card-body ">
-			<Progress value={1} max={3}/>
+				<Progress value={1} max={3} />
 				<div className="card-title text-cor2">Buy Ticket</div>
 				{/* Ticket Type */}
 				<div className="form-control  flex flex-row flex-wrap justify-between items-center ">

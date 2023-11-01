@@ -6,23 +6,23 @@ import axios from "axios";
 import ViewDiet from "./components/ViewDiet";
 import AddDiet from "./components/AddDiet";
 
-function Training() {
-	const [training, setTraining] = useState();
+function MyTraining() {
+	const [myTraining, setMyTraining] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 
 	const loginInfoJSON = localStorage.getItem("loginInfo");
 	const loginInfo = JSON.parse(loginInfoJSON);
 
-	//lay danh sach training
-	const fetchTrainingList = () => {
+	//lay danh sach myTraining
+	const fetchMyTrainingList = () => {
 		axios
 			.get(
-				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
+				`odata/myTrainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
 			)
 			.then((res) => {
-				let training = res.data.value;
-				setTraining(training);
+				let myTraining = res.data.value;
+				setMyTraining(myTraining);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -30,17 +30,17 @@ function Training() {
 	};
 
 	useEffect(() => {
-		fetchTrainingList();
+		fetchMyTrainingList();
 	}, []);
 
 	return (
 		<>
 			<TitleCard
-				title="Training table"
+				title="MyTraining table"
 				topMargin="mt-2"
 			>
 				<div className="overflow-x-auto w-full">
-					{training != null ? (
+					{myTraining != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
@@ -60,7 +60,7 @@ function Training() {
 									</tr>
 								</thead>
 								<tbody>
-									{training.map((l, k) => {
+									{myTraining.map((l, k) => {
 										return (
 											<tr key={k}>
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
@@ -131,7 +131,7 @@ function Training() {
 								</tbody>
 							</table>
 							<ViewDiet id={idSelect} />
-							<AddDiet id={idSelect}  fetch={fetchTrainingList}/>
+							<AddDiet id={idSelect}  fetch={fetchMyTrainingList}/>
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">
@@ -144,4 +144,4 @@ function Training() {
 	);
 }
 
-export default Training;
+export default MyTraining;
