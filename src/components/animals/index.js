@@ -155,10 +155,10 @@ function Animals() {
 												</td>
 												<td>
 													<div className="flex items-center space-x-3">
-														<div className="w-20 h-20">
+														<div className="w-20 h-20 ">
 															<img
 																src={l.Image ? l.Image : "../img/noimage.jpg"}
-																className=" border rounded-lg"
+																className=" border rounded-lg object-cover aspect-square"
 																alt="Avatar"
 															/>
 														</div>

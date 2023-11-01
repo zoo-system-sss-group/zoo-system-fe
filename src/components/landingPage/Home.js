@@ -27,7 +27,7 @@ const Home = () => {
 				};
 				setHomeValue(newValue);
 			});
-	}, [homeValue]);
+	}, []);
 
 	return (
 		<section className="h-screen w-full py-12 flex flex-col text-cor2 bg-[url('/src/assets/img-entrada-2.jpg')] bg-center bg-cover shadow-[inset_0_250px_10px_rgba(9,11,9,0.3)] sm:shadow-[inset_0_250px_70px_rgba(9,11,9,0.3)]">

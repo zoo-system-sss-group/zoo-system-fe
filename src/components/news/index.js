@@ -55,7 +55,7 @@ function News() {
     // 		setError(err.message);
     // 	});
     _repo
-      .getNews(pagination.page, pagination.limit)
+      .getNews(pagination.page, pagination.limit,user)
       .then((res) => {
         let news = res.value;
         if (!pagination.isEnd && news.length < pagination.limit)
@@ -73,8 +73,7 @@ function News() {
     fetchNewsList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
-
-  const deleteNews = (id) => {
+  const deleteNews = (id,user) => {
     // axios
     //   .delete(`/odata/news/${id}`)
     //   .then((res) => {
@@ -142,7 +141,7 @@ function News() {
                         <td>{news.title}</td>
                         <td>
                           <img
-                            className="max-h-[100px] rounded shadow block m-auto"
+                            className="max-h-[100px] rounded shadow block m-auto aspect-square object-cover"
                             src={news.thumbnail ?? "../img/noimage.jpg"}
                             alt="Avatar"
                           />
