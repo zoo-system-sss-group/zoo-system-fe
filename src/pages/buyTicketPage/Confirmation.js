@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Progress } from "./Progress";
 import "./Confirmation.css";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { ApiImage } from "../../components/common/ApiImage";
+import Progress from "./Progress";
 
 function Confirmation({
 	step,
@@ -40,6 +39,7 @@ function Confirmation({
 	return (
 		<section className="card card-compact w-full m-8 md:w-2/3 lg:w-3/5 max-w-[650px] bg-cor4 relative shadow  my-10">
 			<div className="card-body ">
+				<Progress value={2} max={3} />
 				<div className="card-title text-cor2">Confirm Data</div>
 
 				<div className="">
@@ -82,7 +82,9 @@ function Confirmation({
 					</table>
 					<div className="form-control">
 						<label className="label">
-							<span className="label-text text-cor2 text-lg">Payment Method</span>
+							<span className="label-text text-cor2 text-lg">
+								Payment Method
+							</span>
 						</label>
 						<div className="flex flex-row gap-5 justify-center mt-4">
 							{paymentMethods.map((payment, index) => (

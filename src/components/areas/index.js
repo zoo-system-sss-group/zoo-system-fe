@@ -21,7 +21,7 @@ function Areas() {
   const dispatch = useDispatch();
   const [areas, setAreas] = useState();
   const [error, setError] = useState("");
-  const [idSelect, setIdSelect] = useState(0);
+  const [idSelect, setIdSelect] = useState(1);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,

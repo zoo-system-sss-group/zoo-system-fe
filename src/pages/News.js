@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Pagination from "./../components/layout/Pagination";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { Progress } from "./buy-ticket-template/Progress";
+import { Progress } from "./buyTicketPage/Progress";
 const pageSize = 9;
 
 function News() {
