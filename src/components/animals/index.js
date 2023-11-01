@@ -29,7 +29,7 @@ function Animals() {
 	const fetchAnimalList = () => {
 		axios
 			.get(
-				`odata/animals?$filter=IsDeleted eq false and contains(Name, '${search}')&$orderby=CreationDate desc&$skip=${
+				`odata/animals?$filter=IsDeleted eq false and contains(tolower(Name), '${search}')&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}&$expand=species`
 			)
@@ -78,7 +78,7 @@ function Animals() {
 							className="input input-bordered join-item"
 							placeholder="Search by Name"
 							value={search}
-							onChange={(e) => setSearch(e.target.value)}
+							onChange={(e) => setSearch(e.target.value.toLowerCase())}
 						/>
 						<div className="indicator">
 							<button className="btn join-item" onClick={() => fetchAnimalList()}>Search</button>
