@@ -1,11 +1,15 @@
+import { useRef } from "react";
+import { useEffect } from "react";
+
 export function Progress({ value, max }) {
+  const p = useRef();
+  useEffect(() => {
+    p.current.style.width = ((value - 1) / max) * 100 + "%";
+    p.current.style.width = (value / max) * 100 + "%";
+  }, [value]);
   return (
-    <div className="mx-10 block h-6">
-      <process
-        className={"progress block transition h-6 progress-success"}
-        value={value}
-        max={max}
-      /> 
+    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+      <div ref={p} class={`bg-blue-600 h-2.5 rounded-full transition`}></div>
     </div>
   );
 }

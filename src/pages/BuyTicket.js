@@ -164,9 +164,8 @@ function BuyTicket() {
         title="Buy ticket"
         className="flex items-center flex-col  pb-16"
       >
-        <>
           <Progress max={totalStep} value={step - 1} />
-
+        <>
           {step === 1 && (
             <CustomerSection
               step={step}
