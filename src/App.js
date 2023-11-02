@@ -15,6 +15,7 @@ import checkAuth from "./app/auth";
 import Layout from "./containers/Layout";
 import { NewsDetail } from "./pages/news/NewsDetail";
 import Page404 from "./pages/Page404";
+import AnimalDetail from "./pages/animals/AnimalDetail";
 
 initializeApp();
 
@@ -27,6 +28,7 @@ function App() {
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/animals" element={<Animals />} />
+        <Route path="/animals/:id" element={<AnimalDetail />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/buyticket" element={<BuyTicket />} />

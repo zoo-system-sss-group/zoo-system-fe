@@ -115,7 +115,7 @@ function News() {
           <div className="join">
             <input
               className="input input-bordered join-item"
-              placeholder="Search by Name"
+              placeholder="Search by Name and Content"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
