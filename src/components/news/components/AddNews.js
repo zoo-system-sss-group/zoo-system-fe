@@ -161,7 +161,7 @@ function AddNews({ fetch, VALIDATIONS }) {
                 <label className="label mt-4">
                   <span className="label-text">Content</span>
                 </label>
-                <div name="content" ref={textEditorRef} className="block">
+                <div name="content" ref={textEditorRef} className="block relative">
                   <Editor
                     apiKey="wyopdb0u8mweiku159d2tp39m5451adsboem7qcr0jyyixp1"
                     onInit={(evt, editor) => (editorRef.current = editor)}

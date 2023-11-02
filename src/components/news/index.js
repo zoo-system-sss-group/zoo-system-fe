@@ -55,7 +55,6 @@ function News() {
     // 	.catch((err) => {
     // 		setError(err.message);
     // 	});
-    console.log(pagination.page, pagination.limit, search);
     _repo
       .getNews(pagination.page, pagination.limit, search)
       .then((res) => {
@@ -115,7 +114,7 @@ function News() {
           <div className="join">
             <input
               className="input input-bordered join-item"
-              placeholder="Search by Name"
+              placeholder="Search by Name and Content"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

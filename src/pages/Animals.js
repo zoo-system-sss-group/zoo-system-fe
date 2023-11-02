@@ -5,7 +5,7 @@ import Pagination from "../components/layout/Pagination";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Animal } from "../app/class/Animal";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 const params = new URLSearchParams(window.location.search); // id=123
 const pageSize = 8;
 function Animals() {
@@ -64,7 +64,7 @@ function Animals() {
               </>
             ) : (
               animals.map((animal) => (
-                <div
+                <Link to={`${animal.Id}`}
                   key={animal.Id}
                   className="card w-full  mx-auto bg-cor4 shadow-xl hover:scale-[1.05] hover:transition"
                   title={animal.Description}
@@ -88,7 +88,7 @@ function Animals() {
                       {animal.Description}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))
             )}
           </div>

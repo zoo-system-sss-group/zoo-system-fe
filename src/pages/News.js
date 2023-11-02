@@ -1,5 +1,4 @@
 import Footer from "../components/landingPage/Footer";
-import Header from "../components/landingPage/Header";
 import GuestLayout from "../components/layout/GuestLayout";
 import NewsRepository from "../repositories/NewsRepository";
 import { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import Pagination from "./../components/layout/Pagination";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { Progress } from "./buyTicketPage/Progress";
+import Header from "../components/landingPage/Header";
 const pageSize = 9;
 
 function News() {
