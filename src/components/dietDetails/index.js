@@ -42,6 +42,7 @@ function DietDetails() {
 				)
 					setPagination({ ...pagination, isEnd: false });
 				setDietDetails(dietDetails);
+				setIdSelect(dietDetails[0]?.Id)
 			})
 			.catch((err) => {
 				if (err.response.status === 403)

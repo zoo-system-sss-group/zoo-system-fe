@@ -54,6 +54,7 @@ function Animals() {
 				else if (pagination.isEnd && animals.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setAnimals(animals);
+				setIdSelect(animals[0]?.Id);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -83,9 +84,9 @@ function Animals() {
 
 	const insertAnimalToCage = (index) => {
 		const data = {
-			"cageId": cageId,
-			"animalId": index
-		}
+			cageId: cageId,
+			animalId: index,
+		};
 		axios
 			.post(`/api/cagehistory`, data)
 			.then((res) => {
@@ -100,7 +101,7 @@ function Animals() {
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
 			});
-	}
+	};
 
 	return (
 		<>
@@ -229,7 +230,8 @@ function Animals() {
 																	Insert animal to cage
 																</h3>
 																<p className="py-4 text-2xl">
-																	Are you want to insert animal "{l.Name}" to this cage?
+																	Are you want to insert animal "{l.Name}" to
+																	this cage?
 																</p>
 																<select
 																	value={cageId}
@@ -250,7 +252,9 @@ function Animals() {
 
 																		<button
 																			className="btn btn-primary ml-4"
-																			onClick={() => insertAnimalToCage(idSelect)}
+																			onClick={() =>
+																				insertAnimalToCage(idSelect)
+																			}
 																		>
 																			Insert
 																		</button>

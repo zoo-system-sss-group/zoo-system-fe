@@ -14,10 +14,7 @@ import AddTrainingDetail from "./components/AddTrainingDetail";
 import ViewTrainingDetail from "./components/ViewTrainingDetail";
 import { roleStaffAdmin } from "../../routes/author";
 const user = JSON.parse(localStorage.getItem("loginInfo"));
-const ROLE = {
-	trainer: "Trainer",
-	staff: "Staff",
-};
+
 function TrainingDetails() {
 	const dispatch = useDispatch();
 	const [trainingDetails, setTrainingDetails] = useState();
@@ -46,6 +43,7 @@ function TrainingDetails() {
 				)
 					setPagination({ ...pagination, isEnd: false });
 				setTrainingDetails(trainingDetails);
+				setIdSelect(trainingDetails[0]?.Id);
 			})
 			.catch((err) => {
 				if (err.response.status === 403)

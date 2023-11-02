@@ -39,6 +39,7 @@ function Cages() {
 				else if (pagination.isEnd && cages.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setCages(cages);
+				setIdSelect(cages[0]?.Id);
 			})
 			.catch((err) => {
 				if (err.response.status === 403)

@@ -34,6 +34,7 @@ function Species() {
 				else if (pagination.isEnd && species.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setSpecies(species);
+				setIdSelect(species[0]?.Id);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -95,7 +96,11 @@ function Species() {
 												</td>
 												<td>{l.Name}</td>
 												<td>{l.ScientificName}</td>
-												<td className="whitespace-nowrap">{l.LifeSpan > 1 ? `${l.LifeSpan} years` : `${l.LifeSpan} year`}</td>
+												<td className="whitespace-nowrap">
+													{l.LifeSpan > 1
+														? `${l.LifeSpan} years`
+														: `${l.LifeSpan} year`}
+												</td>
 												<td>{l.Description}</td>
 												<td>{l.WildDiet}</td>
 												<td>{l.Habitat}</td>
@@ -113,7 +118,9 @@ function Species() {
 														className="btn btn-ghost inline"
 														onClick={() => {
 															setIdSelect(l.Id);
-															document.getElementById("btnEditSpecies").showModal();
+															document
+																.getElementById("btnEditSpecies")
+																.showModal();
 														}}
 													>
 														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
@@ -123,7 +130,9 @@ function Species() {
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
-															document.getElementById("btnDeleteSpecies").showModal();
+															document
+																.getElementById("btnDeleteSpecies")
+																.showModal();
 															setIdSelect(l.Id);
 														}}
 													>
@@ -158,7 +167,9 @@ function Species() {
 									})}
 								</tbody>
 							</table>
-							{idSelect && <EditSpecies id={idSelect} fetch={fetchSpeciesList} />}
+							{idSelect && (
+								<EditSpecies id={idSelect} fetch={fetchSpeciesList} />
+							)}
 
 							<div className="w-full flex justify-center">
 								<div className="join">
