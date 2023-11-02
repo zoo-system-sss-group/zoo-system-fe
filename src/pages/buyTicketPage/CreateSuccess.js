@@ -5,7 +5,7 @@ import { ApiImage } from "../../components/common/ApiImage";
 import moment from "moment/moment";
 import Progress from "./Progress";
 
-function CreateSuccess({ paymentMethods, values,step,totalStep }) {
+function CreateSuccess({ paymentMethods, values, step, totalStep }) {
 	const [loading, SetLoading] = useState(true);
 	useEffect(() => {
 		if (values) {

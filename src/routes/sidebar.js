@@ -40,9 +40,14 @@ const routes = [
 		name: "Training",
 	},
 	{
-		path: "/management/TrainingDetails",
+		path: "/management/trainingDetails",
 		icon: <PuzzlePieceIcon className={iconClasses} />,
 		name: "Training Details",
+	},
+	{
+		path: "/management/dietDetails",
+		icon: <PuzzlePieceIcon className={iconClasses} />,
+		name: "Diet Details",
 	},
 
 	{

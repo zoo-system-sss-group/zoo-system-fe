@@ -44,7 +44,7 @@ function ViewCage({ id }) {
 					<img
 						src={cageObj.Image ?? "../img/noimage.jpg"}
 						alt="cage"
-						className="mt-2 border rounded-lg min-w-full"
+						className="mt-2 border rounded-lg aspect-square object-cover"
 					/>
 
 					<div className="form-control w-full">

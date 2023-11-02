@@ -9,17 +9,17 @@ import {
 } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { showNotification } from "../common/headerSlice";
-import EditTrainingDetail from "./components/EditTrainingDetail";
-import AddTrainingDetail from "./components/AddTrainingDetail";
-import ViewTrainingDetail from "./components/ViewTrainingDetail";
+import EditDietDetail from "./components/EditDietDetail";
+import AddDietDetail from "./components/AddDietDetail";
+import ViewDietDetail from "./components/ViewDietDetail";
 const user = JSON.parse(localStorage.getItem("loginInfo"));
 const ROLE = {
 	trainer: "Trainer",
 	staff: "Staff",
 };
-function TrainingDetails() {
+function DietDetails() {
 	const dispatch = useDispatch();
-	const [trainingDetails, setTrainingDetails] = useState();
+	const [dietDetails, setDietDetails] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState(1);
 	const [pagination, setPagination] = useState({
@@ -27,48 +27,48 @@ function TrainingDetails() {
 		limit: 10,
 		isEnd: false,
 	});
-	//lay danh sach trainingDetail
-	const fetchTrainingDetailList = () => {
+	//lay danh sach dietDetail
+	const fetchDietDetailList = () => {
 		axios
 			.get(
-				`odata/trainingdetails?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/dietdetails?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
-				}&$top=${pagination.limit}&$expand=animal,trainer`
+				}&$top=${pagination.limit}&$expand=Animal,Diet`
 			)
 			.then((res) => {
-				let trainingDetails = res.data.value;
-				if (!pagination.isEnd && trainingDetails.length < pagination.limit)
+				let dietDetails = res.data.value;
+				if (!pagination.isEnd && dietDetails.length < pagination.limit)
 					setPagination({ ...pagination, isEnd: true });
 				else if (
 					pagination.isEnd &&
-					trainingDetails.length === pagination.limit
+					dietDetails.length === pagination.limit
 				)
 					setPagination({ ...pagination, isEnd: false });
-				setTrainingDetails(trainingDetails);
+				setDietDetails(dietDetails);
 			})
 			.catch((err) => {
 				if (err.response.status === 403)
-					setError(`${user.role} is not allowed to view TrainingDetails`);
+					setError(`${user.role} is not allowed to view DietDetails`);
 				else setError(err.message);
 			});
 	};
 
 	useEffect(() => {
-		fetchTrainingDetailList();
+		fetchDietDetailList();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [pagination]);
 
-	const deleteTrainingDetail = (index) => {
+	const deleteDietDetail = (index) => {
 		axios
-			.delete(`/odata/trainingDetails/${index}`)
+			.delete(`/odata/dietDetails/${index}`)
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "TrainingDetail deleted!",
+						message: "DietDetail deleted!",
 						status: res.status,
 					})
 				);
-				fetchTrainingDetailList();
+				fetchDietDetailList();
 			})
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
@@ -78,41 +78,41 @@ function TrainingDetails() {
 	return (
 		<>
 			<TitleCard
-				title="TrainingDetail table"
+				title="DietDetail table"
 				topMargin="mt-2"
 				TopSideButtons={
 					user.role === ROLE.staff && (
-						<AddTrainingDetail fetch={fetchTrainingDetailList} />
+						<AddDietDetail fetch={fetchDietDetailList} />
 					)
 				}
 			>
 				<div className="overflow-x-auto w-full">
-					{trainingDetails != null ? (
+					{dietDetails != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Trainer ID</th>
-										<th>Trainer Name</th>
-										<th>Animal ID</th>
-										<th>Animal Name</th>
+										<th>AnimalId</th>
+										<th>AnimalName</th>
+										<th>DietId</th>
+										<th>DietName</th>
 										<th>StartDate</th>
 										<th>EndDate</th>
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
-									{trainingDetails.map((l) => {
+									{dietDetails.map((l) => {
 										return (
 											<tr key={l.Id}>
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
 													{l.Id}
 												</td>
-												<td>{l.TrainerId}</td>
-												<td>{l.Trainer.Fullname}</td>
 												<td>{l.AnimalId}</td>
 												<td>{l.Animal.Name}</td>
+												<td>{l.DietId}</td>
+												<td>{l.Diet.DietName}</td>
 												<td>
 													{moment(l.StartDate).format("YYYY-MM-DD HH:mm:ss")}
 												</td>
@@ -126,20 +126,20 @@ function TrainingDetails() {
 													)}
 												</td>
 												<td className="flex">
-													{/* Nut xem trainingDetail */}
+													{/* Nut xem dietDetail */}
 													<button
 														className="btn btn-ghost inline w-14"
 														onClick={() => {
 															setIdSelect(l.Id);
 															document
-																.getElementById("btnViewTrainingDetail")
+																.getElementById("btnViewDietDetail")
 																.showModal();
 														}}
 													>
 														<EyeIcon className="w-5 text-cor4 stroke-2" />
 													</button>
 
-													{/* Nut sua trainingDetail */}
+													{/* Nut sua dietDetail */}
 													{user.role === ROLE.staff && (
 														<>
 															{l.EndDate === null ? (
@@ -148,7 +148,7 @@ function TrainingDetails() {
 																	onClick={() => {
 																		setIdSelect(l.Id);
 																		document
-																			.getElementById("btnEditTrainingDetail")
+																			.getElementById("btnEditDietDetail")
 																			.showModal();
 																	}}
 																>
@@ -156,12 +156,12 @@ function TrainingDetails() {
 																</button>
 															) : <div className="w-14"></div>}
 
-															{/* Nut xoa status trainingDetail */}
+															{/* Nut xoa status dietDetail */}
 															<button
 																className="btn btn-ghost inline w-14"
 																onClick={() => {
 																	document
-																		.getElementById("btnDeleteTrainingDetail")
+																		.getElementById("btnDeleteDietDetail")
 																		.showModal();
 																	setIdSelect(l.Id);
 																}}
@@ -171,13 +171,13 @@ function TrainingDetails() {
 														</>
 													)}
 													<dialog
-														id="btnDeleteTrainingDetail"
+														id="btnDeleteDietDetail"
 														className="modal "
 													>
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
 															<p className="py-4 text-2xl">
-																Are you want to delete trainingDetail "{l.Name}
+																Are you want to delete dietDetail "{l.Name}
 																"?
 															</p>
 															<div className="modal-action">
@@ -188,7 +188,7 @@ function TrainingDetails() {
 																		className="btn btn-primary ml-4"
 																		onClick={() =>
 																			user.role === ROLE.staff &&
-																			deleteTrainingDetail(idSelect)
+																			deleteDietDetail(idSelect)
 																		}
 																	>
 																		Delete
@@ -206,11 +206,11 @@ function TrainingDetails() {
 									})}
 								</tbody>
 							</table>
-							<ViewTrainingDetail id={idSelect} />
+							<ViewDietDetail id={idSelect} />
 							{user.role === ROLE.staff && (
-								<EditTrainingDetail
+								<EditDietDetail
 									id={idSelect}
-									fetch={fetchTrainingDetailList}
+									fetch={fetchDietDetailList}
 								/>
 							)}
 
@@ -257,4 +257,4 @@ function TrainingDetails() {
 	);
 }
 
-export default TrainingDetails;
+export default DietDetails;

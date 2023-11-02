@@ -131,7 +131,7 @@ function ViewAnimal({ id }) {
 							<img
 								src={animalObj.Image ?? "../img/noimage.jpg"}
 								alt="animal"
-								className="border rounded-lg min-w-full"
+								className="border rounded-lg aspect-square object-cover"
 							/>
 
 							<div className="flex gap-2">

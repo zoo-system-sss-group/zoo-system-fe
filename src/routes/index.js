@@ -16,6 +16,7 @@ const TicketOrders = lazy(() => import('../pages/management/TicketOrders'))
 const Profile = lazy(() => import('../pages/management/Profile'))
 const MyTraining = lazy(() => import('../pages/management/MyTraining'))
 const TrainingDetails = lazy(() => import('../pages/management/TrainingDetails'))
+const DietDetails = lazy(() => import('../pages/management/DietDetails'))
 
 
 const routes = [
@@ -64,8 +65,12 @@ const routes = [
     component: MyTraining, 
   },
   {
-    path: '/TrainingDetails', 
+    path: '/trainingDetails', 
     component: TrainingDetails, 
+  },
+  {
+    path: '/dietDetails', 
+    component: DietDetails, 
   },
   {
     path: '/404',

@@ -2,61 +2,58 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
-import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
 
 const INITIAL_CAGE_OBJ = {
-	trainerId: 0,
 	animalId: 0,
+	dietId: 0,
 };
 
-function AddTrainingDetail({ fetch }) {
+function AddDietDetail({ fetch }) {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [trainingDetailObj, setTrainingDetailObj] = useState(INITIAL_CAGE_OBJ);
-	const [trainers, setTrainers] = useState([]);
+	const [dietDetailObj, setDietDetailObj] = useState(INITIAL_CAGE_OBJ);
+	const [diets, setDiets] = useState([]);
 	const [animals, setAnimals] = useState([]);
 
 	useEffect(() => {
-		axios
-			.get(
-				`odata/accounts?$filter=IsDeleted eq false and Role eq 'Trainer'&$select=Id,Fullname`
-			)
-			.then((res) => {
-				let arr = Object.values(res.data.value);
-				setTrainers(arr);
-				trainingDetailObj.trainerId = arr[0].Id;
-			});
 		axios
 			.get(`odata/animals?$filter=IsDeleted eq false&$select=Id,Name`)
 			.then((res) => {
 				let arr = Object.values(res.data.value);
 				setAnimals(arr);
-				trainingDetailObj.animalId = arr[0].Id;
+				dietDetailObj.animalId = arr[0].Id;
+			});
+		axios
+			.get(`odata/diets?$filter=IsDeleted eq false&$select=Id,DietName`)
+			.then((res) => {
+				let arr = Object.values(res.data.value);
+				setDiets(arr);
+				dietDetailObj.dietId = arr[0].Id;
 			});
 	}, []);
 
-	const saveNewTrainingDetail = () => {
-		if (trainingDetailObj.trainerId === 0)
-			return setErrorMessage("trainerId is required!");
-		if (trainingDetailObj.animalId === 0)
+	const saveNewDietDetail = () => {
+		if (dietDetailObj.dietId === 0)
+			return setErrorMessage("dietId is required!");
+		if (dietDetailObj.animalId === 0)
 			return setErrorMessage("animalId is required!");
 
 		setLoading(true);
 
-		let newTrainingDetailObj = {
-			trainerId: trainingDetailObj.trainerId,
-			animalId: trainingDetailObj.animalId,
+		let newDietDetailObj = {
+			dietId: dietDetailObj.dietId,
+			animalId: dietDetailObj.animalId,
 		};
 
-		const data = JSON.stringify(newTrainingDetailObj);
+		const data = JSON.stringify(newDietDetailObj);
 		axios
-			.post("odata/trainingDetails", data)
+			.post("odata/dietDetails", data)
 			.then((res) => {
-				document.getElementById("btnCloseAddTrainingDetail").click();
+				document.getElementById("btnCloseAddDietDetail").click();
 				dispatch(
 					showNotification({
-						message: "New TrainingDetail Added!",
+						message: "New DietDetail Added!",
 						status: res.status,
 					})
 				);
@@ -68,14 +65,14 @@ function AddTrainingDetail({ fetch }) {
 				setErrorMessage(msg);
 			})
 			.finally(() => {
-				setTrainingDetailObj(INITIAL_CAGE_OBJ);
+				setDietDetailObj(INITIAL_CAGE_OBJ);
 				setLoading(false);
 			});
 	};
 
 	const updateFormValue = (updateType, value) => {
 		setErrorMessage("");
-		setTrainingDetailObj({ ...trainingDetailObj, [updateType]: value });
+		setDietDetailObj({ ...dietDetailObj, [updateType]: value });
 	};
 
 	return (
@@ -84,41 +81,22 @@ function AddTrainingDetail({ fetch }) {
 				<button
 					className="btn px-6  normal-case btn-primary"
 					onClick={() =>
-						document.getElementById("btnAddTrainingDetail").showModal()
+						document.getElementById("btnAddDietDetail").showModal()
 					}
 				>
 					Add New
 				</button>
-				<dialog id="btnAddTrainingDetail" className="modal">
+				<dialog id="btnAddDietDetail" className="modal">
 					<div className="modal-box max-w-2xl">
-						<h3 className="font-bold text-2xl">Add new trainingDetail</h3>
+						<h3 className="font-bold text-2xl">Add new dietDetail</h3>
 						<div className="form-control">
-							<label className="label mt-4">
-								<span className="label-text">Choose Trainer</span>
-							</label>
-							<select
-								type="text"
-								placeholder=""
-								value={trainingDetailObj.trainerId}
-								onChange={(e) => updateFormValue("trainerId", e.target.value)}
-								className="select select-bordered w-full"
-							>
-								{trainers.length > 0
-									? trainers.map((l) => (
-											<option key={l.Id} value={l.Id}>
-												{l.Fullname}
-											</option>
-									  ))
-									: ""}
-							</select>
-
 							<label className="label mt-4">
 								<span className="label-text">Choose Animal</span>
 							</label>
 							<select
 								type="text"
 								placeholder=""
-								value={trainingDetailObj.animalId}
+								value={dietDetailObj.animalId}
 								onChange={(e) => updateFormValue("animalId", e.target.value)}
 								className="select select-bordered w-full"
 							>
@@ -130,18 +108,37 @@ function AddTrainingDetail({ fetch }) {
 									  ))
 									: ""}
 							</select>
+
+							<label className="label mt-4">
+								<span className="label-text">Choose Diet</span>
+							</label>
+							<select
+								type="text"
+								placeholder=""
+								value={dietDetailObj.dietId}
+								onChange={(e) => updateFormValue("dietId", e.target.value)}
+								className="select select-bordered w-full"
+							>
+								{diets.length > 0
+									? diets.map((l) => (
+											<option key={l.Id} value={l.Id}>
+												{l.DietName}
+											</option>
+									  ))
+									: ""}
+							</select>
 						</div>
 						<div className="text-err text-lg">{errorMessage}</div>
 						<div className="modal-action">
 							<form method="dialog">
-								<button id="btnCloseAddTrainingDetail" className="btn">
+								<button id="btnCloseAddDietDetail" className="btn">
 									Close
 								</button>
 							</form>
 
 							<button
 								className="btn btn-primary ml-4 "
-								onClick={() => saveNewTrainingDetail()}
+								onClick={() => saveNewDietDetail()}
 							>
 								Add <span className={loading ? " loading" : ""}></span>
 							</button>
@@ -156,4 +153,4 @@ function AddTrainingDetail({ fetch }) {
 	);
 }
 
-export default AddTrainingDetail;
+export default AddDietDetail;
