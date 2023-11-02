@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment";
@@ -19,17 +17,19 @@ const INITIAL_ACCOUNT_OBJ = {
 
 function ViewArea({ id }) {
 	// const [loading, setLoading] = useState(false);
-	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
 	const [areaObj, setAreaObj] = useState(INITIAL_ACCOUNT_OBJ);
 
 	useEffect(() => {
-		axios.get(`odata/areas/${id}`).then((res) => {
-			setAreaObj({
-				...areaObj,
-				...res.data,
-			});
-		}).catch(err=>console.log(err));
+		axios
+			.get(`odata/areas/${id}`)
+			.then((res) => {
+				setAreaObj({
+					...areaObj,
+					...res.data,
+				});
+			})
+			.catch((err) => setErrorMessage(err));
 	}, [id]);
 
 	return (
@@ -106,7 +106,7 @@ function ViewArea({ id }) {
 						<div className="flex gap-2">
 							<div>
 								<label className="label mt-4">
-									<span className="label-text">CreationDate</span>
+									<span className="label-text">Creation Date</span>
 								</label>
 								<input
 									type="text"
@@ -119,7 +119,7 @@ function ViewArea({ id }) {
 							</div>
 							<div>
 								<label className="label mt-4">
-									<span className="label-text">ModificationDate</span>
+									<span className="label-text">Modification Date</span>
 								</label>
 								<input
 									type="text"
@@ -139,7 +139,7 @@ function ViewArea({ id }) {
 						<div className="flex gap-2">
 							<div>
 								<label className="label mt-4">
-									<span className="label-text">DeletionDate</span>
+									<span className="label-text">Deletion Date</span>
 								</label>
 								<input
 									type="text"
@@ -147,11 +147,10 @@ function ViewArea({ id }) {
 									className="input input-bordered w-full"
 									disabled
 								/>
-								<div className="text-err text-lg">{errorMessage}</div>
 							</div>
 							<div>
 								<label className="label mt-4">
-									<span className="label-text">IsDeleted</span>
+									<span className="label-text">Is Deleted</span>
 								</label>
 								<input
 									type="text"

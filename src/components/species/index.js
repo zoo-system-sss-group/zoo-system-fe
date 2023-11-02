@@ -77,13 +77,13 @@ function Species() {
 									<tr>
 										<th>ID</th>
 										<th>Name</th>
-										<th>ScientificName</th>
-										<th>LifeSpan</th>
+										<th>Scientific Name</th>
+										<th>Life Span</th>
 										<th>Description</th>
-										<th>WildDiet</th>
+										<th>Wild Diet</th>
 										<th>Habitat</th>
-										<th>CreationDate</th>
-										<th>ModificationDate</th>
+										<th>Creation Date</th>
+										<th>Modification Date</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -142,7 +142,7 @@ function Species() {
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
 															<p className="py-4 text-2xl">
-																Are you want to delete speicies "{l.Name}"?
+																Are you want to delete species "{l.Name}"?
 															</p>
 															<div className="modal-action">
 																<form method="dialog">

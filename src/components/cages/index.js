@@ -94,9 +94,8 @@ function Cages() {
 										<th>Description</th>
 										<th>Capacity</th>
 										<th>Area ID</th>
-										<th>CreationDate</th>
-										<th>ModificationDate</th>
-										{/* <th>Status</th> */}
+										<th>Creation Date</th>
+										<th>Modification Date</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -135,7 +134,6 @@ function Cages() {
 														"YYYY-MM-DD HH:mm:ss"
 													)}
 												</td>
-												{/* <td>{getStatus(l.IsDeleted)}</td> */}
 												<td className="flex">
 													{/* Nut xem cage */}
 													<button

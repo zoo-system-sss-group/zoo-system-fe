@@ -63,7 +63,7 @@ function TrainingDetails() {
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "TrainingDetail deleted!",
+						message: "Training detail deleted!",
 						status: res.status,
 					})
 				);
@@ -77,7 +77,7 @@ function TrainingDetails() {
 	return (
 		<>
 			<TitleCard
-				title="TrainingDetail table"
+				title="Training Detail Table"
 				topMargin="mt-2"
 				TopSideButtons={
 					roleStaffAdmin.includes(user.role) && (
@@ -96,8 +96,8 @@ function TrainingDetails() {
 										<th>Trainer Name</th>
 										<th>Animal ID</th>
 										<th>Animal Name</th>
-										<th>StartDate</th>
-										<th>EndDate</th>
+										<th>Start Date</th>
+										<th>End Date</th>
 										<th></th>
 									</tr>
 								</thead>

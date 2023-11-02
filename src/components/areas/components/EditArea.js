@@ -75,15 +75,6 @@ function EditArea({ id, fetch }) {
           <h3 className="font-bold text-lg">Edit area</h3>
           <div className="form-control w-full mt-4">
             <label className="label">
-              <span className="label-text">ID</span>
-            </label>
-            <input
-              value={areaObj.Id}
-              className="input input-bordered w-full "
-              disabled
-            />
-
-            <label className="label">
               <span className="label-text">Code</span>
             </label>
             <input

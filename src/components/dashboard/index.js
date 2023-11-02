@@ -1,38 +1,39 @@
 import DashboardStats from "./components/DashboardStats";
 import LineChart from "./components/LineChart";
 import BarChart from "./components/BarChart";
-import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
-import UsersIcon from "@heroicons/react/24/outline/UsersIcon";
-import CircleStackIcon from "@heroicons/react/24/outline/CircleStackIcon";
-import CreditCardIcon from "@heroicons/react/24/outline/CreditCardIcon";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { roleStaffAdmin } from "../../routes/author";
+import UserCircleIcon from "@heroicons/react/24/outline/UserCircleIcon";
+import TicketIcon from "@heroicons/react/24/outline/TicketIcon";
+import AnimalIcon from "../../assets/animals.svg";
+import TagIcon from "@heroicons/react/24/outline/TagIcon";
+const iconClasses = `w-8 h-8`;
 
 const statsData = [
 	{
 		title: "Active Accounts",
 		value: "0",
-		icon: <UserGroupIcon className="w-8 h-8" />,
+		icon: <UserCircleIcon className={iconClasses} />,
 		description: "",
 	},
 	{
 		title: "Ticket Orders",
 		value: "0",
-		icon: <CreditCardIcon className="w-8 h-8" />,
+		icon: <TicketIcon className={iconClasses} />,
 		description: "",
 	},
 	{
 		title: "Animals",
 		value: "0",
-		icon: <CircleStackIcon className="w-8 h-8" />,
+		icon: <img src={AnimalIcon} className={iconClasses} alt="icon_animal" />,
 		description: "",
 	},
 	{
 		title: "Species",
 		value: "0",
-		icon: <UsersIcon className="w-8 h-8" />,
+		icon: <TagIcon className={iconClasses} />,
 		description: "",
 	},
 ];

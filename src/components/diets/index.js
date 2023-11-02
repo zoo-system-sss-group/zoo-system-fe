@@ -83,13 +83,13 @@ function Diets() {
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>DietName</th>
-										<th>FoodName</th>
+										<th>Diet Name</th>
+										<th>Food Name</th>
 										<th>Quantity</th>
 										<th>Unit</th>
-										<th>TimesPerDay</th>
-										<th>CreationDate</th>
-										<th>ModificationDate</th>
+										<th>Times Per Day</th>
+										<th>Creation Date</th>
+										<th>Modification Date</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -146,7 +146,7 @@ function Diets() {
 																<div className="modal-box">
 																	<h3 className="font-bold text-lg">Confirm</h3>
 																	<p className="py-4 text-2xl">
-																		Are you want to delete speicies "{l.Name}"?
+																		Are you want to delete diet "{l.DietName}"?
 																	</p>
 																	<div className="modal-action">
 																		<form method="dialog">

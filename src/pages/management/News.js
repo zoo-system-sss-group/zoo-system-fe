@@ -8,7 +8,7 @@ function InternalPage(){
 
     useEffect(() => {
         dispatch(setPageTitle({ title : "News Management"}))
-      }, [])
+      }, [dispatch])
 
 
     return(

@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment";
@@ -23,19 +21,22 @@ function ViewAccount({ id }) {
 	const [accountObj, setAccountObj] = useState(INITIAL_ACCOUNT_OBJ);
 
 	useEffect(() => {
-		axios.get(`odata/accounts/${id}`).then((res) => {
-			setAccountObj({
-				...INITIAL_ACCOUNT_OBJ,
-				...res.data,
-			});
-		});
+		axios
+			.get(`odata/accounts/${id}`)
+			.then((res) => {
+				setAccountObj({
+					...INITIAL_ACCOUNT_OBJ,
+					...res.data,
+				});
+			})
+			.catch((err) => setErrorMessage(err));
 	}, [id]);
 
 	return (
 		<>
 			<dialog id="btnViewAccount" className="modal ">
 				<div className="modal-box max-w-3xl">
-					<h3 className="font-bold text-lg">Account information details</h3>
+					<h3 className="font-bold text-lg">Account Information Detail</h3>
 
 					<div className="form-control w-full">
 						<div className="grid grid-cols-5 gap-4">
@@ -104,7 +105,7 @@ function ViewAccount({ id }) {
 								<div className="flex gap-2">
 									<div className="w-full">
 										<label className="label mt-4">
-											<span className="label-text">CreationDate</span>
+											<span className="label-text">Creation Date</span>
 										</label>
 										<input
 											type="text"
@@ -117,7 +118,7 @@ function ViewAccount({ id }) {
 									</div>
 									<div className="w-full">
 										<label className="label mt-4">
-											<span className="label-text">ModificationDate</span>
+											<span className="label-text">Modification Date</span>
 										</label>
 										<input
 											type="text"
@@ -137,7 +138,7 @@ function ViewAccount({ id }) {
 								<div className="flex gap-2">
 									<div className="w-full">
 										<label className="label mt-4">
-											<span className="label-text">DeletionDate</span>
+											<span className="label-text">Deletion Date</span>
 										</label>
 										<input
 											type="text"
@@ -147,11 +148,10 @@ function ViewAccount({ id }) {
 											className="input input-bordered w-full"
 											disabled
 										/>
-										<div className="text-err text-lg">{errorMessage}</div>
 									</div>
 									<div className="w-full">
 										<label className="label mt-4">
-											<span className="label-text">IsDeleted</span>
+											<span className="label-text">Is Deleted</span>
 										</label>
 										<input
 											type="text"

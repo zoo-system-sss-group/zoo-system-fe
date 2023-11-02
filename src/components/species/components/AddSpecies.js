@@ -3,14 +3,7 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 
-const INITIAL_SPECIES_OBJ = {
-	Name: "",
-	ScientificName: "",
-	LifeSpan: 1,
-	Description: "",
-	WildDiet: "",
-	Habitat: "AFRICAN",
-};
+
 
 const HABITAT = [
 	"AFRICAN",
@@ -21,6 +14,14 @@ const HABITAT = [
 	"AUSTRALIAN",
 	"NORTH_AMERICA",
 ];
+const INITIAL_SPECIES_OBJ = {
+	Name: "",
+	ScientificName: "",
+	LifeSpan: 1,
+	Description: "",
+	WildDiet: "",
+	Habitat: HABITAT[0],
+};
 
 function AddSpecies({ fetch }) {
 	const dispatch = useDispatch();
@@ -32,9 +33,9 @@ function AddSpecies({ fetch }) {
 		if (speciesObj.Name.trim() === "")
 			return setErrorMessage("Name is required!");
 		if (speciesObj.ScientificName.trim() === "")
-			return setErrorMessage("ScientificName is required!");
+			return setErrorMessage("Scientific Name is required!");
 		if (speciesObj.LifeSpan <= 0)
-			return setErrorMessage("LifeSpan must greater than 0!");
+			return setErrorMessage("Life Span must greater than 0!");
 
 		let newSpeciesObj = {
 			Name: speciesObj.Name,
@@ -96,7 +97,7 @@ function AddSpecies({ fetch }) {
 							/>
 
 							<label className="label mt-4">
-								<span className="label-text">ScientificName</span>
+								<span className="label-text">Scientific Name</span>
 							</label>
 							<input
 								type="text"
@@ -132,7 +133,7 @@ function AddSpecies({ fetch }) {
 							/>
 
 							<label className="label mt-4">
-								<span className="label-text">WildDiet</span>
+								<span className="label-text">Wild Diet</span>
 							</label>
 							<textarea
 								type="text"

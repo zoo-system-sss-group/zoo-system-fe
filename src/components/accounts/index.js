@@ -20,6 +20,19 @@ import {
 } from "../../routes/author";
 
 var user = JSON.parse(localStorage.getItem("loginInfo"));
+
+
+
+export const getRoleBadge = (role) => {
+	if (role === "Staff")
+		return <div className="badge badge-error">{role}</div>;
+	if (role === "Trainer")
+		return <div className="badge badge-info">{role}</div>;
+	if (role === "Admin")
+		return <div className="badge badge-accent">{role}</div>;
+	else return <div className="badge badge-outline">{role}</div>;
+};
+
 function Accounts() {
 	const dispatch = useDispatch();
 	const [accounts, setAccounts] = useState();
@@ -54,7 +67,7 @@ function Accounts() {
 				setAccounts(accounts);
 			})
 			.catch((err) => {
-				if (err.response && err.response.status == 403)
+				if (err.response && err.response.status === 403)
 					setError(`${user.role} is not Allowed to View User Accounts`);
 				else setError(err.message);
 			});
@@ -138,8 +151,8 @@ function Accounts() {
 										<th>Role</th>
 										<th>Fullname</th>
 										<th>Experiences</th>
-										<th>CreationDate</th>
-										<th>ModificationDate</th>
+										<th>Creation Date</th>
+										<th>Modification Date</th>
 										<th>Status</th>
 										<th></th>
 									</tr>
@@ -166,7 +179,7 @@ function Accounts() {
 														</div>
 													</div>
 												</td>
-												<td>{l.Role}</td>
+												<td>{getRoleBadge(l.Role)}</td>
 												<td>{l.Fullname}</td>
 												<td>
 													{l.Experiences ? (
@@ -213,50 +226,57 @@ function Accounts() {
 															>
 																<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 															</button>
+															{!roleAdmin.includes(l.Role) && (
+																<>
+																	<button
+																		className="btn btn-ghost inline"
+																		onClick={() => {
+																			document
+																				.getElementById("btnDeactiveAccount")
+																				.showModal();
+																			setIdSelect(l.Id);
+																		}}
+																	>
+																		<NoSymbolIcon className="w-5 text-err stroke-2" />
+																	</button>
+																	<dialog
+																		id="btnDeactiveAccount"
+																		className="modal "
+																	>
+																		<div className="modal-box">
+																			<h3 className="font-bold text-lg">
+																				Confirm
+																			</h3>
+																			<p className="py-4">
+																				Are you sure you want to deactive this
+																				user?
+																			</p>
+																			<div className="modal-action">
+																				<form method="dialog">
+																					<button className="btn">Close</button>
 
-															<button
-																className="btn btn-ghost inline"
-																onClick={() => {
-																	document
-																		.getElementById("btnDeactiveAccount")
-																		.showModal();
-																	setIdSelect(l.Id);
-																}}
-															>
-																<NoSymbolIcon className="w-5 text-err stroke-2" />
-															</button>
-															<dialog
-																id="btnDeactiveAccount"
-																className="modal "
-															>
-																<div className="modal-box">
-																	<h3 className="font-bold text-lg">Confirm</h3>
-																	<p className="py-4">
-																		Are you sure you want to deactive this user?
-																	</p>
-																	<div className="modal-action">
-																		<form method="dialog">
-																			<button className="btn">Close</button>
-
-																			<button
-																				className="btn btn-primary ml-4"
-																				onClick={() =>
-																					roleStaffAdmin.includes(user.role) &&
-																					deactiveAccount(idSelect)
-																				}
-																			>
-																				Deactive
-																			</button>
+																					<button
+																						className="btn btn-primary ml-4"
+																						onClick={() =>
+																							roleStaffAdmin.includes(
+																								user.role
+																							) && deactiveAccount(idSelect)
+																						}
+																					>
+																						Deactive
+																					</button>
+																				</form>
+																			</div>
+																		</div>
+																		<form
+																			method="dialog"
+																			className="modal-backdrop"
+																		>
+																			<button>close</button>
 																		</form>
-																	</div>
-																</div>
-																<form
-																	method="dialog"
-																	className="modal-backdrop"
-																>
-																	<button>close</button>
-																</form>
-															</dialog>
+																	</dialog>
+																</>
+															)}
 														</>
 													)}
 												</td>

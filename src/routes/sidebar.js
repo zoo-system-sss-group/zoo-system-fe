@@ -1,5 +1,5 @@
 /** Icons are imported separatly to reduce build time */
-import DocumentTextIcon from "@heroicons/react/24/outline/DocumentTextIcon";
+import CircleStackIcon from "@heroicons/react/24/outline/CircleStackIcon";
 import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
 import TicketIcon from "@heroicons/react/24/outline/TicketIcon";
 import TagIcon from "@heroicons/react/24/outline/TagIcon";
@@ -9,8 +9,10 @@ import MapIcon from "@heroicons/react/24/outline/MapIcon";
 import CubeIcon from "@heroicons/react/24/outline/CubeIcon";
 import NewspaperIcon from "@heroicons/react/24/outline/NewspaperIcon";
 import ArchiveBoxIcon from "@heroicons/react/24/outline/ArchiveBoxIcon";
+import InboxStackIcon from "@heroicons/react/24/outline/InboxStackIcon";
+import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
 import AnimalIcon from "../assets/animals.svg";
-import {roleAll, roleStaffAdmin, roleTrainer, roleTrainerAdmin} from "./author";
+import {roleAll, roleStaffAdmin, roleTrainer} from "./author";
 
 const iconClasses = `h-6 w-6`;
 const submenuIconClasses = `h-5 w-5`;
@@ -42,8 +44,8 @@ const routes = [
 	},
 	{
 		path: "/management/myTraining",
-		icon: <PuzzlePieceIcon className={iconClasses} />,
-		name: "Training",
+		icon: <HomeIcon className={iconClasses} />,
+		name: "My Training",
 		role: roleTrainer,
 	},
 	{
@@ -54,14 +56,14 @@ const routes = [
 	},
 	{
 		path: "/management/dietDetails",
-		icon: <PuzzlePieceIcon className={iconClasses} />,
+		icon: <InboxStackIcon className={iconClasses} />,
 		name: "Diet Details",
 		role: roleStaffAdmin,
 	},
 
 	{
 		path: "", //no url needed as this has submenu
-		icon: <DocumentTextIcon className={`${iconClasses} inline`} />, // icon component
+		icon: <CircleStackIcon className={`${iconClasses} inline`} />, // icon component
 		name: "Zoo Management", // name that appear in Sidebar
 		role: roleAll,
 		submenu: [

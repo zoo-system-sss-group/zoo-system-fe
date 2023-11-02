@@ -93,9 +93,8 @@ function Areas() {
 										<th>Location</th>
 										<th>Description</th>
 										<th>Capacity</th>
-										<th>CreationDate</th>
-										<th>ModificationDate</th>
-										{/* <th>Status</th> */}
+										<th>Creation Date</th>
+										<th>Modification Date</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -119,7 +118,6 @@ function Areas() {
 														"YYYY-MM-DD HH:mm:ss"
 													)}
 												</td>
-												{/* <td>{getStatus(l.IsDeleted)}</td> */}
 												<td className="flex">
 													{/* Nut xem area */}
 													<button

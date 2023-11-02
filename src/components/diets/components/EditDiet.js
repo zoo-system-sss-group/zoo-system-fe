@@ -49,14 +49,14 @@ function EditDiet({ id, fetch }) {
 
 	const saveNewDiet = () => {
 		if (dietObj.DietName.trim() === "")
-			return setErrorMessage("DietName is required!");
+			return setErrorMessage("Diet Name is required!");
 		if (dietObj.FoodName.trim() === "")
-			return setErrorMessage("FoodName is required!");
+			return setErrorMessage("Food Name is required!");
 		if (dietObj.Unit.trim() === "") return setErrorMessage("Unit is required!");
 		if (dietObj.Quantity <= 0)
 			return setErrorMessage("Quantity must greater than 0!");
 		if (dietObj.TimesPerDay <= 0)
-			return setErrorMessage("TimesPerDay must greater than 0!");
+			return setErrorMessage("Times Per Day must greater than 0!");
 
 		let newDietObj = {
 			DietName: dietObj.DietName,
@@ -99,16 +99,7 @@ function EditDiet({ id, fetch }) {
 					<h3 className="font-bold text-lg">Edit diet</h3>
 					<div className="form-control w-full ">
 						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={dietObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
-						<label className="label">
-							<span className="label-text">DietName</span>
+							<span className="label-text">Diet Name</span>
 						</label>
 						<input
 							type="text"
@@ -119,7 +110,7 @@ function EditDiet({ id, fetch }) {
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">FoodName</span>
+							<span className="label-text">Food Name</span>
 						</label>
 						<input
 							type="text"

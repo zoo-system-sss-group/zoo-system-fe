@@ -20,9 +20,6 @@ import {
 import { format } from "date-fns";
 import axios from "axios";
 import CreateSuccess from "./buyTicketPage/CreateSuccess";
-import { useEffect } from "react";
-import { useRef } from "react";
-import Progress from "./buyTicketPage/Progress";
 // payment methods
 const paymentMethods = [
   {

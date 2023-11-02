@@ -1,9 +1,5 @@
 import React from "react";
 import LayoutSections from "../layout/LayoutSections";
-import ImgActivity1 from "../../assets/at-1.jpg";
-import ImgActivity2 from "../../assets/at-2.jpg";
-import ImgActivity3 from "../../assets/at-3.jpg";
-import ImgActivity4 from "../../assets/at-4.jpg";
 import Slider from "../layout/Slider";
 import { Link } from "react-router-dom";
 import NewsRepository from "../../repositories/NewsRepository";

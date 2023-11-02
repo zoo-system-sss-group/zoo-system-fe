@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect } from "react";
 
 const INITIAL_SPECIES_OBJ = {
+	Id: 0,
 	Name: "",
 	ScientificName: "",
 	LifeSpan: 1,
@@ -31,10 +32,7 @@ function EditSpecies({ id, fetch }) {
 
 	useEffect(() => {
 		axios.get(`odata/species/${id}`).then((res) => {
-			setSpeciesObj({
-				...speciesObj,
-				...res.data,
-			});
+			setSpeciesObj(res.data);
 			setErrorMessage("")
 		});
 	}, [id]);
@@ -89,15 +87,6 @@ function EditSpecies({ id, fetch }) {
 					<h3 className="font-bold text-lg">Edit species</h3>
 					<div className="form-control w-full ">
 						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={speciesObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
-						<label className="label">
 							<span className="label-text">Name</span>
 						</label>
 						<input
@@ -109,7 +98,7 @@ function EditSpecies({ id, fetch }) {
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">ScientificName</span>
+							<span className="label-text">Scientific Name</span>
 						</label>
 						<input
 							type="text"
@@ -122,7 +111,7 @@ function EditSpecies({ id, fetch }) {
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">LifeSpan</span>
+							<span className="label-text">Life Span</span>
 						</label>
 						<input
 							type="number"
@@ -145,7 +134,7 @@ function EditSpecies({ id, fetch }) {
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">WildDiet</span>
+							<span className="label-text">Wild Diet</span>
 						</label>
 						<textarea
 							type="text"
