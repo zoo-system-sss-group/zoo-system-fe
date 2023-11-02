@@ -12,13 +12,14 @@ import { showNotification } from "../common/headerSlice";
 import EditTicketOrder from "./components/EditTicketOrder";
 import AddTicketOrder from "./components/AddTicketOrder";
 import ViewTicketOrder from "./components/ViewTicketOrder";
+import { roleStaffAdmin } from "../../routes/author";
 var user = JSON.parse(localStorage.getItem("loginInfo"));
 function TicketOrders() {
 	const dispatch = useDispatch();
 	const [ticketOrders, setTicketOrders] = useState();
 	const [error, setError] = useState("");
 	const [search, setSearch] = useState("");
-	const [idSelect, setIdSelect] = useState();
+	const [idSelect, setIdSelect] = useState(null);
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -116,13 +117,13 @@ function TicketOrders() {
 					</div>
 				}
 				TopSideButtons={
-					user.role === "Staff" && (
+					roleStaffAdmin.includes(user.role) && (
 						<AddTicketOrder fetch={fetchTicketOrderList} />
 					)
 				}
 			>
 				<div className="overflow-x-auto w-full">
-					{ticketOrders != null ? (
+					{(ticketOrders != null) ? (
 						<div>
 							<table className="table w-full">
 								<thead>
@@ -170,83 +171,76 @@ function TicketOrders() {
 													)}
 												</td>
 												<td>{getStatus(l.Status)}</td>
-												{user.role === "Staff" && (
-													<td className="flex">
-														{/* Nut xem ticketOrder */}
-														<button
-															className="btn btn-ghost inline"
-															onClick={() => {
-																setIdSelect(l.Id);
-																document
-																	.getElementById("btnViewTicketOrder")
-																	.showModal();
-															}}
-														>
-															<EyeIcon className="w-5 text-cor4 stroke-2" />
-														</button>
+												<td className="flex">
+													{/* Nut xem ticketOrder */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															setIdSelect(l.Id);
+															document
+																.getElementById("btnViewTicketOrder")
+																.showModal();
+														}}
+													>
+														<EyeIcon className="w-5 text-cor4 stroke-2" />
+													</button>
 
-														{/* Nut sua ticketOrder */}
-														<button
-															className="btn btn-ghost inline"
-															onClick={() => {
-																setIdSelect(l.Id);
-																document
-																	.getElementById("btnEditTicketOrder")
-																	.showModal();
-															}}
-														>
-															<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
-														</button>
+													{/* Nut sua ticketOrder */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															setIdSelect(l.Id);
+															document
+																.getElementById("btnEditTicketOrder")
+																.showModal();
+														}}
+													>
+														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
+													</button>
 
-														{/* Nut doi status ticketOrder */}
-														<button
-															className="btn btn-ghost inline"
-															onClick={() => {
-																document
-																	.getElementById("btnDeleteTicketOrder")
-																	.showModal();
-																setIdSelect(l.Id);
-															}}
-														>
-															<TrashIcon className="w-5 text-err stroke-2" />
-														</button>
-														<dialog
-															id="btnDeleteTicketOrder"
-															className="modal "
-														>
-															<div className="modal-box">
-																<h3 className="font-bold text-lg">Confirm</h3>
-																<p className="py-4 text-2xl">
-																	Are you want to delete ticketOrder "{l.Name}"?
-																</p>
-																<div className="modal-action">
-																	<form method="dialog">
-																		<button className="btn">Close</button>
+													{/* Nut doi status ticketOrder */}
+													<button
+														className="btn btn-ghost inline"
+														onClick={() => {
+															document
+																.getElementById("btnDeleteTicketOrder")
+																.showModal();
+															setIdSelect(l.Id);
+														}}
+													>
+														<TrashIcon className="w-5 text-err stroke-2" />
+													</button>
+													<dialog id="btnDeleteTicketOrder" className="modal ">
+														<div className="modal-box">
+															<h3 className="font-bold text-lg">Confirm</h3>
+															<p className="py-4 text-2xl">
+																Are you want to delete ticketOrder "{l.Name}"?
+															</p>
+															<div className="modal-action">
+																<form method="dialog">
+																	<button className="btn">Close</button>
 
-																		<button
-																			className="btn btn-primary ml-4"
-																			onClick={() =>
-																				deleteTicketOrder(idSelect)
-																			}
-																		>
-																			Delete
-																		</button>
-																	</form>
-																</div>
+																	<button
+																		className="btn btn-primary ml-4"
+																		onClick={() => deleteTicketOrder(idSelect)}
+																	>
+																		Delete
+																	</button>
+																</form>
 															</div>
-															<form method="dialog" className="modal-backdrop">
-																<button>close</button>
-															</form>
-														</dialog>
-													</td>
-												)}
+														</div>
+														<form method="dialog" className="modal-backdrop">
+															<button>close</button>
+														</form>
+													</dialog>
+												</td>
 											</tr>
 										);
 									})}
 								</tbody>
 							</table>
-							<ViewTicketOrder id={idSelect} />
-							<EditTicketOrder id={idSelect} fetch={fetchTicketOrderList} />
+							{idSelect && <ViewTicketOrder id={idSelect} />}
+							{idSelect && <EditTicketOrder id={idSelect} fetch={fetchTicketOrderList} />}
 
 							<div className="w-full flex justify-center">
 								<div className="join">
@@ -282,6 +276,7 @@ function TicketOrders() {
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">
+							Something go wrong <br />
 							{error}
 						</div>
 					)}

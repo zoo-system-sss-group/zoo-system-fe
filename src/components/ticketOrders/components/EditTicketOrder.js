@@ -37,8 +37,10 @@ function EditTicketOrder({ id, fetch }) {
 	}, [id]);
 
 	const saveNewTicketOrder = () => {
-		if (ticketOrderObj.Code.trim() === "") return setErrorMessage("Code is required!");
-		if (ticketOrderObj.Name.trim() === "") return setErrorMessage("Name is required!");
+		if (ticketOrderObj.Code.trim() === "")
+			return setErrorMessage("Code is required!");
+		if (ticketOrderObj.Name.trim() === "")
+			return setErrorMessage("Name is required!");
 		if (ticketOrderObj.Location.trim() === "")
 			return setErrorMessage("Location is required!");
 		if (ticketOrderObj.Description.trim() === "")
@@ -130,7 +132,9 @@ function EditTicketOrder({ id, fetch }) {
 						<textarea
 							type="text"
 							placeholder=""
-							value={ticketOrderObj.Description ? ticketOrderObj.Description : ""}
+							value={
+								ticketOrderObj.Description ? ticketOrderObj.Description : ""
+							}
 							onChange={(e) => updateFormValue("Description", e.target.value)}
 							className="textarea textarea-bordered h-24"
 						/>

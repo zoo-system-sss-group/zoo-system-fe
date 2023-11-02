@@ -7,12 +7,9 @@ import axios from "axios";
 import { showNotification } from "../common/headerSlice";
 import EditDiet from "./components/EditDiet";
 import AddDiet from "./components/AddDiet";
+import { roleStaffAdmin } from "../../routes/author";
 
 const user = JSON.parse(localStorage.getItem("loginInfo"));
-const ROLE = {
-  trainer: "Trainer",
-  staff: "Staff",
-};
 
 function Diets() {
   const dispatch = useDispatch();
@@ -73,7 +70,7 @@ function Diets() {
         title="Diet table"
         topMargin="mt-2"
         TopSideButtons={
-          user.role === ROLE.staff && <AddDiet fetch={fetchDietList} />
+          roleStaffAdmin.includes(user.role) && <AddDiet fetch={fetchDietList} />
         }
       >
         <div className="overflow-x-auto w-full">
@@ -113,7 +110,7 @@ function Diets() {
                             "YYYY-MM-DD HH:mm:ss"
                           )}
                         </td>
-                        {user.role === ROLE.staff && (
+                        {roleStaffAdmin.includes(user.role) && (
                           <>
                             <td className="flex">
                               {/* Nut sua diets */}
@@ -155,7 +152,7 @@ function Diets() {
                                       <button
                                         className="btn btn-primary ml-4"
                                         onClick={() =>
-                                          user.role === ROLE.staff &&
+                                          roleStaffAdmin.includes(user.role) &&
                                           deleteDiet(idSelect)
                                         }
                                       >
@@ -179,7 +176,7 @@ function Diets() {
                   })}
                 </tbody>
               </table>
-              {user.role === ROLE.staff && (
+              {roleStaffAdmin.includes(user.role) && (
                 <>
                   <EditDiet id={idSelect} fetch={fetchDietList} />
                 </>

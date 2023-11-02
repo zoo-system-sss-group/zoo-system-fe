@@ -60,7 +60,7 @@ function Profile() {
 											<img
 												src={profile.Avatar ?? "../img/user.png"}
 												alt="User Profile"
-												className="mask mask-squircle mx-auto w-48 h-48"
+												className="mask mask-squircle mx-auto w-48 aspect-square object-cover"
 											/>
 											<h2 className="text-2xl font-semibold mt-2">
 												{profile.Fullname}

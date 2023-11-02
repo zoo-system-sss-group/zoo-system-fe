@@ -34,127 +34,133 @@ function ViewAccount({ id }) {
 	return (
 		<>
 			<dialog id="btnViewAccount" className="modal ">
-				<div className="modal-box max-w-2xl">
+				<div className="modal-box max-w-3xl">
 					<h3 className="font-bold text-lg">Account information details</h3>
 
-					<label className="label mt-4">
-						<span className="label-text">Avatar</span>
-					</label>
-					<img
-						src={accountObj.Avatar ?? "../img/user.png"}
-						alt="avatar"
-						className="mt-2 border rounded-lg aspect-square object-cover"
-					/>
-
 					<div className="form-control w-full">
-						<div className="w-full">
-							<label className="label">
-								<span className="label-text">ID</span>
-							</label>
-							<input
-								value={accountObj.Id ?? ""}
-								className="input input-bordered w-full "
-								disabled
-							/>
-						</div>
+						<div className="grid grid-cols-5 gap-4">
+							<div className="col-span-2">
+								<div className="w-full">
+									<label className="label">
+										<span className="label-text">ID</span>
+									</label>
+									<input
+										value={accountObj.Id ?? ""}
+										className="input input-bordered w-full "
+										disabled
+									/>
+								</div>
 
-						<div className="w-full">
-							<label className="label">
-								<span className="label-text">Username</span>
-							</label>
-							<input
-								type="text"
-								value={accountObj.Username}
-								className="input input-bordered w-full "
-								disabled
-							/>
-						</div>
-						<label className="label mt-4">
-							<span className="label-text">Fullname</span>
-						</label>
-						<input
-							type="text"
-							value={accountObj.Fullname}
-							className="input input-bordered w-full"
-							disabled
-						/>
-
-						<label className="label mt-4">
-							<span className="label-text">Role</span>
-						</label>
-						<input
-							type="text"
-							value={accountObj.Role}
-							className="input input-bordered w-full"
-							disabled
-						/>
-
-						<label className="label mt-4">
-							<span className="label-text">Experiences</span>
-						</label>
-						<textarea
-							type="text"
-							value={accountObj.Experiences}
-							className="textarea textarea-bordered h-24"
-							disabled
-						/>
-
-						<div className="flex gap-2">
-							<div className="w-full">
+								<div className="w-full">
+									<label className="label">
+										<span className="label-text">Username</span>
+									</label>
+									<input
+										type="text"
+										value={accountObj.Username}
+										className="input input-bordered w-full "
+										disabled
+									/>
+								</div>
 								<label className="label mt-4">
-									<span className="label-text">CreationDate</span>
+									<span className="label-text">Fullname</span>
 								</label>
 								<input
 									type="text"
-									value={moment(accountObj.CreationDate).format(
-										"YYYY-mm-DD hh:mm:ss"
-									)}
+									value={accountObj.Fullname}
 									className="input input-bordered w-full"
+									disabled
+								/>
+
+								<label className="label mt-4">
+									<span className="label-text">Role</span>
+								</label>
+								<input
+									type="text"
+									value={accountObj.Role}
+									className="input input-bordered w-full"
+									disabled
+								/>
+
+								<label className="label mt-4">
+									<span className="label-text">Experiences</span>
+								</label>
+								<textarea
+									type="text"
+									value={accountObj.Experiences ?? ""}
+									className="textarea textarea-bordered h-56 w-full"
 									disabled
 								/>
 							</div>
-							<div className="w-full">
-								<label className="label mt-4">
-									<span className="label-text">ModificationDate</span>
+							<div className="col-span-3">
+								<label className="label">
+									<span className="label-text">Avatar</span>
 								</label>
-								<input
-									type="text"
-									value={
-										accountObj.ModificationDate
-											? moment(accountObj.ModificationDate).format(
-													"YYYY-mm-DD hh:mm:ss"
-											  )
-											: ""
-									}
-									className="input input-bordered w-full"
-									disabled
+								<img
+									src={accountObj.Avatar ?? "../img/user.png"}
+									alt="avatar"
+									className="border rounded-lg aspect-square object-cover"
 								/>
-							</div>
-						</div>
+								<div className="flex gap-2">
+									<div className="w-full">
+										<label className="label mt-4">
+											<span className="label-text">CreationDate</span>
+										</label>
+										<input
+											type="text"
+											value={moment(accountObj.CreationDate).format(
+												"YYYY-mm-DD hh:mm:ss"
+											)}
+											className="input input-bordered w-full"
+											disabled
+										/>
+									</div>
+									<div className="w-full">
+										<label className="label mt-4">
+											<span className="label-text">ModificationDate</span>
+										</label>
+										<input
+											type="text"
+											value={
+												accountObj.ModificationDate
+													? moment(accountObj.ModificationDate).format(
+															"YYYY-mm-DD hh:mm:ss"
+													  )
+													: ""
+											}
+											className="input input-bordered w-full"
+											disabled
+										/>
+									</div>
+								</div>
 
-						<div className="flex gap-2">
-							<div className="w-full">
-								<label className="label mt-4">
-									<span className="label-text">DeletionDate</span>
-								</label>
-								<input
-									type="text"
-									value={accountObj.DeletionDate ? accountObj.DeletionDate : ""}
-									className="input input-bordered w-full"
-									disabled
-								/>
-								<div className="text-err text-lg">{errorMessage}</div>
-							</div>
-							<div className="w-full">
-								<label className="label mt-4">
-									<span className="label-text">IsDeleted</span>
-								</label>
-								<input
-									type="text"
-									value={accountObj.IsDeleted}
-									className="input input-bordered w-full"
-									disabled
-								/>
+								<div className="flex gap-2">
+									<div className="w-full">
+										<label className="label mt-4">
+											<span className="label-text">DeletionDate</span>
+										</label>
+										<input
+											type="text"
+											value={
+												accountObj.DeletionDate ? accountObj.DeletionDate : ""
+											}
+											className="input input-bordered w-full"
+											disabled
+										/>
+										<div className="text-err text-lg">{errorMessage}</div>
+									</div>
+									<div className="w-full">
+										<label className="label mt-4">
+											<span className="label-text">IsDeleted</span>
+										</label>
+										<input
+											type="text"
+											value={accountObj.IsDeleted}
+											className="input input-bordered w-full"
+											disabled
+										/>
+									</div>
+								</div>
 							</div>
 						</div>
 

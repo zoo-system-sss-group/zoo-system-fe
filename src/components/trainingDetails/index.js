@@ -12,6 +12,7 @@ import { showNotification } from "../common/headerSlice";
 import EditTrainingDetail from "./components/EditTrainingDetail";
 import AddTrainingDetail from "./components/AddTrainingDetail";
 import ViewTrainingDetail from "./components/ViewTrainingDetail";
+import { roleStaffAdmin } from "../../routes/author";
 const user = JSON.parse(localStorage.getItem("loginInfo"));
 const ROLE = {
 	trainer: "Trainer",
@@ -81,7 +82,7 @@ function TrainingDetails() {
 				title="TrainingDetail table"
 				topMargin="mt-2"
 				TopSideButtons={
-					user.role === ROLE.staff && (
+					roleStaffAdmin.includes(user.role) && (
 						<AddTrainingDetail fetch={fetchTrainingDetailList} />
 					)
 				}
@@ -140,7 +141,7 @@ function TrainingDetails() {
 													</button>
 
 													{/* Nut sua trainingDetail */}
-													{user.role === ROLE.staff && (
+													{roleStaffAdmin.includes(user.role) && (
 														<>
 															{l.EndDate === null ? (
 																<button
@@ -187,7 +188,7 @@ function TrainingDetails() {
 																	<button
 																		className="btn btn-primary ml-4"
 																		onClick={() =>
-																			user.role === ROLE.staff &&
+																			roleStaffAdmin.includes(user.role) &&
 																			deleteTrainingDetail(idSelect)
 																		}
 																	>
@@ -207,7 +208,7 @@ function TrainingDetails() {
 								</tbody>
 							</table>
 							<ViewTrainingDetail id={idSelect} />
-							{user.role === ROLE.staff && (
+							{roleStaffAdmin.includes(user.role) && (
 								<EditTrainingDetail
 									id={idSelect}
 									fetch={fetchTrainingDetailList}

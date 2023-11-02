@@ -12,11 +12,8 @@ import { showNotification } from "../common/headerSlice";
 import EditArea from "./components/EditArea";
 import AddArea from "./components/AddArea";
 import ViewArea from "./components/ViewArea";
+import { roleStaffAdmin } from "../../routes/author";
 const user = JSON.parse(localStorage.getItem("loginInfo"));
-const ROLE = {
-  trainer: "Trainer",
-  staff: "Staff",
-};
 function Areas() {
   const dispatch = useDispatch();
   const [areas, setAreas] = useState();
@@ -78,7 +75,7 @@ function Areas() {
         title="Area table"
         topMargin="mt-2"
         TopSideButtons={
-          user.role === ROLE.staff && <AddArea fetch={fetchAreaList} />
+          roleStaffAdmin.includes(user.role) && <AddArea fetch={fetchAreaList} />
         }
       >
         <div className="overflow-x-auto w-full">
@@ -133,7 +130,7 @@ function Areas() {
                           >
                             <EyeIcon className="w-5 text-cor4 stroke-2" />
                           </button>
-                          {user.role === ROLE.staff && (
+                          {roleStaffAdmin.includes(user.role) && (
                             <>
                               {/* Nut sua area */}
                               <button
@@ -175,7 +172,7 @@ function Areas() {
                                   <button
                                     className="btn btn-primary ml-4"
                                     onClick={() => {
-                                      if (user.role === ROLE.staff)
+                                      if (roleStaffAdmin.includes(user.role))
                                         deleteArea(idSelect);
                                     }}
                                   >
@@ -195,7 +192,7 @@ function Areas() {
                 </tbody>
               </table>
               <ViewArea id={idSelect} />
-              {user.role === ROLE.staff && (
+              {roleStaffAdmin.includes(user.role) && (
                 <EditArea id={idSelect} fetch={fetchAreaList} />
               )}
 

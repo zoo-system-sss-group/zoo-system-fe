@@ -12,11 +12,8 @@ import { showNotification } from "../common/headerSlice";
 import EditDietDetail from "./components/EditDietDetail";
 import AddDietDetail from "./components/AddDietDetail";
 import ViewDietDetail from "./components/ViewDietDetail";
+import { roleStaffAdmin } from "../../routes/author";
 const user = JSON.parse(localStorage.getItem("loginInfo"));
-const ROLE = {
-	trainer: "Trainer",
-	staff: "Staff",
-};
 function DietDetails() {
 	const dispatch = useDispatch();
 	const [dietDetails, setDietDetails] = useState();
@@ -81,7 +78,7 @@ function DietDetails() {
 				title="DietDetail table"
 				topMargin="mt-2"
 				TopSideButtons={
-					user.role === ROLE.staff && (
+					roleStaffAdmin.includes(user.role) && (
 						<AddDietDetail fetch={fetchDietDetailList} />
 					)
 				}
@@ -140,7 +137,7 @@ function DietDetails() {
 													</button>
 
 													{/* Nut sua dietDetail */}
-													{user.role === ROLE.staff && (
+													{roleStaffAdmin.includes(user.role) && (
 														<>
 															{l.EndDate === null ? (
 																<button
@@ -177,7 +174,7 @@ function DietDetails() {
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
 															<p className="py-4 text-2xl">
-																Are you want to delete dietDetail "{l.Name}
+																Are you want to delete dietDetail "{l.DietName}
 																"?
 															</p>
 															<div className="modal-action">
@@ -187,7 +184,7 @@ function DietDetails() {
 																	<button
 																		className="btn btn-primary ml-4"
 																		onClick={() =>
-																			user.role === ROLE.staff &&
+																			roleStaffAdmin.includes(user.role) &&
 																			deleteDietDetail(idSelect)
 																		}
 																	>
@@ -207,7 +204,7 @@ function DietDetails() {
 								</tbody>
 							</table>
 							<ViewDietDetail id={idSelect} />
-							{user.role === ROLE.staff && (
+							{roleStaffAdmin.includes(user.role) && (
 								<EditDietDetail
 									id={idSelect}
 									fetch={fetchDietDetailList}
