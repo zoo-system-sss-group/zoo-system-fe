@@ -4,8 +4,9 @@ import { useEffect } from "react";
 export default function Progress({ value, max }) {
   const progress = useRef();
   useEffect(() => {
-	  progress.current.style.width = `${(value / max) * 100}%`;
-	  console.log(value, progress.current.style.width,max);
+    const val = value >= max ? max : value;
+    progress.current.style.width = `${(val / max) * 100}%`;
+    console.log(value, progress.current.style.width, max);
   }, [value]);
 
   return (

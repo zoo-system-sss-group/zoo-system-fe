@@ -30,7 +30,7 @@ const paymentMethods = [
     value: "Momo",
     display: (
       <>
-        <img src={Momo} className="mb-4" alt="TpBank" />
+        <img src={Momo} className="mb-4 max-w-[200px]" alt="TpBank" />
       </>
     ),
   },
@@ -39,12 +39,13 @@ const paymentMethods = [
     value: "Card",
     display: (
       <>
-        <img src={TpBank} className="mb-4" alt="TpBank" />
+        <img src={TpBank} className="mb-4 max-w-[200px]" alt="TpBank" />
       </>
     ),
   },
 ];
 const totalStep = 4;
+const submitStep = 3;
 // set default Date
 const currentDate = new Date(format(new Date(), "yyyy-MM-dd"));
 const minDate = new Date(currentDate);
@@ -106,11 +107,11 @@ function BuyTicket() {
       msg = getValidationMessage(validations[key], input);
     });
     if (msg) return;
-    if (step >= totalStep) {
+    if (step >= submitStep) {
       submitForm(values)
         .then((resp) => {
-          setStep(totalStep + 1);
-          setSubmitValue(resp);
+          setStep(() => totalStep + 1);
+          setSubmitValue(() => resp);
         })
         .catch((e) => setStep(totalStep));
     }
@@ -166,12 +167,15 @@ function BuyTicket() {
               values={values}
             />
           )}
-          {step === 4 && (
+          {console.log(values, submitVal)}
+
+          {(submitVal || step === 4) && (
             <CreateSuccess
               step={step}
               totalStep={totalStep}
               paymentMethods={paymentMethods}
               values={submitVal}
+              resVal={values}
             />
           )}
         </>
@@ -203,20 +207,25 @@ async function submitForm(values) {
     )
     .then((response) => response.data)
     .catch((err) => err);
-  //   result = {
-  //     "@odata.context": "https://localhost:7195/odata/$metadata#TicketOrders(Code,CustomerName,Email,PhoneNumber,EffectiveDate,PaymentMethod,TotalMoney,TotalTicket,Status,Id,CreationDate)/$entity",
-  //     "Code": "ecd3210c-4fcb-4bbc-9c54-73f0df8d71f6",
-  //     "CustomerName": "Lam Lam",
-  //     "Email": "binhnguyenthanh19242yahoo@gmail.com",
-  //     "PhoneNumber": "0123456789",
-  //     "EffectiveDate": "2023-10-28T00:00:00+07:00",
-  //     "PaymentMethod": "Momo",
-  //     "TotalMoney": 60000.0,
-  //     "TotalTicket": 1,
-  //     "Status": "Waiting",
-  //     "Id": 17,
-  //     "CreationDate": "2023-10-27T14:43:30.44067+07:00"
-  // }
+  // Don't Delete
+  // result = {
+  //   "@odata.context":
+  //     "https://localhost:7195/odata/$metadata#TicketOrders/$entity",
+  //   Code: "702492a0-a47f-48a5-b8d5-c46b6c900630",
+  //   CustomerName: "Lam Lam",
+  //   Email: "v.trclam@gmail.com",
+  //   PhoneNumber: "0123456789",
+  //   EffectiveDate: "2023-11-20T00:00:00+07:00",
+  //   PaymentMethod: "Momo",
+  //   TotalMoney: 200000.0,
+  //   TotalTicket: 4,
+  //   Status: "Waiting",
+  //   Id: 47,
+  //   CreationDate: "2023-11-02T17:05:40.4088047+07:00",
+  //   ModificationDate: "2023-11-02T17:05:40.4045688+07:00",
+  //   DeletionDate: null,
+  //   IsDeleted: false,
+  // };
   return result;
 }
 export default BuyTicket;
