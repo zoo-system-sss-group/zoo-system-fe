@@ -50,7 +50,7 @@ function EditTicketOrder({ id, fetch }) {
 			Code: ticketOrderObj.Code,
 			Name: ticketOrderObj.Name,
 			Location: ticketOrderObj.Location,
-			Description: ticketOrderObj.Description,
+			Description: ticketOrderObj.Description ?? "",
 			Capacity: ticketOrderObj.Capacity,
 		};
 		const data = JSON.stringify(newTicketOrderObj);

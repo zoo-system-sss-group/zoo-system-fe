@@ -208,7 +208,7 @@ function EditNews({ id, VALIDATIONS, fetch }) {
               <label className="label mt-4">
                 <span className="label-text">Content</span>
               </label>
-              <div name="content" ref={textEditorRef} className="block">
+              <div name="content" ref={textEditorRef} className="block relative">
                 <Editor
                   apiKey="wyopdb0u8mweiku159d2tp39m5451adsboem7qcr0jyyixp1"
                   onInit={(evt, editor) => (editorRef.current = editor)}
@@ -232,7 +232,7 @@ function EditNews({ id, VALIDATIONS, fetch }) {
                       "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                   }}
                   onEditorChange={(v) => setText(v)}
-                  className="textarea textarea-bordered h-24"
+                  className="textarea textarea-bordered z-10 h-24"
                 />
               </div>
               <div className="text-err text-lg">{errorMessage}</div>

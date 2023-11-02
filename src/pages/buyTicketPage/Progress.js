@@ -6,7 +6,6 @@ export default function Progress({ value, max }) {
   useEffect(() => {
     const val = value >= max ? max : value;
     progress.current.style.width = `${(val / max) * 100}%`;
-    console.log(value, progress.current.style.width, max);
   }, [value]);
 
   return (

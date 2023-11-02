@@ -22,7 +22,6 @@ function NewsRepository() {
     new Promise((resolve, reject) => {
       const news = [];
       const request = new Search();
-      console.log(request)
       request.setSearch(search ?? "");
       const call = client.getNews(request, {}); // Make the gRPC call
 

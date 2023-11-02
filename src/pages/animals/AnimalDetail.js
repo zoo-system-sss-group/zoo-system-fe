@@ -49,7 +49,6 @@ function AnimalDetail() {
         setAnimal(animalData);
       })
       .catch((err) => {
-        console.log(err);
         if (err.code === "ERR_NETWORK") {
           setError("Server Not Loaded!");
         }
@@ -62,9 +61,7 @@ function AnimalDetail() {
       });
   }, []);
 
-  useEffect(() => {
-    console.log(animal);
-  }, [animal]);
+
 
   return (
     <div>

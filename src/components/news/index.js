@@ -55,7 +55,6 @@ function News() {
     // 	.catch((err) => {
     // 		setError(err.message);
     // 	});
-    console.log(pagination.page, pagination.limit, search);
     _repo
       .getNews(pagination.page, pagination.limit, search)
       .then((res) => {
