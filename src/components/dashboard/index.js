@@ -96,7 +96,7 @@ function Dashboard() {
 					</div>
 				</>
 			) : (
-				<div className="text-center">{`Welcome ${user.fullname}`}</div>
+				(window.location.href = "myTraining")
 			)}
 
 			{/* <div className="grid lg:grid-cols-2 mt-4 grid-cols-1 gap-6">
