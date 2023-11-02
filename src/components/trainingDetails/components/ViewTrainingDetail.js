@@ -14,17 +14,24 @@ const INITIAL_TRAININGDETAIL_OBJ = {
 	CreationDate: "",
 	DeletionDate: "",
 	IsDeleted: false,
-	Animal: {},
-	Trainer: {},
+	Animal: {
+		Name: "",
+		Image: ""},
+	Trainer: {
+		Fullname: "",
+		Avatar: ""
+	},
 };
 
 function ViewTrainingDetail({ id }) {
 	const [errorMessage, setErrorMessage] = useState("");
-	const [trainingDetailObj, setTrainingDetailObj] = useState(INITIAL_TRAININGDETAIL_OBJ);
+	const [trainingDetailObj, setTrainingDetailObj] = useState(
+		INITIAL_TRAININGDETAIL_OBJ
+	);
 
 	useEffect(() => {
 		axios
-			.get(`odata/trainingdetails(${id})$expand=animal,trainer)`)
+			.get(`odata/trainingdetails/${id}?$expand=animal,trainer`)
 			.then((res) => {
 				setTrainingDetailObj({
 					...INITIAL_TRAININGDETAIL_OBJ,
@@ -42,54 +49,69 @@ function ViewTrainingDetail({ id }) {
 					</h3>
 
 					<div className="form-control w-full">
-						<div className="w-full">
-							<label className="label">
-								<span className="label-text">ID</span>
-							</label>
-							<input
-								value={trainingDetailObj.Id}
-								className="input input-bordered w-full "
-								disabled
-							/>
+						<div className="flex w-full">
+							<div className="w-full">
+								<label className="label">
+									<span className="label-text">TrainerId</span>
+								</label>
+								<input
+									type="text"
+									value={trainingDetailObj.TrainerId}
+									className="input input-bordered w-full "
+									disabled
+								/>
+
+								<label className="label mt-4">
+									<span className="label-text">Trainer Name</span>
+								</label>
+								<input
+									type="text"
+									value={trainingDetailObj.Trainer.Fullname}
+									className="input input-bordered w-full "
+									disabled
+								/>
+
+								<label className="label mt-4">
+									<span className="label-text">Trainer Avatar</span>
+								</label>
+								<img
+									src={trainingDetailObj.Trainer?.Avatar ?? "../img/user.png"}
+									alt="trainingDetail"
+									className="mt-2 border rounded-lg aspect-square object-cover"
+								/>
+							</div>
+							<div className="divider divider-horizontal">Train</div>
+							<div className="w-full">
+								<label className="label">
+									<span className="label-text">AnimalId</span>
+								</label>
+								<input
+									type="text"
+									value={trainingDetailObj.AnimalId}
+									className="input input-bordered w-full "
+									disabled
+								/>
+
+								<label className="label mt-4">
+									<span className="label-text">Animal Name</span>
+								</label>
+								<input
+									type="text"
+									value={trainingDetailObj.Animal.Name}
+									className="input input-bordered w-full"
+									disabled
+								/>
+
+								<label className="label mt-4">
+									<span className="label-text">Animal Image</span>
+								</label>
+								<img
+									src={trainingDetailObj.Animal.Image ?? "../img/noimage.jpg"}
+									alt="trainingDetail"
+									className="mt-2 border rounded-lg aspect-square object-cover"
+								/>
+							</div>
 						</div>
-						<div className="w-full">
-							<label className="label">
-								<span className="label-text">TrainerId</span>
-							</label>
-							<input
-								type="text"
-								value={trainingDetailObj.TrainerId}
-								className="input input-bordered w-full "
-								disabled
-							/>
-						</div>
-						<div className="w-full">
-							<label className="label">
-								<span className="label-text">AnimalId</span>
-							</label>
-							<input
-								type="text"
-								value={trainingDetailObj.AnimalId}
-								className="input input-bordered w-full "
-								disabled
-							/>
-						</div>
-						<label className="label mt-4">
-							<span className="label-text">Trainer Avatar</span>
-						</label>
-						<img
-							src={trainingDetailObj.Trainer?.Avatar ?? "../img/user.png"}
-							alt="trainingDetail"
-							className="mt-2 border rounded-lg min-w-full"
-						/>
-						<label className="label mt-4">
-							<span className="label-text">Animal Image</span>
-						</label>
-						<img
-							src={trainingDetailObj.Animal.Image ?? "../img/noimage.jpg"}
-							alt="trainingDetail"
-							className="mt-2 border rounded-lg min-w-full"
-						/>
 
 						<div className="flex gap-2">
 							<div className="w-full">

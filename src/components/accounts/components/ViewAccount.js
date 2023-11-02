@@ -43,7 +43,7 @@ function ViewAccount({ id }) {
 					<img
 						src={accountObj.Avatar ?? "../img/user.png"}
 						alt="avatar"
-						className="mt-2 border rounded-lg min-w-full"
+						className="mt-2 border rounded-lg aspect-square object-cover"
 					/>
 
 					<div className="form-control w-full">

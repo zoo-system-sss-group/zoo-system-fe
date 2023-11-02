@@ -191,7 +191,7 @@ function EditAccount({ id, fetch }) {
 									: "../img/user.png"
 							}
 							alt="cage"
-							className="mt-2 border rounded-lg min-w-full"
+							className="mt-2 border rounded-lg aspect-square object-cover"
 						/>
 
 						<div className="text-err text-lg">{errorMessage}</div>

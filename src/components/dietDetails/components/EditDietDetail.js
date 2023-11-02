@@ -3,34 +3,33 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
-import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
 
 const INITIAL_TRAININGDETAIL_OBJ = {
-	TrainerId: "",
+	DietId: "",
 	AnimalId: "",
 	StartDate: null,
 	EndDate: null,
 };
 
-function EditTrainingDetail({ id, fetch }) {
+function EditDietDetail({ id, fetch }) {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
 	const [check, setCheck] = useState(false);
-	const [trainingDetailObj, setTrainingDetailObj] = useState(
+	const [dietDetailObj, setDietDetailObj] = useState(
 		INITIAL_TRAININGDETAIL_OBJ
 	);
-	// const [trainers, setTrainers] = useState([]);
+	// const [diets, setDiets] = useState([]);
 	// const [animals, setAnimals] = useState([]);
 
 	useEffect(() => {
 		// axios
 		// 	.get(
-		// 		`odata/accounts?$filter=IsDeleted eq false and Role eq 'Trainer'&$select=Id,Fullname`
+		// 		`odata/accounts?$filter=IsDeleted eq false and Role eq 'Diet'&$select=Id,Fullname`
 		// 	)
 		// 	.then((res) => {
 		// 		let arr = Object.values(res.data.value);
-		// 		setTrainers(arr);
+		// 		setDiets(arr);
 		// 	});
 		// axios
 		// 	.get(`odata/animals?$filter=IsDeleted eq false&$select=Id,Name`)
@@ -38,38 +37,38 @@ function EditTrainingDetail({ id, fetch }) {
 		// 		let arr = Object.values(res.data.value);
 		// 		setAnimals(arr);
 		// 	});
-		axios.get(`odata/trainingDetails/${id}?$expand=Animal,Trainer`).then((res) => {
-			setTrainingDetailObj({
+		axios.get(`odata/dietDetails/${id}?$expand=Animal,Diet`).then((res) => {
+			setDietDetailObj({
 				...INITIAL_TRAININGDETAIL_OBJ,
-				...res.data.value[0],
+				...res.data,
 			});
 		});
 	}, [id]);
 
-	const saveNewTrainingDetail = () => {
-		if (trainingDetailObj.trainerId === 0)
-			return setErrorMessage("trainerId is required!");
-		if (trainingDetailObj.animalId === 0)
+	const saveNewDietDetail = () => {
+		if (dietDetailObj.dietId === 0)
+			return setErrorMessage("dietId is required!");
+		if (dietDetailObj.animalId === 0)
 			return setErrorMessage("animalId is required!");
 
-		if (check) trainingDetailObj.EndDate = new Date();
+		if (check) dietDetailObj.EndDate = new Date();
 
 		setLoading(true);
 
-		let newTrainingDetailObj = {
-			trainerId: trainingDetailObj.TrainerId,
-			animalId: trainingDetailObj.AnimalId,
-			// startDate: trainingDetailObj.startDate,
-			endDate: trainingDetailObj.EndDate,
+		let newDietDetailObj = {
+			dietId: dietDetailObj.DietId,
+			animalId: dietDetailObj.AnimalId,
+			// startDate: dietDetailObj.startDate,
+			endDate: dietDetailObj.EndDate,
 		};
-		const data = JSON.stringify(newTrainingDetailObj);
+		const data = JSON.stringify(newDietDetailObj);
 		axios
-			.put(`odata/trainingDetails/${trainingDetailObj.Id}`, data)
+			.put(`odata/dietDetails/${dietDetailObj.Id}`, data)
 			.then((res) => {
-				document.getElementById("btnCloseEditTrainingDetail").click();
+				document.getElementById("btnCloseEditDietDetail").click();
 				dispatch(
 					showNotification({
-						message: "Edit trainingDetail successfully",
+						message: "Edit dietDetail successfully",
 						status: res.status,
 					})
 				);
@@ -80,34 +79,33 @@ function EditTrainingDetail({ id, fetch }) {
 			})
 			.finally(() => {
 				setLoading(false);
-				setCheck(false);
-				setTrainingDetailObj(INITIAL_TRAININGDETAIL_OBJ);
+				setDietDetailObj(INITIAL_TRAININGDETAIL_OBJ);
 			});
 	};
 
 	const updateFormValue = (updateType, value) => {
 		setErrorMessage("");
-		setTrainingDetailObj({ ...trainingDetailObj, [updateType]: value });
+		setDietDetailObj({ ...dietDetailObj, [updateType]: value });
 	};
 
 	return (
 		<>
-			<dialog id="btnEditTrainingDetail" className="modal ">
+			<dialog id="btnEditDietDetail" className="modal ">
 				<div className="modal-box max-w-2xl">
-					<h3 className="font-bold text-lg">Edit trainingDetail</h3>
+					<h3 className="font-bold text-lg">Edit dietDetail</h3>
 					<div className="form-control w-full mt-4">
 						{/* <label className="label mt-4">
-							<span className="label-text">Choose Trainer</span>
+							<span className="label-text">Choose Diet</span>
 						</label>
 						<select
 							type="text"
 							placeholder=""
-							value={trainingDetailObj.TrainerId}
-							onChange={(e) => updateFormValue("TrainerId", e.target.value)}
+							value={dietDetailObj.DietId}
+							onChange={(e) => updateFormValue("DietId", e.target.value)}
 							className="select select-bordered w-full"
 						>
-							{trainers.length > 0
-								? trainers.map((l) => (
+							{diets.length > 0
+								? diets.map((l) => (
 										<option key={l.Id} value={l.Id}>
 											{l.Fullname}
 										</option>
@@ -121,7 +119,7 @@ function EditTrainingDetail({ id, fetch }) {
 						<select
 							type="text"
 							placeholder=""
-							value={trainingDetailObj.AnimalId}
+							value={dietDetailObj.AnimalId}
 							onChange={(e) => updateFormValue("AnimalId", e.target.value)}
 							className="select select-bordered w-full"
 						>
@@ -136,7 +134,7 @@ function EditTrainingDetail({ id, fetch }) {
 
 						<label className="label cursor-pointer mt-4">
 							<span className="label-text text-lg text-err">
-								Do you want this trainer to stop training this animal?
+								Do you want this animal stop eating this diet?
 							</span>
 							<input
 								type="checkbox"
@@ -150,13 +148,13 @@ function EditTrainingDetail({ id, fetch }) {
 					</div>
 					<div className="modal-action">
 						<form method="dialog">
-							<button id="btnCloseEditTrainingDetail" className="btn">
+							<button id="btnCloseEditDietDetail" className="btn">
 								Close
 							</button>
 						</form>
 						<button
 							className="btn btn-primary ml-4"
-							onClick={(e) => saveNewTrainingDetail()}
+							onClick={(e) => saveNewDietDetail()}
 						>
 							Save
 						</button>{" "}
@@ -171,4 +169,4 @@ function EditTrainingDetail({ id, fetch }) {
 	);
 }
 
-export default EditTrainingDetail;
+export default EditDietDetail;

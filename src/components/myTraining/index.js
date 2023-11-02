@@ -5,6 +5,7 @@ import { EyeIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import ViewDiet from "./components/ViewDiet";
 import AddDiet from "./components/AddDiet";
+import FeedAnimal from "./components/FeedAnimal";
 
 function MyTraining() {
 	const [myTraining, setMyTraining] = useState();
@@ -18,7 +19,7 @@ function MyTraining() {
 	const fetchMyTrainingList = () => {
 		axios
 			.get(
-				`odata/myTrainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
+				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
 			)
 			.then((res) => {
 				let myTraining = res.data.value;
@@ -38,6 +39,7 @@ function MyTraining() {
 			<TitleCard
 				title="MyTraining table"
 				topMargin="mt-2"
+				TopSideButtons={<FeedAnimal fetch={fetchMyTrainingList} myTraining={myTraining}/>}
 			>
 				<div className="overflow-x-auto w-full">
 					{myTraining != null ? (

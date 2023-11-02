@@ -221,7 +221,7 @@ function EditAnimal({ id, fetch }) {
 									: animalObj.Image ?? "../img/noimage.jpg"
 							}
 							alt="animal"
-							className="mt-2 border rounded-lg min-w-full"
+							className="mt-2 border rounded-lg aspect-square object-cover"
 						/>
 
 						<div className="text-err text-lg">{errorMessage}</div>
