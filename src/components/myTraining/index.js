@@ -10,7 +10,7 @@ import FeedAnimal from "./components/FeedAnimal";
 function MyTraining() {
 	const [myTraining, setMyTraining] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 
 	const loginInfoJSON = localStorage.getItem("loginInfo");
 	const loginInfo = JSON.parse(loginInfoJSON);
@@ -39,7 +39,7 @@ function MyTraining() {
 			<TitleCard
 				title="MyTraining table"
 				topMargin="mt-2"
-				TopSideButtons={<FeedAnimal fetch={fetchMyTrainingList} myTraining={myTraining}/>}
+				TopSideButtons={myTraining && <FeedAnimal fetch={fetchMyTrainingList} myTraining={myTraining}/>}
 			>
 				<div className="overflow-x-auto w-full">
 					{myTraining != null ? (
@@ -132,8 +132,8 @@ function MyTraining() {
 									})}
 								</tbody>
 							</table>
-							<ViewDiet id={idSelect} />
-							<AddDiet id={idSelect}  fetch={fetchMyTrainingList}/>
+							{idSelect && <ViewDiet id={idSelect} />}
+							{idSelect && <AddDiet id={idSelect}  fetch={fetchMyTrainingList}/>}
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">

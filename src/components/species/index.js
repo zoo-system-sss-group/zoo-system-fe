@@ -12,7 +12,7 @@ function Species() {
 	const dispatch = useDispatch();
 	const [species, setSpecies] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -158,7 +158,7 @@ function Species() {
 									})}
 								</tbody>
 							</table>
-							<EditSpecies id={idSelect} fetch={fetchSpeciesList} />
+							{idSelect && <EditSpecies id={idSelect} fetch={fetchSpeciesList} />}
 
 							<div className="w-full flex justify-center">
 								<div className="join">

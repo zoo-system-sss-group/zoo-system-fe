@@ -40,7 +40,7 @@ function TicketOrders() {
 				else if (pagination.isEnd && ticketOrders.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setTicketOrders(ticketOrders);
-				setIdSelect(ticketOrders[0].Id);
+				setIdSelect(ticketOrders[0]?.Id);
 			})
 			.catch((err) => {
 				if (err.response && err.response.status === 403)

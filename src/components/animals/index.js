@@ -21,7 +21,7 @@ function Animals() {
 	const [cageId, setCageId] = useState();
 	const [search, setSearch] = useState("");
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -33,7 +33,7 @@ function Animals() {
 			.get("odata/cages?$filter=IsDeleted eq false&$select=Id,Name")
 			.then((res) => {
 				setCages(res.data.value);
-				setCageId(res.data.value[0].Id);
+				setCageId(res.data.value[0]?.Id);
 			});
 	}, []);
 
@@ -305,8 +305,8 @@ function Animals() {
 									})}
 								</tbody>
 							</table>
-							<ViewAnimal id={idSelect} />
-							<EditAnimal id={idSelect} fetch={fetchAnimalList} />
+							{idSelect && <ViewAnimal id={idSelect} />}
+							{idSelect && <EditAnimal id={idSelect} fetch={fetchAnimalList} />}
 
 							<div className="w-full flex justify-center">
 								<div className="join">

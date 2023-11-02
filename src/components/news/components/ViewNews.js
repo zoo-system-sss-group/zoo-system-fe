@@ -76,6 +76,7 @@ function ViewNews({ id }) {
               <img
                 src={newsObj.thumbnail ?? "../img/noimage.jpg"}
                 className="image w-2/3  max-w-[500px]  aspect-auto shadow my-2 m-auto block"
+                alt="thumbnail"
               />
             </div>
             <div className="form-control">

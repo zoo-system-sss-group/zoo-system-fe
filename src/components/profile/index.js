@@ -109,7 +109,7 @@ function Profile() {
 							</div>
 						</div>
 					</div>
-					<EditProfile id={profile?.Id} fetch={fetchProfile} />
+					{profile && <EditProfile id={profile?.Id} fetch={fetchProfile} />}
 				</TitleCard>
 			) : (
 				<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">

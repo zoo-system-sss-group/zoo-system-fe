@@ -12,7 +12,6 @@ import EditNews from "./components/EditNews";
 import AddNews from "./components/AddNews";
 import ViewNews from "./components/ViewNews";
 import NewsRepository from "../../repositories/NewsRepository";
-import DOMPurify from "dompurify";
 import { ValidateEmpty } from "../../utils/Validation";
 import { cleanContent } from "../../utils/MyUtils";
 import { roleStaffAdmin } from "../../routes/author";
@@ -31,7 +30,7 @@ function News() {
 	const [news, setNews] = useState();
 	const [search, setSearch] = useState("");
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState(null);
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,

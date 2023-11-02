@@ -22,7 +22,7 @@ function TrainingDetails() {
 	const dispatch = useDispatch();
 	const [trainingDetails, setTrainingDetails] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -155,7 +155,9 @@ function TrainingDetails() {
 																>
 																	<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 																</button>
-															) : <div className="w-14"></div>}
+															) : (
+																<div className="w-14"></div>
+															)}
 
 															{/* Nut xoa status trainingDetail */}
 															<button
@@ -207,8 +209,8 @@ function TrainingDetails() {
 									})}
 								</tbody>
 							</table>
-							<ViewTrainingDetail id={idSelect} />
-							{roleStaffAdmin.includes(user.role) && (
+							{idSelect && <ViewTrainingDetail id={idSelect} />}
+							{roleStaffAdmin.includes(user.role) && idSelect && (
 								<EditTrainingDetail
 									id={idSelect}
 									fetch={fetchTrainingDetailList}

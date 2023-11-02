@@ -18,7 +18,7 @@ function Cages() {
 	const dispatch = useDispatch();
 	const [cages, setCages] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -210,8 +210,8 @@ function Cages() {
 									})}
 								</tbody>
 							</table>
-							<ViewCage id={idSelect} />
-							{roleStaffAdmin.includes(user.role) && (
+							{idSelect && <ViewCage id={idSelect} />}
+							{roleStaffAdmin.includes(user.role) && idSelect && (
 								<EditCage id={idSelect} fetch={fetchCageList} />
 							)}
 

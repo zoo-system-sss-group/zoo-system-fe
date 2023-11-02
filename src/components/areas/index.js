@@ -18,7 +18,7 @@ function Areas() {
   const dispatch = useDispatch();
   const [areas, setAreas] = useState();
   const [error, setError] = useState("");
-  const [idSelect, setIdSelect] = useState(1);
+  const [idSelect, setIdSelect] = useState();
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -191,8 +191,8 @@ function Areas() {
                   })}
                 </tbody>
               </table>
-              <ViewArea id={idSelect} />
-              {roleStaffAdmin.includes(user.role) && (
+              {idSelect && <ViewArea id={idSelect} />}
+              {roleStaffAdmin.includes(user.role) && idSelect && (
                 <EditArea id={idSelect} fetch={fetchAreaList} />
               )}
 

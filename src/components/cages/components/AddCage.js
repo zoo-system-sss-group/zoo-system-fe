@@ -28,7 +28,7 @@ function AddCage({ fetch }) {
 			.then((res) => {
 				let arr = Object.values(res.data.value);
 				setAreaObj([...arr]);
-				cageObj.AreaId = arr[0].Id;
+				cageObj.AreaId = arr[0]?.Id;
 			});
 	}, []);
 

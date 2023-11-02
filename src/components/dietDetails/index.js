@@ -18,7 +18,7 @@ function DietDetails() {
 	const dispatch = useDispatch();
 	const [dietDetails, setDietDetails] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -203,8 +203,8 @@ function DietDetails() {
 									})}
 								</tbody>
 							</table>
-							<ViewDietDetail id={idSelect} />
-							{roleStaffAdmin.includes(user.role) && (
+							{idSelect && <ViewDietDetail id={idSelect} />}
+							{roleStaffAdmin.includes(user.role) && idSelect && (
 								<EditDietDetail
 									id={idSelect}
 									fetch={fetchDietDetailList}
