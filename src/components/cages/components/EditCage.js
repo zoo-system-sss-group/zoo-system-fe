@@ -34,10 +34,7 @@ function EditCage({ id, fetch }) {
 			});
 
 		axios.get(`odata/cages/${id}`).then((res) => {
-			setCageObj({
-				...cageObj,
-				...res.data,
-			});
+			setCageObj(res.data);
 		});
 	}, [id]);
 
@@ -216,13 +213,13 @@ function EditCage({ id, fetch }) {
 								Close
 							</button>
 						</form>
-
 						<button
 							className="btn btn-primary ml-4"
 							onClick={(e) => saveNewCage()}
 						>
 							Save
-						</button> <span className={loading ? " loading" : ""}></span>
+						</button>{" "}
+						<span className={loading ? " loading" : ""}></span>
 					</div>
 				</div>
 				<form method="dialog" className="modal-backdrop">

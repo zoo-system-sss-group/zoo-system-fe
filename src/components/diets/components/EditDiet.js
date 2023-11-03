@@ -39,10 +39,7 @@ function EditDiet({ id, fetch }) {
 
 	useEffect(() => {
 		axios.get(`odata/diets/${id}`).then((res) => {
-			setDietObj({
-				...dietObj,
-				...res.data,
-			});
+			setDietObj(res.data);
 			setErrorMessage("");
 		});
 	}, [id]);

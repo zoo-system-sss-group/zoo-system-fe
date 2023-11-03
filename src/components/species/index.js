@@ -7,6 +7,8 @@ import axios from "axios";
 import { showNotification } from "../common/headerSlice";
 import EditSpecies from "./components/EditSpecies";
 import AddSpecies from "./components/AddSpecies";
+import { roleStaffAdmin } from "../../routes/author";
+var user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function Species() {
 	const dispatch = useDispatch();
@@ -67,7 +69,7 @@ function Species() {
 			<TitleCard
 				title="Species table"
 				topMargin="mt-2"
-				TopSideButtons={<AddSpecies fetch={fetchSpeciesList} />}
+				TopSideButtons={roleStaffAdmin.includes(user.role) && <AddSpecies fetch={fetchSpeciesList} />}
 			>
 				<div className="overflow-x-auto w-full">
 					{species != null ? (
@@ -113,54 +115,61 @@ function Species() {
 													)}
 												</td>
 												<td className="flex">
-													{/* Nut sua species */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															setIdSelect(l.Id);
-															document
-																.getElementById("btnEditSpecies")
-																.showModal();
-														}}
-													>
-														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
-													</button>
+													{roleStaffAdmin.includes(user.role) && (
+														<>
+															{/* Nut sua species */}
+															<button
+																className="btn btn-ghost inline"
+																onClick={() => {
+																	setIdSelect(l.Id);
+																	document
+																		.getElementById("btnEditSpecies")
+																		.showModal();
+																}}
+															>
+																<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
+															</button>
 
-													{/* Nut doi status species */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															document
-																.getElementById("btnDeleteSpecies")
-																.showModal();
-															setIdSelect(l.Id);
-														}}
-													>
-														<TrashIcon className="w-5 text-err stroke-2" />
-													</button>
-													<dialog id="btnDeleteSpecies" className="modal ">
-														<div className="modal-box">
-															<h3 className="font-bold text-lg">Confirm</h3>
-															<p className="py-4 text-2xl">
-																Are you want to delete species "{l.Name}"?
-															</p>
-															<div className="modal-action">
-																<form method="dialog">
-																	<button className="btn">Close</button>
+															{/* Nut doi status species */}
+															<button
+																className="btn btn-ghost inline"
+																onClick={() => {
+																	document
+																		.getElementById("btnDeleteSpecies")
+																		.showModal();
+																	setIdSelect(l.Id);
+																}}
+															>
+																<TrashIcon className="w-5 text-err stroke-2" />
+															</button>
+															<dialog id="btnDeleteSpecies" className="modal ">
+																<div className="modal-box">
+																	<h3 className="font-bold text-lg">Confirm</h3>
+																	<p className="py-4 text-2xl">
+																		Are you want to delete species "{l.Name}"?
+																	</p>
+																	<div className="modal-action">
+																		<form method="dialog">
+																			<button className="btn">Close</button>
 
-																	<button
-																		className="btn btn-primary ml-4"
-																		onClick={() => deleteSpecies(idSelect)}
-																	>
-																		Delete
-																	</button>
+																			<button
+																				className="btn btn-primary ml-4"
+																				onClick={() => deleteSpecies(idSelect)}
+																			>
+																				Delete
+																			</button>
+																		</form>
+																	</div>
+																</div>
+																<form
+																	method="dialog"
+																	className="modal-backdrop"
+																>
+																	<button>close</button>
 																</form>
-															</div>
-														</div>
-														<form method="dialog" className="modal-backdrop">
-															<button>close</button>
-														</form>
-													</dialog>
+															</dialog>
+														</>
+													)}
 												</td>
 											</tr>
 										);

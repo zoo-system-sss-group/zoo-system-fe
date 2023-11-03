@@ -3,11 +3,11 @@ import moment from "moment";
 import TitleCard from "../common/Cards/TitleCard";
 import { EyeIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import ViewDiet from "./components/ViewDiet";
-import AddDiet from "./components/AddDiet";
-import FeedAnimal from "./components/FeedAnimal";
+// import ViewDiet from "./components/ViewDiet";
+// import AddDiet from "./components/AddDiet";
+// import FeedAnimal from "./components/FeedAnimal";
 
-function MyTraining() {
+function DietSchedule() {
 	const [myTraining, setMyTraining] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState();
@@ -38,9 +38,8 @@ function MyTraining() {
 	return (
 		<>
 			<TitleCard
-				title="My training table"
+				title="Diet schedule"
 				topMargin="mt-2"
-				TopSideButtons={myTraining && <FeedAnimal fetch={fetchMyTrainingList} myTraining={myTraining}/>}
 			>
 				<div className="overflow-x-auto w-full">
 					{myTraining != null ? (
@@ -133,8 +132,8 @@ function MyTraining() {
 									})}
 								</tbody>
 							</table>
-							{idSelect && <ViewDiet id={idSelect} />}
-							{idSelect && <AddDiet id={idSelect}  fetch={fetchMyTrainingList}/>}
+							{/* {idSelect && <ViewDiet id={idSelect} />}
+							{idSelect && <AddDiet id={idSelect}  fetch={fetchMyTrainingList}/>} */}
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">
@@ -147,4 +146,4 @@ function MyTraining() {
 	);
 }
 
-export default MyTraining;
+export default DietSchedule;

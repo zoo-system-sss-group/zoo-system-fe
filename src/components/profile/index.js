@@ -60,7 +60,7 @@ function Profile() {
 					}
 				>
 					<div className="overflow-x-auto w-full">
-						<div className="rounded-lg shadow-lg py-4">
+						<div className="rounded-lg shadow-xl py-4">
 							<div className="container mx-auto">
 								<div className="flex flex-col w-full lg:flex-row">
 									<div className="grid flex-grow">
@@ -79,7 +79,7 @@ function Profile() {
 										</div>
 									</div>
 									<div className="divider lg:divider-horizontal text-cor1"></div>
-									<div className="grid flex-grow border-1 border-cor4 bg-emerald-50 px-4 rounded-[1.75rem] overflow-hidden shadow-lg">
+									<div className="grid flex-grow border-1 border-cor4 bg-emerald-50 px-4 rounded-[1.75rem] overflow-hidden shadow-inner">
 										<dl className="sm:divide-y sm:divide-cor1">
 											<div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 												<dt className="text-lg font-semibold text-cor4">ID</dt>

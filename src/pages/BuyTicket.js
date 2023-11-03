@@ -119,8 +119,8 @@ function BuyTicket() {
   const handleChange = (input, node, value) => (e) => {
     node ??= e?.target;
     value ??= e?.target?.value;
-    var validation = validations[input];
-    var msg = getValidationMessage(validation, node);
+    // var validation = validations[input];
+    // var msg = getValidationMessage(validation, node);
     setValues({ ...values, [input]: value });
   };
 

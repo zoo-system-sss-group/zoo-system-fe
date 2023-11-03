@@ -30,10 +30,7 @@ function ViewCage({ id }) {
 				`odata/cages(${id})?$expand=cageHistories($filter=EndDate eq null;$expand=animal),area`
 			)
 			.then((res) => {
-				setCageObj({
-					...cageObj,
-					...res.data,
-				});
+				setCageObj(res.data);
 			})
 			.catch((err) => {
 				setErrorMessage(err);

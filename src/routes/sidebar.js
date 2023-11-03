@@ -11,6 +11,7 @@ import NewspaperIcon from "@heroicons/react/24/outline/NewspaperIcon";
 import ArchiveBoxIcon from "@heroicons/react/24/outline/ArchiveBoxIcon";
 import InboxStackIcon from "@heroicons/react/24/outline/InboxStackIcon";
 import HomeIcon from "@heroicons/react/24/outline/HomeIcon";
+import ClockIcon from "@heroicons/react/24/outline/ClockIcon";
 import AnimalIcon from "../assets/animals.svg";
 import {roleAll, roleStaffAdmin, roleTrainer} from "./author";
 
@@ -46,6 +47,12 @@ const routes = [
 		path: "/management/myTraining",
 		icon: <HomeIcon className={iconClasses} />,
 		name: "My Training",
+		role: roleTrainer,
+	},
+	{
+		path: "/management/dietSchedule",
+		icon: <ClockIcon className={iconClasses} />,
+		name: "Diet Schedule",
 		role: roleTrainer,
 	},
 	{

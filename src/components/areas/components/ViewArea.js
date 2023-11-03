@@ -24,10 +24,7 @@ function ViewArea({ id }) {
 		axios
 			.get(`odata/areas/${id}`)
 			.then((res) => {
-				setAreaObj({
-					...areaObj,
-					...res.data,
-				});
+				setAreaObj(res.data);
 			})
 			.catch((err) => setErrorMessage(err));
 	}, [id]);
