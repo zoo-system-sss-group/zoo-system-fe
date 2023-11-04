@@ -4,8 +4,6 @@ import TitleCard from "../common/Cards/TitleCard";
 import { EyeIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import ViewDiet from "./components/ViewDiet";
-import AddDiet from "./components/AddDiet";
-import FeedAnimal from "./components/FeedAnimal";
 
 function MyTraining() {
 	const [myTraining, setMyTraining] = useState();
@@ -24,7 +22,7 @@ function MyTraining() {
 			.then((res) => {
 				let myTraining = res.data.value;
 				setMyTraining(myTraining);
-				setIdSelect(myTraining[0].AnimalId)
+				setIdSelect(myTraining[0].AnimalId);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -37,11 +35,7 @@ function MyTraining() {
 
 	return (
 		<>
-			<TitleCard
-				title="My training table"
-				topMargin="mt-2"
-				TopSideButtons={myTraining && <FeedAnimal fetch={fetchMyTrainingList} myTraining={myTraining}/>}
-			>
+			<TitleCard title="My training table" topMargin="mt-2">
 				<div className="overflow-x-auto w-full">
 					{myTraining != null ? (
 						<div>
@@ -73,6 +67,7 @@ function MyTraining() {
 													<div className="flex items-center space-x-3">
 														<div className="mask mask-squircle w-20 h-20">
 															<img
+																className="aspect-square object-cover"
 																src={l.Animal?.Image ?? "../img/noimage.jpg"}
 																alt="animal"
 															/>
@@ -85,7 +80,9 @@ function MyTraining() {
 												<td>{l.Animal?.Description}</td>
 												<td>{l.Animal?.Weight}</td>
 												<td>{l.Animal?.Height}</td>
-												<td>{moment(l.Animal?.BirthDate).format("YYYY-MM-DD")}</td>
+												<td>
+													{moment(l.Animal?.BirthDate).format("YYYY-MM-DD")}
+												</td>
 												<td>{l.Animal?.Status}</td>
 												<td>{l.Animal?.Species.Name}</td>
 												<td>{l.Animal?.CageHistories[0]?.Cage.Name}</td>
@@ -106,26 +103,13 @@ function MyTraining() {
 													<button
 														className="btn btn-ghost inline"
 														onClick={() => {
-															setIdSelect(l.Id);
+															setIdSelect(l.AnimalId);
 															document
 																.getElementById("btnViewDiet")
 																.showModal();
 														}}
 													>
 														<EyeIcon className="w-5 text-cor4 stroke-2" />
-													</button>
-													
-													{/* Nut them diet */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															setIdSelect(l.Id);
-															document
-																.getElementById("btnAddDiet")
-																.showModal();
-														}}
-													>
-														<PlusCircleIcon className="w-6 text-cor1 stroke-2" />
 													</button>
 												</td>
 											</tr>
@@ -134,7 +118,6 @@ function MyTraining() {
 								</tbody>
 							</table>
 							{idSelect && <ViewDiet id={idSelect} />}
-							{idSelect && <AddDiet id={idSelect}  fetch={fetchMyTrainingList}/>}
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">

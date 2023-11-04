@@ -111,15 +111,6 @@ function EditAccount({ id, fetch }) {
 					<h3 className="font-bold text-lg">Edit account</h3>
 					<div className="form-control w-full ">
 						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={accountObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
-						<label className="label">
 							<span className="label-text">Username</span>
 						</label>
 						<input

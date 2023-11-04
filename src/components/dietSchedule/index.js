@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import TitleCard from "../common/Cards/TitleCard";
-import { EyeIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { FireIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+// import FeedAnimal from "./components/FeedAnimal";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../common/headerSlice";
+import ReactDatePicker from "react-datepicker";
 // import ViewDiet from "./components/ViewDiet";
 // import AddDiet from "./components/AddDiet";
 // import FeedAnimal from "./components/FeedAnimal";
 
 function DietSchedule() {
-	const [myTraining, setMyTraining] = useState();
-	const [error, setError] = useState("");
+	const dispatch = useDispatch();
 	const [idSelect, setIdSelect] = useState();
-
 	const loginInfoJSON = localStorage.getItem("loginInfo");
 	const loginInfo = JSON.parse(loginInfoJSON);
+	const [myTraining, setMyTraining] = useState([]);
+	const [error, setError] = useState("");
+	const [date, setDate] = useState(new Date());
 
-	//lay danh sach myTraining
 	const fetchMyTrainingList = () => {
 		axios
 			.get(
@@ -23,8 +27,25 @@ function DietSchedule() {
 			)
 			.then((res) => {
 				let myTraining = res.data.value;
-				setMyTraining(myTraining);
-				setIdSelect(myTraining[0].AnimalId)
+				if (myTraining != null && myTraining.length > 0) {
+					const feedHistoryPromises = myTraining.map((l) => {
+						return axios.get(`odata/feedhistory?$filter=FeedingDate eq ${moment(date).format("YYYY-MM-DD")} and animalId eq ${l.AnimalId}`);
+					});
+
+					Promise.all(feedHistoryPromises)
+						.then((feedHistoryResponses) => {
+							feedHistoryResponses.forEach((res, index) => {
+								myTraining[index].Diet = res.data.value;
+							});
+
+							setMyTraining(myTraining);
+						})
+						.catch((err) => {
+							setError(err.message);
+						});
+				} else {
+					setMyTraining(myTraining);
+				}
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -33,13 +54,44 @@ function DietSchedule() {
 
 	useEffect(() => {
 		fetchMyTrainingList();
-	}, []);
+	}, [date]);
+
+	const feedAnimal = (feedId) => {
+		axios
+			.put(`api/feedhistory/${feedId}`)
+			.then((res) => {
+				dispatch(
+					showNotification({
+						message: "Feed successfully",
+						status: res.status,
+					})
+				);
+				fetchMyTrainingList();
+			})
+			.catch((err) => {
+				dispatch(
+					showNotification({
+						message: "Feed unsuccessfully" + err,
+						status: 404,
+					})
+				);
+			});
+	};
 
 	return (
 		<>
 			<TitleCard
 				title="Diet schedule"
 				topMargin="mt-2"
+				TopSideButtons={
+					<ReactDatePicker
+						className="input input-bordered w-full"
+						dateFormat={"yyyy-MM-dd"}
+						name="effectiveDate"
+						selected={date}
+						onChange={(date) => setDate(date)}
+					/>
+				}
 			>
 				<div className="overflow-x-auto w-full">
 					{myTraining != null ? (
@@ -49,16 +101,7 @@ function DietSchedule() {
 									<tr>
 										<th>Animal ID</th>
 										<th>Animal Name</th>
-										<th>Description</th>
-										<th>Weight</th>
-										<th>Height</th>
-										<th>Birthdate</th>
-										<th>Status</th>
-										<th>Species</th>
-										<th>Cage Recent</th>
-										<th>Start Date</th>
-										<th>End Date</th>
-										<th></th>
+										<th>Schedule</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -70,62 +113,111 @@ function DietSchedule() {
 												</td>
 												<td>
 													<div className="flex items-center space-x-3">
-														<div className="mask mask-squircle w-20 h-20">
+														<div className="mask mask-squircle w-32 h-32">
 															<img
 																src={l.Animal?.Image ?? "../img/noimage.jpg"}
 																alt="animal"
+																className="aspect-square object-cover"
 															/>
 														</div>
 														<div>
-															<div className="font-bold">{l.Animal.Name}</div>
+															<div className="font-bold text-xl">
+																{l.Animal.Name}
+															</div>
 														</div>
 													</div>
 												</td>
-												<td>{l.Animal?.Description}</td>
-												<td>{l.Animal?.Weight}</td>
-												<td>{l.Animal?.Height}</td>
-												<td>{moment(l.Animal?.BirthDate).format("YYYY-MM-DD")}</td>
-												<td>{l.Animal?.Status}</td>
-												<td>{l.Animal?.Species.Name}</td>
-												<td>{l.Animal?.CageHistories[0]?.Cage.Name}</td>
 												<td>
-													{moment(l.StartDate).format("YYYY-MM-DD HH:mm:ss")}
-												</td>
-												<td>
-													{l.EndDate ? (
-														moment(l.EndDate).format("YYYY-MM-DD HH:mm:ss")
-													) : (
-														<span className="text-cor1 font-semibold">
-															Not end yet
-														</span>
+													{l.Diet !== null && l.Diet !== undefined && (
+														<table className="table w-full">
+															<thead>
+																<tr>
+																	<th>Slot</th>
+																	<th>Feed Time</th>
+																	<th>Diet ID</th>
+																	<th>Status</th>
+																	<th>Feed Action</th>
+																</tr>
+															</thead>
+															<tbody>
+																{l.Diet.map((feed, k) => (
+																	<tr key={k}>
+																		<td className="min-w-[1rem] max-w-[2rem] whitespace-normal">
+																			{k + 1}
+																		</td>
+																		<td className="min-w-[3rem] max-w-[6rem] whitespace-normal">
+																			{moment(feed.FeedingDate).format("HH:mm")}
+																		</td>
+																		<td className="min-w-[2rem] max-w-[3rem] whitespace-normal">
+																			{feed.DietId}
+																		</td>
+																		<td className="min-w-[2rem] max-w-[3rem] whitespace-normal">
+																			{feed.IsDeleted ? (
+																				<span className="text-cor1">Fed</span>
+																			) : (
+																				<span className="text-err">
+																					Not yet
+																				</span>
+																			)}
+																		</td>
+																		<td className="min-w-[2rem] max-w-[3rem] whitespace-normal">
+																			{!feed.IsDeleted && (!moment(feed.FeedingDate).isBefore()) && (
+																				<>
+																					<button
+																						className="btn btn-ghost inline"
+																						onClick={() => {
+																							setIdSelect(feed.Id);
+																							document
+																								.getElementById("btnFeed")
+																								.showModal();
+																						}}
+																					>
+																						<FireIcon className="w-6 text-cor1 stroke-2" />
+																					</button>
+																					<dialog
+																						id="btnFeed"
+																						className="modal "
+																					>
+																						<div className="modal-box">
+																							<h3 className="font-bold text-lg">
+																								Confirm
+																							</h3>
+																							<p className="py-4 text-2xl">
+																								Have you already feed this
+																								animal in this slot?
+																							</p>
+																							<div className="modal-action">
+																								<form method="dialog">
+																									<button className="btn">
+																										Close
+																									</button>
+
+																									<button
+																										className="btn btn-primary ml-4"
+																										onClick={() =>
+																											feedAnimal(idSelect)
+																										}
+																									>
+																										Feed
+																									</button>
+																								</form>
+																							</div>
+																						</div>
+																						<form
+																							method="dialog"
+																							className="modal-backdrop"
+																						>
+																							<button>close</button>
+																						</form>
+																					</dialog>
+																				</>
+																			)}
+																		</td>
+																	</tr>
+																))}
+															</tbody>
+														</table>
 													)}
-												</td>
-												<td className="flex">
-													{/* Nut xem account */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															setIdSelect(l.Id);
-															document
-																.getElementById("btnViewDiet")
-																.showModal();
-														}}
-													>
-														<EyeIcon className="w-5 text-cor4 stroke-2" />
-													</button>
-													
-													{/* Nut them diet */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															setIdSelect(l.Id);
-															document
-																.getElementById("btnAddDiet")
-																.showModal();
-														}}
-													>
-														<PlusCircleIcon className="w-6 text-cor1 stroke-2" />
-													</button>
 												</td>
 											</tr>
 										);
