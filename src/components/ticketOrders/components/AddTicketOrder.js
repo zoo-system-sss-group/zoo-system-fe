@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
-import moment from "moment";
 import ReactDatePicker from "react-datepicker";
 
 const PAYMENT_METHOD = ["Momo", "Card", "Cash"];

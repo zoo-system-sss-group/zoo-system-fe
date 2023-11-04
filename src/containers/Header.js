@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Bars3Icon from "@heroicons/react/24/outline/Bars3Icon";
+import { getRoleBadge } from "../components/accounts";
 
 function Header() {
 	const { pageTitle } = useSelector((state) => state.header);
@@ -29,18 +30,19 @@ function Header() {
 				<div className="order-last  mr-4">
 					{/* Profile icon, opening menu on click */}
 					<div>
-						<span
-							className={`badge badge-lg h-10 ${
-								loginInfo.role === "Staff" ? "badge-primary" : "badge-secondary"
-							} `}
-						>
-							{loginInfo.role} | {loginInfo.fullname}
+						<span className="badge badge-ghost badge-lg h-10 flex flex-row shadow-inner">
+							<div>{getRoleBadge(loginInfo.role)}</div>
+							<div className="divider divider-horizontal m-0"></div>
+							<div>{loginInfo.fullname}</div>
 						</span>
 					</div>
 					<div className="dropdown dropdown-end ml-4">
 						<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
 							<div className="w-10 rounded-full border-2 border-cor1">
-								<img src={loginInfo.avatar ?? "../img/user.png"} alt="profile" />
+								<img
+									src={loginInfo.avatar ?? "../img/user.png"}
+									alt="profile"
+								/>
 							</div>
 						</label>
 						<ul
@@ -48,9 +50,13 @@ function Header() {
 							className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
 						>
 							<li className="font-medium text-md">
-								<button onClick={() => {
-									window.location.href = "profile";
-								}}>Profile</button>
+								<button
+									onClick={() => {
+										window.location.href = "profile";
+									}}
+								>
+									Profile
+								</button>
 							</li>
 							<div className="divider mt-0 mb-0"></div>
 							<li className="font-medium text-md">

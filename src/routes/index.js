@@ -15,6 +15,7 @@ const News = lazy(() => import('../pages/management/News'))
 const TicketOrders = lazy(() => import('../pages/management/TicketOrders'))
 const Profile = lazy(() => import('../pages/management/Profile'))
 const MyTraining = lazy(() => import('../pages/management/MyTraining'))
+const DietSchedule = lazy(() => import('../pages/management/DietSchedule'))
 const TrainingDetails = lazy(() => import('../pages/management/TrainingDetails'))
 const DietDetails = lazy(() => import('../pages/management/DietDetails'))
 
@@ -63,6 +64,10 @@ const routes = [
   {
     path: '/myTraining', 
     component: MyTraining, 
+  },
+  {
+    path: '/dietSchedule', 
+    component: DietSchedule, 
   },
   {
     path: '/trainingDetails', 

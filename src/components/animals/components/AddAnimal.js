@@ -33,7 +33,7 @@ function AddAnimal({ fetch }) {
 			.then((res) => {
 				let arr = res.data.value;
 				setCages(arr);
-				animalObj.cageHistory.cageId = arr[0].Id;
+				animalObj.cageHistory.cageId = arr[0]?.Id;
 			});
 	}, []);
 
@@ -43,7 +43,7 @@ function AddAnimal({ fetch }) {
 			.then((res) => {
 				let arr = Object.values(res.data.value);
 				setSpeciesObj([...arr]);
-				animalObj.SpeciesId = arr[0].Id;
+				animalObj.SpeciesId = arr[0]?.Id;
 			});
 	}, []);
 

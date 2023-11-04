@@ -7,22 +7,22 @@ const About = () => {
   return (
     <section className="bg-cor5 text-cor2 overflow-hidden flex">
       <LayoutSections
-        title="About us"
+        title="About Us"
         subtitle="Who We Are: A Passionate Team Dedicated to Wildlife Conservation."
         className={classes.content}
       >
         <div className="grid grid-cols-2 gap-5 place-content-stretch mb-8 w-full">
           <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
-            Huynh Van Phu
+            Huỳnh Vạn Phú
           </div>
           <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
-            Vo Ngoc Truc Lam
+            Võ Ngọc Trúc Lam
           </div>
           <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
-            Nguyen Thanh Binh
+            Nguyễn Thanh Bình
           </div>
           <div className="p-4 rounded-[0.2rem] bg-cor4 text-center">
-            Do Thanh Bo
+            Đỗ Thành Bộ
           </div>
         </div>
       </LayoutSections>

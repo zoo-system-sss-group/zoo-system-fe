@@ -13,6 +13,8 @@ import { showNotification } from "../common/headerSlice";
 import EditAnimal from "./components/EditAnimal";
 import AddAnimal from "./components/AddAnimal";
 import ViewAnimal from "./components/ViewAnimal";
+import { roleStaffAdmin } from "../../routes/author";
+var user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function Animals() {
 	const dispatch = useDispatch();
@@ -21,7 +23,7 @@ function Animals() {
 	const [cageId, setCageId] = useState();
 	const [search, setSearch] = useState("");
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -33,7 +35,7 @@ function Animals() {
 			.get("odata/cages?$filter=IsDeleted eq false&$select=Id,Name")
 			.then((res) => {
 				setCages(res.data.value);
-				setCageId(res.data.value[0].Id);
+				setCageId(res.data.value[0]?.Id);
 			});
 	}, []);
 
@@ -54,6 +56,7 @@ function Animals() {
 				else if (pagination.isEnd && animals.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setAnimals(animals);
+				setIdSelect(animals[0]?.Id);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -83,9 +86,9 @@ function Animals() {
 
 	const insertAnimalToCage = (index) => {
 		const data = {
-			"cageId": cageId,
-			"animalId": index
-		}
+			cageId: cageId,
+			animalId: index,
+		};
 		axios
 			.post(`/api/cagehistory`, data)
 			.then((res) => {
@@ -100,7 +103,7 @@ function Animals() {
 			.catch((err) => {
 				dispatch(showNotification({ message: err.message, status: 400 }));
 			});
-	}
+	};
 
 	return (
 		<>
@@ -125,7 +128,11 @@ function Animals() {
 						</div>
 					</div>
 				}
-				TopSideButtons={<AddAnimal fetch={fetchAnimalList} />}
+				TopSideButtons={
+					roleStaffAdmin.includes(user.role) && (
+						<AddAnimal fetch={fetchAnimalList} />
+					)
+				}
 			>
 				<div className="overflow-x-auto w-full">
 					{animals != null ? (
@@ -195,109 +202,127 @@ function Animals() {
 														>
 															<EyeIcon className="w-5 text-cor4 stroke-2" />
 														</button>
-														{/* Nut sua animal */}
-														<button
-															className="btn btn-ghost inline"
-															onClick={() => {
-																setIdSelect(l.Id);
-																document
-																	.getElementById("my_modal_1")
-																	.showModal();
-															}}
-														>
-															<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
-														</button>
 
-														{/* Nut cho animal vao chuong */}
-														<button
-															className="btn btn-ghost inline"
-															onClick={() => {
-																document
-																	.getElementById("btnInsertAnimalToCage")
-																	.showModal();
-																setIdSelect(l.Id);
-															}}
-														>
-															<ArrowLeftOnRectangleIcon className="w-5 text-blue-500 stroke-2" />
-														</button>
-														<dialog
-															id="btnInsertAnimalToCage"
-															className="modal "
-														>
-															<div className="modal-box">
-																<h3 className="font-bold text-lg">
-																	Insert animal to cage
-																</h3>
-																<p className="py-4 text-2xl">
-																	Are you want to insert animal "{l.Name}" to this cage?
-																</p>
-																<select
-																	value={cageId}
-																	onChange={(e) => setCageId(e.target.value)}
-																	className="select select-bordered w-full"
+														{roleStaffAdmin.includes(user.role) && (
+															<>
+																{/* Nut sua animal */}
+																<button
+																	className="btn btn-ghost inline"
+																	onClick={() => {
+																		setIdSelect(l.Id);
+																		document
+																			.getElementById("my_modal_1")
+																			.showModal();
+																	}}
 																>
-																	{cages.length > 0
-																		? cages.map((l) => (
-																				<option key={l.Id} value={l.Id}>
-																					{l.Name}
-																				</option>
-																		  ))
-																		: ""}
-																</select>
-																<div className="modal-action">
-																	<form method="dialog">
-																		<button className="btn">Close</button>
+																	<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
+																</button>
 
-																		<button
-																			className="btn btn-primary ml-4"
-																			onClick={() => insertAnimalToCage(idSelect)}
+																{/* Nut cho animal vao chuong */}
+																<button
+																	className="btn btn-ghost inline"
+																	onClick={() => {
+																		document
+																			.getElementById("btnInsertAnimalToCage")
+																			.showModal();
+																		setIdSelect(l.Id);
+																	}}
+																>
+																	<ArrowLeftOnRectangleIcon className="w-5 text-blue-500 stroke-2" />
+																</button>
+																<dialog
+																	id="btnInsertAnimalToCage"
+																	className="modal "
+																>
+																	<div className="modal-box">
+																		<h3 className="font-bold text-lg">
+																			Insert animal to cage
+																		</h3>
+																		<p className="py-4 text-2xl">
+																			Are you want to insert animal "{l.Name}"
+																			to this cage?
+																		</p>
+																		<select
+																			value={cageId}
+																			onChange={(e) =>
+																				setCageId(e.target.value)
+																			}
+																			className="select select-bordered w-full"
 																		>
-																			Insert
-																		</button>
-																	</form>
-																</div>
-															</div>
-															<form method="dialog" className="modal-backdrop">
-																<button>close</button>
-															</form>
-														</dialog>
+																			{cages.length > 0
+																				? cages.map((l) => (
+																						<option key={l.Id} value={l.Id}>
+																							{l.Name}
+																						</option>
+																				  ))
+																				: ""}
+																		</select>
+																		<div className="modal-action">
+																			<form method="dialog">
+																				<button className="btn">Close</button>
 
-														{/* Nut xoa animal */}
-														<button
-															className="btn btn-ghost inline"
-															onClick={() => {
-																document
-																	.getElementById("btnDeleteAnimal")
-																	.showModal();
-																setIdSelect(l.Id);
-															}}
-														>
-															<TrashIcon className="w-5 text-err stroke-2" />
-														</button>
-														<dialog id="btnDeleteAnimal" className="modal ">
-															<div className="modal-box">
-																<h3 className="font-bold text-lg">Confirm</h3>
-																<p className="py-4 text-2xl">
-																	Are you sure you want to delete animal{" "}
-																	{l.Name}?
-																</p>
-																<div className="modal-action">
-																	<form method="dialog">
-																		<button className="btn">Close</button>
-
-																		<button
-																			className="btn btn-primary ml-4"
-																			onClick={() => deleteAnimal(idSelect)}
-																		>
-																			Delete
-																		</button>
+																				<button
+																					className="btn btn-primary ml-4"
+																					onClick={() =>
+																						insertAnimalToCage(idSelect)
+																					}
+																				>
+																					Insert
+																				</button>
+																			</form>
+																		</div>
+																	</div>
+																	<form
+																		method="dialog"
+																		className="modal-backdrop"
+																	>
+																		<button>close</button>
 																	</form>
-																</div>
-															</div>
-															<form method="dialog" className="modal-backdrop">
-																<button>close</button>
-															</form>
-														</dialog>
+																</dialog>
+
+																{/* Nut xoa animal */}
+																<button
+																	className="btn btn-ghost inline"
+																	onClick={() => {
+																		document
+																			.getElementById("btnDeleteAnimal")
+																			.showModal();
+																		setIdSelect(l.Id);
+																	}}
+																>
+																	<TrashIcon className="w-5 text-err stroke-2" />
+																</button>
+																<dialog id="btnDeleteAnimal" className="modal ">
+																	<div className="modal-box">
+																		<h3 className="font-bold text-lg">
+																			Confirm
+																		</h3>
+																		<p className="py-4 text-2xl">
+																			Are you sure you want to delete animal{" "}
+																			{l.Name}?
+																		</p>
+																		<div className="modal-action">
+																			<form method="dialog">
+																				<button className="btn">Close</button>
+
+																				<button
+																					className="btn btn-primary ml-4"
+																					onClick={() => deleteAnimal(idSelect)}
+																				>
+																					Delete
+																				</button>
+																			</form>
+																		</div>
+																	</div>
+																	<form
+																		method="dialog"
+																		className="modal-backdrop"
+																	>
+																		<button>close</button>
+																	</form>
+																</dialog>
+															</>
+														)}
 													</div>
 												</td>
 											</tr>
@@ -305,8 +330,8 @@ function Animals() {
 									})}
 								</tbody>
 							</table>
-							<ViewAnimal id={idSelect} />
-							<EditAnimal id={idSelect} fetch={fetchAnimalList} />
+							{idSelect && <ViewAnimal id={idSelect} />}
+							{roleStaffAdmin.includes(user.role) && idSelect && <EditAnimal id={idSelect} fetch={fetchAnimalList} />}
 
 							<div className="w-full flex justify-center">
 								<div className="join">

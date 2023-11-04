@@ -16,7 +16,6 @@ const INITIAL_ACCOUNT_OBJ = {
 
 function AddAccount({ fetch }) {
 	const dispatch = useDispatch();
-	// const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const [accountObj, setAccountObj] = useState(INITIAL_ACCOUNT_OBJ);
 	const [avatar, setAvatar] = useState(null);
@@ -46,7 +45,6 @@ function AddAccount({ fetch }) {
 		} else {
 			uploadAccountData();
 		}
-		setLoading(false);
 	};
 
 	const uploadAccountData = () => {
@@ -75,6 +73,7 @@ function AddAccount({ fetch }) {
 				return setErrorMessage(err.response.data.value);
 			})
 			.finally(() => {
+				setLoading(false);
 				setAccountObj(INITIAL_ACCOUNT_OBJ);
 				setAvatar(null);
 			});

@@ -1,18 +1,18 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setPageTitle } from '../../components/common/headerSlice'
-import Accounts from '../../components/accounts'
+import DietSchedule from '../../components/dietSchedule'
 
 function InternalPage(){
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setPageTitle({ title : "Account Management"}))
+        dispatch(setPageTitle({ title : "Animal Diet Schedule"}))
       }, [dispatch])
 
 
     return(
-        <Accounts />
+        <DietSchedule />
     )
 }
 

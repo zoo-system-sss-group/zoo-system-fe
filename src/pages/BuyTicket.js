@@ -20,9 +20,6 @@ import {
 import { format } from "date-fns";
 import axios from "axios";
 import CreateSuccess from "./buyTicketPage/CreateSuccess";
-import { useEffect } from "react";
-import { useRef } from "react";
-import Progress from "./buyTicketPage/Progress";
 // payment methods
 const paymentMethods = [
   {
@@ -122,8 +119,8 @@ function BuyTicket() {
   const handleChange = (input, node, value) => (e) => {
     node ??= e?.target;
     value ??= e?.target?.value;
-    var validation = validations[input];
-    var msg = getValidationMessage(validation, node);
+    // var validation = validations[input];
+    // var msg = getValidationMessage(validation, node);
     setValues({ ...values, [input]: value });
   };
 

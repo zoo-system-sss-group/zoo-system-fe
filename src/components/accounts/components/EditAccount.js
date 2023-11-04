@@ -22,6 +22,7 @@ function EditAccount({ id, fetch }) {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [accountObj, setAccountObj] = useState(INITIAL_ACCOUNT_OBJ);
 	const [avatar, setAvatar] = useState(null);
+	const [password, setPassword] = useState("");
 
 	useEffect(() => {
 		axios.get(`odata/accounts/${id}`).then((res) => {
@@ -57,18 +58,19 @@ function EditAccount({ id, fetch }) {
 		} else {
 			uploadAccountData();
 		}
-		setLoading(false);
 	};
 
 	const uploadAccountData = () => {
 		let newAccountObj = {
 			Username: accountObj.Username,
-			Password: accountObj.Password,
 			Role: accountObj.Role,
 			Avatar: accountObj.Avatar,
 			Fullname: accountObj.Fullname,
 			Experiences: accountObj.Experiences,
 		};
+		if (password.length > 0) {
+			newAccountObj = { ...newAccountObj, Password: password };
+		}
 		const data = JSON.stringify(newAccountObj);
 		axios
 			.put(`odata/accounts/${accountObj.Id}`, data)
@@ -84,6 +86,11 @@ function EditAccount({ id, fetch }) {
 			})
 			.catch((err) => {
 				return setErrorMessage(err.response.data.value);
+			})
+			.finally(() => {
+				setPassword("");
+				setErrorMessage("");
+				setLoading(false);
 			});
 	};
 	const updateFormValue = (updateType, value) => {
@@ -99,19 +106,10 @@ function EditAccount({ id, fetch }) {
 
 	return (
 		<>
-			<dialog id="my_modal_1" className="modal ">
+			<dialog id="btnEditAccount" className="modal ">
 				<div className="modal-box">
 					<h3 className="font-bold text-lg">Edit account</h3>
 					<div className="form-control w-full ">
-						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={accountObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
 						<label className="label">
 							<span className="label-text">Username</span>
 						</label>
@@ -121,17 +119,6 @@ function EditAccount({ id, fetch }) {
 							value={accountObj.Username}
 							onChange={(e) => updateFormValue("Username", e.target.value)}
 							className="input input-bordered w-full "
-						/>
-
-						<label className="label mt-4">
-							<span className="label-text">Role</span>
-						</label>
-						<input
-							type="text"
-							placeholder=""
-							value={accountObj.Role}
-							onChange={(e) => updateFormValue("Role", e.target.value)}
-							className="input input-bordered w-full"
 						/>
 
 						<label className="label mt-4">
@@ -171,6 +158,22 @@ function EditAccount({ id, fetch }) {
 							value={accountObj.Experiences ? accountObj.Experiences : ""}
 							onChange={(e) => updateFormValue("Experiences", e.target.value)}
 							className="textarea textarea-bordered h-24"
+						/>
+
+						<label className="label mt-4">
+							<span className="label-text">
+								Password{" "}
+								<span className="text-err">
+									(Leave it blank if no changes are needed)
+								</span>
+							</span>
+						</label>
+						<input
+							type="text"
+							placeholder=""
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							className="input input-bordered w-full"
 						/>
 
 						<label className="label mt-4">

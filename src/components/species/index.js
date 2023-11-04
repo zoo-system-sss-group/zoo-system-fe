@@ -7,12 +7,14 @@ import axios from "axios";
 import { showNotification } from "../common/headerSlice";
 import EditSpecies from "./components/EditSpecies";
 import AddSpecies from "./components/AddSpecies";
+import { roleStaffAdmin } from "../../routes/author";
+var user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function Species() {
 	const dispatch = useDispatch();
 	const [species, setSpecies] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -34,6 +36,7 @@ function Species() {
 				else if (pagination.isEnd && species.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setSpecies(species);
+				setIdSelect(species[0]?.Id);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -66,7 +69,7 @@ function Species() {
 			<TitleCard
 				title="Species table"
 				topMargin="mt-2"
-				TopSideButtons={<AddSpecies fetch={fetchSpeciesList} />}
+				TopSideButtons={roleStaffAdmin.includes(user.role) && <AddSpecies fetch={fetchSpeciesList} />}
 			>
 				<div className="overflow-x-auto w-full">
 					{species != null ? (
@@ -76,13 +79,13 @@ function Species() {
 									<tr>
 										<th>ID</th>
 										<th>Name</th>
-										<th>ScientificName</th>
-										<th>LifeSpan</th>
+										<th>Scientific Name</th>
+										<th>Life Span</th>
 										<th>Description</th>
-										<th>WildDiet</th>
+										<th>Wild Diet</th>
 										<th>Habitat</th>
-										<th>CreationDate</th>
-										<th>ModificationDate</th>
+										<th>Creation Date</th>
+										<th>Modification Date</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -95,7 +98,11 @@ function Species() {
 												</td>
 												<td>{l.Name}</td>
 												<td>{l.ScientificName}</td>
-												<td className="whitespace-nowrap">{l.LifeSpan > 1 ? `${l.LifeSpan} years` : `${l.LifeSpan} year`}</td>
+												<td className="whitespace-nowrap">
+													{l.LifeSpan > 1
+														? `${l.LifeSpan} years`
+														: `${l.LifeSpan} year`}
+												</td>
 												<td>{l.Description}</td>
 												<td>{l.WildDiet}</td>
 												<td>{l.Habitat}</td>
@@ -108,57 +115,70 @@ function Species() {
 													)}
 												</td>
 												<td className="flex">
-													{/* Nut sua species */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															setIdSelect(l.Id);
-															document.getElementById("btnEditSpecies").showModal();
-														}}
-													>
-														<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
-													</button>
+													{roleStaffAdmin.includes(user.role) && (
+														<>
+															{/* Nut sua species */}
+															<button
+																className="btn btn-ghost inline"
+																onClick={() => {
+																	setIdSelect(l.Id);
+																	document
+																		.getElementById("btnEditSpecies")
+																		.showModal();
+																}}
+															>
+																<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
+															</button>
 
-													{/* Nut doi status species */}
-													<button
-														className="btn btn-ghost inline"
-														onClick={() => {
-															document.getElementById("btnDeleteSpecies").showModal();
-															setIdSelect(l.Id);
-														}}
-													>
-														<TrashIcon className="w-5 text-err stroke-2" />
-													</button>
-													<dialog id="btnDeleteSpecies" className="modal ">
-														<div className="modal-box">
-															<h3 className="font-bold text-lg">Confirm</h3>
-															<p className="py-4 text-2xl">
-																Are you want to delete speicies "{l.Name}"?
-															</p>
-															<div className="modal-action">
-																<form method="dialog">
-																	<button className="btn">Close</button>
+															{/* Nut doi status species */}
+															<button
+																className="btn btn-ghost inline"
+																onClick={() => {
+																	document
+																		.getElementById("btnDeleteSpecies")
+																		.showModal();
+																	setIdSelect(l.Id);
+																}}
+															>
+																<TrashIcon className="w-5 text-err stroke-2" />
+															</button>
+															<dialog id="btnDeleteSpecies" className="modal ">
+																<div className="modal-box">
+																	<h3 className="font-bold text-lg">Confirm</h3>
+																	<p className="py-4 text-2xl">
+																		Are you want to delete species "{l.Name}"?
+																	</p>
+																	<div className="modal-action">
+																		<form method="dialog">
+																			<button className="btn">Close</button>
 
-																	<button
-																		className="btn btn-primary ml-4"
-																		onClick={() => deleteSpecies(idSelect)}
-																	>
-																		Delete
-																	</button>
+																			<button
+																				className="btn btn-primary ml-4"
+																				onClick={() => deleteSpecies(idSelect)}
+																			>
+																				Delete
+																			</button>
+																		</form>
+																	</div>
+																</div>
+																<form
+																	method="dialog"
+																	className="modal-backdrop"
+																>
+																	<button>close</button>
 																</form>
-															</div>
-														</div>
-														<form method="dialog" className="modal-backdrop">
-															<button>close</button>
-														</form>
-													</dialog>
+															</dialog>
+														</>
+													)}
 												</td>
 											</tr>
 										);
 									})}
 								</tbody>
 							</table>
-							<EditSpecies id={idSelect} fetch={fetchSpeciesList} />
+							{idSelect && (
+								<EditSpecies id={idSelect} fetch={fetchSpeciesList} />
+							)}
 
 							<div className="w-full flex justify-center">
 								<div className="join">

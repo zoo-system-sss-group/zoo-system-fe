@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import classes from "./Home.module.css";
 import { ReactComponent as IconPin } from "../../assets/pin.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +11,7 @@ const HOME_VALUE = {
 };
 const Home = () => {
 	const [homeValue, setHomeValue] = useState(HOME_VALUE);
+	const [errorMessage, setErrorMessage] = useState("");
 	useEffect(() => {
 		axios
 			.all([
@@ -25,19 +25,26 @@ const Home = () => {
 					species: res[1].data["@odata.count"],
 					areas: res[2].data["@odata.count"],
 				};
+				setErrorMessage("");
 				setHomeValue(newValue);
+			})
+			.catch((err) => {
+				var msg = err?.response?.data?.value;
+				if (msg === undefined) msg = err.message;
+				return setErrorMessage(msg);
 			});
 	}, []);
 
 	return (
-		<section className="h-screen w-full py-12 flex flex-col text-cor2 bg-[url('/src/assets/img-entrada-2.jpg')] bg-center bg-cover shadow-[inset_0_250px_10px_rgba(9,11,9,0.3)] sm:shadow-[inset_0_250px_70px_rgba(9,11,9,0.3)]">
-			<div className="flex flex-col items-center sm:items-stretch flex-1 sm:flex-row text-center sm:text-left pt-28 pb-4 px-6 sm:py-14 sm:px-12">
+		<section className="h-screen w-full py-4 flex flex-col text-cor2 bg-[url('/src/assets/img-entrada-2.jpg')] bg-center bg-cover shadow-[inset_0_250px_10px_rgba(9,11,9,0.3)] sm:shadow-[inset_0_250px_70px_rgba(9,11,9,0.3)]">
+			<div className="text-err text-lg text-center">{errorMessage}</div>
+			<div className="flex flex-col items-center sm:items-stretch flex-1 sm:flex-row text-center sm:text-left pt-14 pb-20 px-6 sm:pt-12 sm:pb-28 sm:px-12">
 				<div className="text-center sm:text-left items-center sm:items-start flex flex-col flex-[3_1_0%]">
 					<p className="mb-8 text-cor2 sm:text-cor7 max-w-[300px] leading-5">
 						The leading FPT-owned zoo and circus combined center.
 					</p>
 
-					<h1 className="text-2xl sm:text-5xl leading-8 sm:leading-[4rem] self-end font-extrabold mt-16 sm:mt-auto mb-8 ">
+					<h1 className="text-3xl sm:text-5xl leading-8 sm:leading-[4rem] self-end font-extrabold mt-16 sm:mt-auto mb-8 ">
 						Welcome to the best zoo in FPT University ecosystem
 					</h1>
 
@@ -49,18 +56,24 @@ const Home = () => {
 					</Link>
 				</div>
 
-				<div className={classes.aside}>
-					<ul>
+				<div className="flex text-right flex-col justify-between flex-[2_1_0%]">
+					<ul className="flex justify-center sm:block text-left sm:text-right">
 						<li>
-							<span>{homeValue.animals}</span>
+							<span className="text-3xl sm:text-5xl font-extrabold">
+								{homeValue.animals}
+							</span>
 							<p>animals</p>
 						</li>
-						<li>
-							<span>{homeValue.species}</span>
+						<li className="mt-0 sm:mt-12 ml-6 sm:ml-0">
+							<span className="text-3xl sm:text-5xl font-extrabold">
+								{homeValue.species}
+							</span>
 							<p>species</p>
 						</li>
-						<li>
-							<span>{homeValue.areas}</span>
+						<li className="mt-0 sm:mt-12 ml-6 sm:ml-0">
+							<span className="text-3xl sm:text-5xl font-extrabold">
+								{homeValue.areas}
+							</span>
 							<p>areas</p>
 						</li>
 					</ul>

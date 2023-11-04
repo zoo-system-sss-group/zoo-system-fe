@@ -9,6 +9,7 @@ const INITIAL_PROFILE_OBJ = {
 	Id: "",
 	Username: "",
 	Fullname: "",
+	Role: "",
 	Experiences: "",
 	Avatar: null,
 };
@@ -59,6 +60,7 @@ function EditProfile({ id, fetch }) {
 		let newProfileObj = {
 			Username: profileObj.Username,
 			Fullname: profileObj.Fullname,
+			Role: profileObj.Role,
 			Experiences: profileObj.Experiences,
 			Avatar: profileObj.Avatar,
 		};

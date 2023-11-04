@@ -7,8 +7,8 @@ function InternalPage(){
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(setPageTitle({ title : "TrainingDetails Management"}))
-      }, [])
+        dispatch(setPageTitle({ title : "Training Detail Management"}))
+      }, [dispatch])
 
 
     return(

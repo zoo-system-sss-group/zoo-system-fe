@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {formatVndCurrency} from "../../../utils/MyUtils" 
+import { formatVndCurrency } from "../../../utils/MyUtils";
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment";
@@ -25,16 +25,15 @@ const INITIAL_ACCOUNT_OBJ = {
 function ViewTicketOrder({ id }) {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [ticketOrderObj, setTicketOrderObj] = useState(INITIAL_ACCOUNT_OBJ);
-
 	useEffect(() => {
-		axios
-			.get(`https://localhost:7195/odata/ticketOrders(${id})?$expand=tickets`)
-			.then((res) => {
+		if (id !== null) {
+			axios.get(`odata/ticketOrders(${id})?$expand=tickets`).then((res) => {
 				setTicketOrderObj({
 					...ticketOrderObj,
 					...res.data,
 				});
 			});
+		}
 	}, [id]);
 
 	return (

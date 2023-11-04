@@ -22,14 +22,14 @@ function AddDietDetail({ fetch }) {
 			.then((res) => {
 				let arr = Object.values(res.data.value);
 				setAnimals(arr);
-				dietDetailObj.animalId = arr[0].Id;
+				dietDetailObj.animalId = arr[0]?.Id;
 			});
 		axios
 			.get(`odata/diets?$filter=IsDeleted eq false&$select=Id,DietName`)
 			.then((res) => {
 				let arr = Object.values(res.data.value);
 				setDiets(arr);
-				dietDetailObj.dietId = arr[0].Id;
+				dietDetailObj.dietId = arr[0]?.Id;
 			});
 	}, []);
 

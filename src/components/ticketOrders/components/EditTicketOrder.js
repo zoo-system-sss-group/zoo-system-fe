@@ -3,22 +3,20 @@ import { useDispatch } from "react-redux";
 import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
+import ReactDatePicker from "react-datepicker";
 
+const PAYMENT_METHOD = ["Momo", "Card", "Cash"];
+const STATUS = ["Waiting", "Success", "Cancel"];
+const MIN_DATE = new Date();
+const MAX_DATE = new Date(MIN_DATE);
+MAX_DATE.setDate(MIN_DATE.getDate() + 30);
 const INITIAL_TICKETORDER_OBJ = {
 	CustomerName: "",
 	Email: "",
 	PhoneNumber: "",
 	EffectiveDate: new Date(),
-	Tickets: [
-		{
-			ticketType: "AdultTicket",
-			quantity: 0,
-		},
-		{
-			ticketType: "ChildrenTicket",
-			quantity: 0,
-		},
-	],
+	PaymentMethod: PAYMENT_METHOD[0],
+	Status: "",
 };
 
 function EditTicketOrder({ id, fetch }) {
@@ -37,23 +35,23 @@ function EditTicketOrder({ id, fetch }) {
 	}, [id]);
 
 	const saveNewTicketOrder = () => {
-		if (ticketOrderObj.Code.trim() === "") return setErrorMessage("Code is required!");
-		if (ticketOrderObj.Name.trim() === "") return setErrorMessage("Name is required!");
-		if (ticketOrderObj.Location.trim() === "")
-			return setErrorMessage("Location is required!");
-		if (ticketOrderObj.Description.trim() === "")
-			return setErrorMessage("Description is required!");
-		if (ticketOrderObj.Capacity <= 0)
-			return setErrorMessage("Capacity must greater than 0!");
+		if (ticketOrderObj.CustomerName.trim() === "")
+			return setErrorMessage("Code is required!");
+		if (ticketOrderObj.PhoneNumber.trim() === "")
+			return setErrorMessage("PhoneNumber is required!");
+		if (ticketOrderObj.EffectiveDate === "")
+			return setErrorMessage("EffectiveDate is required!");
 
 		let newTicketOrderObj = {
-			Code: ticketOrderObj.Code,
-			Name: ticketOrderObj.Name,
-			Location: ticketOrderObj.Location,
-			Description: ticketOrderObj.Description ?? "",
-			Capacity: ticketOrderObj.Capacity,
+			CustomerName: ticketOrderObj.CustomerName,
+			Email: ticketOrderObj.Email,
+			PhoneNumber: ticketOrderObj.PhoneNumber,
+			EffectiveDate: ticketOrderObj.EffectiveDate,
+			Tickets: ticketOrderObj.Tickets,
+			Status: ticketOrderObj.Status,
 		};
 		const data = JSON.stringify(newTicketOrderObj);
+		setLoading(true);
 		axios
 			.put(`odata/ticketOrders/${ticketOrderObj.Id}`, data)
 			.then((res) => {
@@ -67,8 +65,11 @@ function EditTicketOrder({ id, fetch }) {
 				fetch();
 			})
 			.catch((err) => {
-				return setErrorMessage(err.response.data.value);
-			});
+				var msg = err?.response?.data?.value;
+				if (msg === undefined) msg = err.message;
+				return setErrorMessage(msg);
+			})
+			.finally(() => setLoading(false));
 	};
 
 	const updateFormValue = (updateType, value) => {
@@ -82,69 +83,86 @@ function EditTicketOrder({ id, fetch }) {
 				<div className="modal-box">
 					<h3 className="font-bold text-lg">Edit ticketOrder</h3>
 					<div className="form-control w-full mt-4">
-						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={ticketOrderObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
-						<label className="label">
-							<span className="label-text">Code</span>
+						<label className="label mt-4">
+							<span className="label-text">CustomerName</span>
 						</label>
 						<input
 							type="text"
 							placeholder=""
-							value={ticketOrderObj.Code}
-							onChange={(e) => updateFormValue("Code", e.target.value)}
+							value={ticketOrderObj.CustomerName}
+							onChange={(e) => updateFormValue("CustomerName", e.target.value)}
 							className="input input-bordered w-full "
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">Name</span>
+							<span className="label-text">Email</span>
 						</label>
 						<input
-							type="text"
+							type="email"
 							placeholder=""
-							value={ticketOrderObj.Name}
-							onChange={(e) => updateFormValue("Name", e.target.value)}
+							value={ticketOrderObj.Email}
+							onChange={(e) => updateFormValue("Email", e.target.value)}
 							className="input input-bordered w-full"
 						/>
 
 						<label className="label mt-4">
-							<span className="label-text">Location</span>
+							<span className="label-text">PhoneNumber</span>
 						</label>
 						<input
 							type="text"
 							placeholder=""
-							value={ticketOrderObj.Location ? ticketOrderObj.Location : ""}
-							onChange={(e) => updateFormValue("Fullname", e.target.value)}
+							value={ticketOrderObj.PhoneNumber}
+							onChange={(e) => updateFormValue("PhoneNumber", e.target.value)}
 							className="input input-bordered w-full"
 						/>
 
-						<label className="label mt-4">
-							<span className="label-text">Description</span>
+						{/* <label className="label mt-4">
+							<span className="label-text">EffectiveDate</span>
 						</label>
-						<textarea
+						<ReactDatePicker
+							className="input input-bordered w-full"
+							minDate={MIN_DATE}
+							maxDate={MAX_DATE}
+							dateFormat={"yyyy-MM-dd"}
+							name="effectiveDate"
+							selected={ticketOrderObj.EffectiveDate}
+							onChange={(date) => updateFormValue("EffectiveDate", date)}
+						/> */}
+
+						<label className="label mt-4">
+							<span className="label-text">PaymentMethod</span>
+						</label>
+						<select
 							type="text"
 							placeholder=""
-							value={ticketOrderObj.Description ? ticketOrderObj.Description : ""}
-							onChange={(e) => updateFormValue("Description", e.target.value)}
-							className="textarea textarea-bordered h-24"
-						/>
+							value={ticketOrderObj.PaymentMethod}
+							onChange={(e) => updateFormValue("PaymentMethod", e.target.value)}
+							className="select select-bordered w-full"
+						>
+							{PAYMENT_METHOD.map((l, k) => (
+								<option key={k} value={l}>
+									{l}
+								</option>
+							))}
+						</select>
+
 						<label className="label mt-4">
-							<span className="label-text">Capacity</span>
+							<span className="label-text">Status</span>
 						</label>
-						<input
-							type="number"
+						<select
+							type="text"
 							placeholder=""
-							min="1"
-							value={ticketOrderObj.Capacity}
-							onChange={(e) => updateFormValue("Capacity", e.target.value)}
-							className="input input-bordered w-full"
-						/>
+							value={ticketOrderObj.Status}
+							onChange={(e) => updateFormValue("Status", e.target.value)}
+							className="select select-bordered w-full"
+						>
+							{STATUS.map((l, k) => (
+								<option key={k} value={l}>
+									{l}
+								</option>
+							))}
+						</select>
+
 						<div className="text-err text-lg">{errorMessage}</div>
 					</div>
 					<div className="modal-action">
@@ -158,7 +176,7 @@ function EditTicketOrder({ id, fetch }) {
 							className="btn btn-primary ml-4"
 							onClick={(e) => saveNewTicketOrder()}
 						>
-							Save
+							Save <span className={loading ? " loading" : ""}></span>
 						</button>
 					</div>
 				</div>

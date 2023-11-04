@@ -25,14 +25,14 @@ function AddTrainingDetail({ fetch }) {
 			.then((res) => {
 				let arr = Object.values(res.data.value);
 				setTrainers(arr);
-				trainingDetailObj.trainerId = arr[0].Id;
+				trainingDetailObj.trainerId = arr[0]?.Id;
 			});
 		axios
 			.get(`odata/animals?$filter=IsDeleted eq false&$select=Id,Name`)
 			.then((res) => {
 				let arr = Object.values(res.data.value);
 				setAnimals(arr);
-				trainingDetailObj.animalId = arr[0].Id;
+				trainingDetailObj.animalId = arr[0]?.Id;
 			});
 	}, []);
 

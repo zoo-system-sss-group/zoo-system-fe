@@ -4,6 +4,7 @@ import SidebarSubmenu from "./SidebarSubmenu";
 import XMarkIcon from "@heroicons/react/24/outline/XMarkIcon";
 import { useDispatch } from "react-redux";
 import Logo from "../components/layout/Logo";
+const user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function LeftSidebar() {
 	const location = useLocation(); //hook lấy path của trang hiện tại
@@ -34,31 +35,34 @@ function LeftSidebar() {
 						<Logo className="self-center lg:self-start mt-8 md:mt-0" />
 					</Link>
 				</li>
-				{routes.map((route, k) => {
-					return (
-						<li className="" key={k}>
-							{route.submenu ? (
-								<SidebarSubmenu {...route} />
-							) : (
-								<NavLink
-									end
-									to={route.path}
-									className={({ isActive }) =>
-										`${isActive ? "font-semibold  bg-base-200" : "font-normal"}`
-									}
-								>
-									{route.icon} {route.name}
-									{location.pathname === route.path ? (
-										<span
-											className="absolute inset-y-0 left-0 w-1 rounded-tr-md rounded-br-md bg-primary"
-											aria-hidden="true"
-										></span>
-									) : null}
-								</NavLink>
-							)}
-						</li>
-					);
-				})}
+				{routes.map(
+					(route, k) =>
+						(route.role.includes(user.role) &&
+							<li className="" key={k}>
+								{route.submenu ? (
+									<SidebarSubmenu {...route} />
+								) : (
+									<NavLink
+										end
+										to={route.path}
+										className={({ isActive }) =>
+											`${
+												isActive ? "font-semibold  bg-base-200" : "font-normal"
+											}`
+										}
+									>
+										{route.icon} {route.name}
+										{location.pathname === route.path ? (
+											<span
+												className="absolute inset-y-0 left-0 w-1 rounded-tr-md rounded-br-md bg-primary"
+												aria-hidden="true"
+											></span>
+										) : null}
+									</NavLink>
+								)}
+							</li>
+						)
+				)}
 			</ul>
 		</div>
 	);

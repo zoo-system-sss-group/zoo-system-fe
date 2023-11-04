@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment";
@@ -24,7 +22,6 @@ const INITIAL_TRAININGDETAIL_OBJ = {
 };
 
 function ViewTrainingDetail({ id }) {
-	const [errorMessage, setErrorMessage] = useState("");
 	const [trainingDetailObj, setTrainingDetailObj] = useState(
 		INITIAL_TRAININGDETAIL_OBJ
 	);
@@ -52,7 +49,7 @@ function ViewTrainingDetail({ id }) {
 						<div className="flex w-full">
 							<div className="w-full">
 								<label className="label">
-									<span className="label-text">TrainerId</span>
+									<span className="label-text">Trainer ID</span>
 								</label>
 								<input
 									type="text"
@@ -83,7 +80,7 @@ function ViewTrainingDetail({ id }) {
 							<div className="divider divider-horizontal">Train</div>
 							<div className="w-full">
 								<label className="label">
-									<span className="label-text">AnimalId</span>
+									<span className="label-text">Animal ID</span>
 								</label>
 								<input
 									type="text"
@@ -116,7 +113,7 @@ function ViewTrainingDetail({ id }) {
 						<div className="flex gap-2">
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">StartDate</span>
+									<span className="label-text">Start Date</span>
 								</label>
 								<input
 									type="text"
@@ -129,7 +126,7 @@ function ViewTrainingDetail({ id }) {
 							</div>
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">EndDate</span>
+									<span className="label-text">End Date</span>
 								</label>
 								<input
 									type="text"
@@ -148,7 +145,7 @@ function ViewTrainingDetail({ id }) {
 						<div className="flex gap-2">
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">CreationDate</span>
+									<span className="label-text">Creation Date</span>
 								</label>
 								<input
 									type="text"
@@ -161,7 +158,7 @@ function ViewTrainingDetail({ id }) {
 							</div>
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">ModificationDate</span>
+									<span className="label-text">Modification Date</span>
 								</label>
 								<input
 									type="text"
@@ -181,7 +178,7 @@ function ViewTrainingDetail({ id }) {
 						<div className="flex gap-2">
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">DeletionDate</span>
+									<span className="label-text">Deletion Date</span>
 								</label>
 								<input
 									type="text"
@@ -193,11 +190,11 @@ function ViewTrainingDetail({ id }) {
 									className="input input-bordered w-full"
 									disabled
 								/>
-								<div className="text-err text-lg">{errorMessage}</div>
+
 							</div>
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">IsDeleted</span>
+									<span className="label-text">Is Deleted</span>
 								</label>
 								<input
 									type="text"
@@ -207,8 +204,6 @@ function ViewTrainingDetail({ id }) {
 								/>
 							</div>
 						</div>
-
-						<div className="text-err text-lg">{errorMessage}</div>
 					</div>
 					<div className="modal-action">
 						<form method="dialog">

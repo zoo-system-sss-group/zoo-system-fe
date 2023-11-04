@@ -12,16 +12,14 @@ import { showNotification } from "../common/headerSlice";
 import EditTrainingDetail from "./components/EditTrainingDetail";
 import AddTrainingDetail from "./components/AddTrainingDetail";
 import ViewTrainingDetail from "./components/ViewTrainingDetail";
+import { roleStaffAdmin } from "../../routes/author";
 const user = JSON.parse(localStorage.getItem("loginInfo"));
-const ROLE = {
-	trainer: "Trainer",
-	staff: "Staff",
-};
+
 function TrainingDetails() {
 	const dispatch = useDispatch();
 	const [trainingDetails, setTrainingDetails] = useState();
 	const [error, setError] = useState("");
-	const [idSelect, setIdSelect] = useState(1);
+	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -45,6 +43,7 @@ function TrainingDetails() {
 				)
 					setPagination({ ...pagination, isEnd: false });
 				setTrainingDetails(trainingDetails);
+				setIdSelect(trainingDetails[0]?.Id);
 			})
 			.catch((err) => {
 				if (err.response.status === 403)
@@ -64,7 +63,7 @@ function TrainingDetails() {
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "TrainingDetail deleted!",
+						message: "Training detail deleted!",
 						status: res.status,
 					})
 				);
@@ -78,10 +77,10 @@ function TrainingDetails() {
 	return (
 		<>
 			<TitleCard
-				title="TrainingDetail table"
+				title="Training Detail Table"
 				topMargin="mt-2"
 				TopSideButtons={
-					user.role === ROLE.staff && (
+					roleStaffAdmin.includes(user.role) && (
 						<AddTrainingDetail fetch={fetchTrainingDetailList} />
 					)
 				}
@@ -97,8 +96,8 @@ function TrainingDetails() {
 										<th>Trainer Name</th>
 										<th>Animal ID</th>
 										<th>Animal Name</th>
-										<th>StartDate</th>
-										<th>EndDate</th>
+										<th>Start Date</th>
+										<th>End Date</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -140,7 +139,7 @@ function TrainingDetails() {
 													</button>
 
 													{/* Nut sua trainingDetail */}
-													{user.role === ROLE.staff && (
+													{roleStaffAdmin.includes(user.role) && (
 														<>
 															{l.EndDate === null ? (
 																<button
@@ -154,7 +153,9 @@ function TrainingDetails() {
 																>
 																	<PencilSquareIcon className="w-5 text-cor3 stroke-2" />
 																</button>
-															) : <div className="w-14"></div>}
+															) : (
+																<div className="w-14"></div>
+															)}
 
 															{/* Nut xoa status trainingDetail */}
 															<button
@@ -187,7 +188,7 @@ function TrainingDetails() {
 																	<button
 																		className="btn btn-primary ml-4"
 																		onClick={() =>
-																			user.role === ROLE.staff &&
+																			roleStaffAdmin.includes(user.role) &&
 																			deleteTrainingDetail(idSelect)
 																		}
 																	>
@@ -206,8 +207,8 @@ function TrainingDetails() {
 									})}
 								</tbody>
 							</table>
-							<ViewTrainingDetail id={idSelect} />
-							{user.role === ROLE.staff && (
+							{idSelect && <ViewTrainingDetail id={idSelect} />}
+							{roleStaffAdmin.includes(user.role) && idSelect && (
 								<EditTrainingDetail
 									id={idSelect}
 									fetch={fetchTrainingDetailList}

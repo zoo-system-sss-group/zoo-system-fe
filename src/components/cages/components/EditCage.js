@@ -34,10 +34,7 @@ function EditCage({ id, fetch }) {
 			});
 
 		axios.get(`odata/cages/${id}`).then((res) => {
-			setCageObj({
-				...cageObj,
-				...res.data,
-			});
+			setCageObj(res.data);
 		});
 	}, [id]);
 
@@ -113,15 +110,6 @@ function EditCage({ id, fetch }) {
 				<div className="modal-box max-w-2xl">
 					<h3 className="font-bold text-lg">Edit cage</h3>
 					<div className="form-control w-full mt-4">
-						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={cageObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
 						<label className="label">
 							<span className="label-text">Code</span>
 						</label>
@@ -225,13 +213,13 @@ function EditCage({ id, fetch }) {
 								Close
 							</button>
 						</form>
-
 						<button
 							className="btn btn-primary ml-4"
 							onClick={(e) => saveNewCage()}
 						>
 							Save
-						</button> <span className={loading ? " loading" : ""}></span>
+						</button>{" "}
+						<span className={loading ? " loading" : ""}></span>
 					</div>
 				</div>
 				<form method="dialog" className="modal-backdrop">
