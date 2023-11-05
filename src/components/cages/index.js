@@ -17,6 +17,7 @@ const user = JSON.parse(localStorage.getItem("loginInfo"));
 function Cages() {
 	const dispatch = useDispatch();
 	const [cages, setCages] = useState();
+	const [search, setSearch] = useState("");
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
@@ -28,7 +29,7 @@ function Cages() {
 	const fetchCageList = () => {
 		axios
 			.get(
-				`odata/cages?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/cages?$filter=isDeleted eq false and contains(tolower(Name), '${search}')&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
@@ -75,6 +76,24 @@ function Cages() {
 			<TitleCard
 				title="Cage table"
 				topMargin="mt-2"
+				searchInput={
+					<div className="join">
+						<input
+							className="input input-bordered join-item"
+							placeholder="Search by Name"
+							value={search}
+							onChange={(e) => setSearch(e.target.value.toLowerCase())}
+						/>
+						<div className="indicator">
+							<button
+								className="btn join-item"
+								onClick={() => fetchCageList()}
+							>
+								Search
+							</button>
+						</div>
+					</div>
+				}
 				TopSideButtons={
 					roleStaffAdmin.includes(user.role) && (
 						<AddCage fetch={fetchCageList} />

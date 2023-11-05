@@ -164,7 +164,6 @@ function BuyTicket() {
               values={values}
             />
           )}
-          {console.log(values, submitVal)}
 
           {(submitVal || step === 4) && (
             <CreateSuccess

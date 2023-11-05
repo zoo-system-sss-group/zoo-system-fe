@@ -9,7 +9,9 @@ var user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function MyTraining() {
 	const [myTraining, setMyTraining] = useState();
-	const [error, setError] = useState("Something went wrong, maybe you do not have permission to access this page");
+	const [error, setError] = useState(
+		"Something went wrong, maybe you do not have permission to access this page"
+	);
 	const [idSelect, setIdSelect] = useState();
 
 	//lay danh sach myTraining
@@ -42,6 +44,7 @@ function MyTraining() {
 								<thead>
 									<tr>
 										<th>Animal ID</th>
+										<th>Image</th>
 										<th>Animal Name</th>
 										<th>Description</th>
 										<th>Weight</th>
@@ -52,7 +55,7 @@ function MyTraining() {
 										<th>Cage Recent</th>
 										<th>Start Date</th>
 										<th>End Date</th>
-										<th></th>
+										<th>View Diet Detail</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -63,18 +66,16 @@ function MyTraining() {
 													{l.AnimalId}
 												</td>
 												<td>
-													<div className="flex items-center space-x-3">
-														<div className="mask mask-squircle w-20 h-20">
-															<img
-																className="aspect-square object-cover"
-																src={l.Animal?.Image ?? "../img/noimage.jpg"}
-																alt="animal"
-															/>
-														</div>
-														<div>
-															<div className="font-bold">{l.Animal.Name}</div>
-														</div>
+													<div className="mask mask-squircle w-20 h-20">
+														<img
+															className="aspect-square object-cover"
+															src={l.Animal?.Image ?? "../img/noimage.jpg"}
+															alt="animal"
+														/>
 													</div>
+												</td>
+												<td>
+													<div className="font-bold">{l.Animal.Name}</div>
 												</td>
 												<td>{l.Animal?.Description}</td>
 												<td>{l.Animal?.Weight}</td>

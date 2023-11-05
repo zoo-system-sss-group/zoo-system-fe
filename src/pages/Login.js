@@ -47,8 +47,11 @@ const Login = () => {
 					localStorage.setItem("token", token);
 					checkAuth();
 					axios.get("api/auth/current-user").then((res) => {
-						localStorage.setItem("loginInfo", JSON.stringify(res.data.value));
-						window.location.href = "/management/dashboard";
+						const user = res.data.value;
+						localStorage.setItem("loginInfo", JSON.stringify(user));
+						if (user.role === "Trainer")
+							window.location.href = "/management/myTraining";
+						else window.location.href = "/management/dashboard";
 					});
 				} else {
 					return navigate("/login");
@@ -70,7 +73,10 @@ const Login = () => {
 				<img className="w-full h-full object-cover" src={image} alt="" />
 			</div>
 			<div className="flex flex-col justify-center">
-				<form className="max-w-[400px] w-full mx-auto bg-cor1 p-9 px-8 rounded-lg" onSubmit={submitForm}>
+				<form
+					className="max-w-[400px] w-full mx-auto bg-cor1 p-9 px-8 rounded-lg"
+					onSubmit={submitForm}
+				>
 					<div className="relative">
 						<Link
 							to="/"
@@ -105,7 +111,6 @@ const Login = () => {
 						className={
 							"w-full my-5 py-2 btn btn-accent text-white font-semibold rounded-lg "
 						}
-						
 					>
 						Sign In <span className={loading ? " loading" : ""}></span>
 					</button>

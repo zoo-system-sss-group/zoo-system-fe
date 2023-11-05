@@ -19,6 +19,7 @@ function TrainingDetails() {
 	const dispatch = useDispatch();
 	const [trainingDetails, setTrainingDetails] = useState();
 	const [error, setError] = useState("");
+	const [search, setSearch] = useState("");
 	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
 		page: 1,
@@ -29,9 +30,13 @@ function TrainingDetails() {
 	const fetchTrainingDetailList = () => {
 		axios
 			.get(
-				`odata/trainingdetails?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
-					(pagination.page - 1) * 10
-				}&$top=${pagination.limit}&$expand=animal,trainer`
+				search
+					? `odata/trainingdetails?$filter=isDeleted eq false and trainerId eq ${search}&$orderby=CreationDate desc&$skip=${
+							(pagination.page - 1) * 10
+					  }&$top=${pagination.limit}&$expand=animal,trainer`
+					: `odata/trainingdetails?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+							(pagination.page - 1) * 10
+					  }&$top=${pagination.limit}&$expand=animal,trainer`
 			)
 			.then((res) => {
 				let trainingDetails = res.data.value;
@@ -79,6 +84,25 @@ function TrainingDetails() {
 			<TitleCard
 				title="Training Detail Table"
 				topMargin="mt-2"
+				searchInput={
+					<div className="join">
+						<input
+							type="number"
+							className="input input-bordered join-item w-48"
+							placeholder="Search by Trainer ID"
+							value={search}
+							onChange={(e) => setSearch(e.target.value)}
+						/>
+						<div className="indicator">
+							<button
+								className="btn join-item"
+								onClick={() => fetchTrainingDetailList()}
+							>
+								Search
+							</button>
+						</div>
+					</div>
+				}
 				TopSideButtons={
 					roleStaffAdmin.includes(user.role) && (
 						<AddTrainingDetail fetch={fetchTrainingDetailList} />
@@ -178,8 +202,7 @@ function TrainingDetails() {
 														<div className="modal-box">
 															<h3 className="font-bold text-lg">Confirm</h3>
 															<p className="py-4 text-2xl">
-																Are you want to delete trainingDetail "{l.Name}
-																"?
+																Are you want to delete this training detail?
 															</p>
 															<div className="modal-action">
 																<form method="dialog">

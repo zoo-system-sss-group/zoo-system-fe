@@ -15,6 +15,7 @@ function Species() {
 	const [species, setSpecies] = useState();
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState();
+	const [search, setSearch] = useState("");
 	const [pagination, setPagination] = useState({
 		page: 1,
 		limit: 10,
@@ -25,7 +26,7 @@ function Species() {
 	const fetchSpeciesList = () => {
 		axios
 			.get(
-				`odata/species?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/species?$filter=isDeleted eq false and (contains(tolower(Name), '${search}') or contains(tolower(ScientificName), '${search}'))&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
@@ -69,6 +70,24 @@ function Species() {
 			<TitleCard
 				title="Species table"
 				topMargin="mt-2"
+				searchInput={
+					<div className="join">
+						<input
+							className="input input-bordered join-item w-80"
+							placeholder="Search by Name or Scientific Name"
+							value={search}
+							onChange={(e) => setSearch(e.target.value.toLowerCase())}
+						/>
+						<div className="indicator">
+							<button
+								className="btn join-item"
+								onClick={() => fetchSpeciesList()}
+							>
+								Search
+							</button>
+						</div>
+					</div>
+				}
 				TopSideButtons={roleStaffAdmin.includes(user.role) && <AddSpecies fetch={fetchSpeciesList} />}
 			>
 				<div className="overflow-x-auto w-full">

@@ -310,8 +310,7 @@ function Animals() {
 																			Confirm
 																		</h3>
 																		<p className="py-4 text-2xl">
-																			Are you sure you want to delete animal{" "}
-																			{l.Name}?
+																			Are you want to delete animal "{l.Name}"?
 																		</p>
 																		<div className="modal-action">
 																			<form method="dialog">

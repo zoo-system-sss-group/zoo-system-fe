@@ -14,6 +14,7 @@ const user = JSON.parse(localStorage.getItem("loginInfo"));
 function Diets() {
 	const dispatch = useDispatch();
 	const [diets, setDiets] = useState();
+	const [search, setSearch] = useState("");
 	const [error, setError] = useState("");
 	const [idSelect, setIdSelect] = useState();
 	const [pagination, setPagination] = useState({
@@ -26,7 +27,7 @@ function Diets() {
 	const fetchDietList = () => {
 		axios
 			.get(
-				`odata/diets?$filter=isDeleted eq false&$orderby=CreationDate desc&$skip=${
+				`odata/diets?$filter=isDeleted eq false and (contains(tolower(DietName), '${search}') or contains(tolower(FoodName), '${search}'))&$orderby=CreationDate desc&$skip=${
 					(pagination.page - 1) * 10
 				}&$top=${pagination.limit}`
 			)
@@ -70,6 +71,24 @@ function Diets() {
 			<TitleCard
 				title="Diet table"
 				topMargin="mt-2"
+				searchInput={
+					<div className="join">
+						<input
+							className="input input-bordered join-item w-72"
+							placeholder="Search by diet or food name"
+							value={search}
+							onChange={(e) => setSearch(e.target.value.toLowerCase())}
+						/>
+						<div className="indicator">
+							<button
+								className="btn join-item"
+								onClick={() => fetchDietList()}
+							>
+								Search
+							</button>
+						</div>
+					</div>
+				}
 				TopSideButtons={
 					roleStaffAdmin.includes(user.role) && (
 						<AddDiet fetch={fetchDietList} />

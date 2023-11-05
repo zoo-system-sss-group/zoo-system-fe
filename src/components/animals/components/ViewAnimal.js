@@ -137,7 +137,7 @@ function ViewAnimal({ id }) {
 							<div className="flex gap-2">
 								<div className="w-full">
 									<label className="label mt-4">
-										<span className="label-text">CreationDate</span>
+										<span className="label-text">Creation Date</span>
 									</label>
 									<input
 										type="text"
@@ -150,7 +150,7 @@ function ViewAnimal({ id }) {
 								</div>
 								<div className="w-full">
 									<label className="label mt-4">
-										<span className="label-text">ModificationDate</span>
+										<span className="label-text">Modification Date</span>
 									</label>
 									<input
 										type="text"
@@ -170,7 +170,7 @@ function ViewAnimal({ id }) {
 							<div className="flex gap-2">
 								<div className="w-full">
 									<label className="label mt-4">
-										<span className="label-text">DeletionDate</span>
+										<span className="label-text">Deletion Date</span>
 									</label>
 									<input
 										type="text"
@@ -182,7 +182,7 @@ function ViewAnimal({ id }) {
 								</div>
 								<div className="w-full">
 									<label className="label mt-4">
-										<span className="label-text">IsDeleted</span>
+										<span className="label-text">Is Deleted</span>
 									</label>
 									<input
 										type="text"
@@ -203,14 +203,14 @@ function ViewAnimal({ id }) {
 							<table className="table">
 								<thead>
 									<tr>
-										<th>DietId</th>
-										<th>DietName</th>
-										<th>FoodName</th>
+										<th>Diet ID</th>
+										<th>Diet Name</th>
+										<th>Food Name</th>
 										<th>Quantity</th>
 										<th>Unit</th>
-										<th>TimesPerDay</th>
-										<th>StartDate</th>
-										<th>EndDate</th>
+										<th>Times Per Day</th>
+										<th>Start Date</th>
+										<th>End Date</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -255,10 +255,10 @@ function ViewAnimal({ id }) {
 							<table className="table">
 								<thead>
 									<tr>
-										<th>CageId</th>
-										<th>CageName</th>
-										<th>StartDate</th>
-										<th>EndDate</th>
+										<th>Cage ID</th>
+										<th>Cage Name</th>
+										<th>Start Date</th>
+										<th>End Date</th>
 									</tr>
 								</thead>
 								<tbody>

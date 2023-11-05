@@ -42,8 +42,6 @@ function ViewFeedHistory({ id }) {
 	const [date, setDate] = useState(new Date());
 	
 	const fetchFeedHistoryOfAnimal = () => {
-		
-		console.log("goi ", date, id);
 		axios
 			.get(
 				`odata/feedhistory?$filter=FeedingDate eq ${moment(date).format(
@@ -51,7 +49,6 @@ function ViewFeedHistory({ id }) {
 				)} and animalId eq ${id}`
 			)
 			.then((res) => {
-				console.log(res);
 				const data = res.data.value;
 				setFeedHistories(data);
 			})
@@ -105,7 +102,6 @@ function ViewFeedHistory({ id }) {
 					}
 				>
 					<div className="overflow-x-auto w-full min-h-[32rem]">
-						{console.log("feedHistories", feedHistories)}
 						{roleStaffAdmin.includes(user.role) &&
 						feedHistories != null &&
 						feedHistories !== undefined ? (

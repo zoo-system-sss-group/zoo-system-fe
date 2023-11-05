@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import TitleCard from "../common/Cards/TitleCard";
-import { FireIcon } from "@heroicons/react/24/outline";
+import { FireIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../common/headerSlice";
@@ -34,7 +34,9 @@ function DietSchedule() {
 	const dispatch = useDispatch();
 	const [idSelect, setIdSelect] = useState();
 	const [myTraining, setMyTraining] = useState([]);
-	const [error, setError] = useState("Something went wrong, maybe you do not have permission to access this page");
+	const [error, setError] = useState(
+		"Something went wrong, maybe you do not have permission to access this page"
+	);
 	const [date, setDate] = useState(new Date());
 
 	const fetchMyTrainingList = () => {
@@ -60,7 +62,9 @@ function DietSchedule() {
 						Promise.all(feedHistoryTodayPromises)
 							.then((feedHistoryResponses) => {
 								feedHistoryResponses.forEach((res, index) => {
-									myTraining[index].Diet = res.data.map(x => convertCamelToPascal(x));
+									myTraining[index].Diet = res.data.map((x) =>
+										convertCamelToPascal(x)
+									);
 								});
 								setMyTraining(myTraining);
 							})
@@ -93,13 +97,13 @@ function DietSchedule() {
 		fetchMyTrainingList();
 	}, [date]);
 
-	const feedAnimal = (feedId) => {
+	const feedAnimal = (feedId, msg) => {
 		axios
 			.put(`api/feedhistory/${feedId}`)
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Feed successfully",
+						message: msg ?? "Feed successfully",
 						status: res.status,
 					})
 				);
@@ -108,7 +112,7 @@ function DietSchedule() {
 			.catch((err) => {
 				dispatch(
 					showNotification({
-						message: "Feed unsuccessfully" + err,
+						message: msg ?? "Feed unsuccessfully" + err,
 						status: 404,
 					})
 				);
@@ -137,8 +141,9 @@ function DietSchedule() {
 								<thead>
 									<tr>
 										<th>Animal ID</th>
+										<th>Image</th>
 										<th>Animal Name</th>
-										<th>Schedule</th>
+										<th className="text-center">Schedule</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -148,20 +153,18 @@ function DietSchedule() {
 												<td className="min-w-[3rem] max-w-[10rem] whitespace-normal">
 													{l.AnimalId}
 												</td>
+												<td className="min-w-[4rem] max-w-[7rem] whitespace-normal">
+													<div className="w-40 h-40">
+														<img
+															src={l.Animal?.Image ?? "../img/noimage.jpg"}
+															alt="animal"
+															className="aspect-square object-cover rounded-2xl"
+														/>
+													</div>
+												</td>
 												<td>
-													<div className="flex items-center space-x-3">
-														<div className="mask mask-squircle w-32 h-32">
-															<img
-																src={l.Animal?.Image ?? "../img/noimage.jpg"}
-																alt="animal"
-																className="aspect-square object-cover"
-															/>
-														</div>
-														<div>
-															<div className="font-bold text-xl">
-																{l.Animal.Name}
-															</div>
-														</div>
+													<div className="font-bold text-xl">
+														{l.Animal.Name}
 													</div>
 												</td>
 												<td>
@@ -198,8 +201,8 @@ function DietSchedule() {
 																			)}
 																		</td>
 																		<td className="min-w-[2rem] max-w-[3rem] whitespace-normal">
-																			{!feed.IsDeleted &&
-																				areDatesEqual(date, new Date()) && (
+																			{areDatesEqual(date, new Date()) &&
+																				(!feed.IsDeleted ? (
 																					<>
 																						<button
 																							className="btn btn-ghost inline"
@@ -248,7 +251,25 @@ function DietSchedule() {
 																							</form>
 																						</dialog>
 																					</>
-																				)}
+																				) : (
+																					<div
+																						className="tooltip tooltip-right tooltip-secondary"
+																						data-tip="Undo Feed"
+																					>
+																						<button
+																							className="btn btn-ghost inline"
+																							onClick={() => {
+																								setIdSelect(feed.Id);
+																								feedAnimal(
+																									idSelect,
+																									"Undo Feed"
+																								);
+																							}}
+																						>
+																							<ArrowUturnLeftIcon className="w-6 stroke-2" />
+																						</button>
+																					</div>
+																				))}
 																		</td>
 																	</tr>
 																))}

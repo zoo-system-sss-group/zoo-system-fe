@@ -53,7 +53,7 @@ function ViewDietDetail({ id }) {
 						<div className="flex w-full">
 							<div className="w-full">
 								<label className="label">
-									<span className="label-text">AnimalId</span>
+									<span className="label-text">Animal ID</span>
 								</label>
 								<input
 									type="text"
@@ -133,7 +133,7 @@ function ViewDietDetail({ id }) {
 							<div className="divider divider-horizontal">Feed</div>
 							<div className="w-full">
 								<label className="label">
-									<span className="label-text">DietId</span>
+									<span className="label-text">Diet ID</span>
 								</label>
 								<input
 									type="text"
@@ -143,7 +143,7 @@ function ViewDietDetail({ id }) {
 								/>
 
 								<label className="label mt-4">
-									<span className="label-text">DietName</span>
+									<span className="label-text">Diet Name</span>
 								</label>
 								<input
 									type="text"
@@ -153,7 +153,7 @@ function ViewDietDetail({ id }) {
 								/>
 
 								<label className="label mt-4">
-									<span className="label-text">FoodName</span>
+									<span className="label-text">Food Name</span>
 								</label>
 								<textarea
 									type="text"
@@ -192,7 +192,7 @@ function ViewDietDetail({ id }) {
 						<div className="flex gap-2">
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">StartDate</span>
+									<span className="label-text">Start Date</span>
 								</label>
 								<input
 									type="text"
@@ -205,7 +205,7 @@ function ViewDietDetail({ id }) {
 							</div>
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">EndDate</span>
+									<span className="label-text">End Date</span>
 								</label>
 								<input
 									type="text"
@@ -224,7 +224,7 @@ function ViewDietDetail({ id }) {
 						<div className="flex gap-2">
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">CreationDate</span>
+									<span className="label-text">Creation Date</span>
 								</label>
 								<input
 									type="text"
@@ -237,7 +237,7 @@ function ViewDietDetail({ id }) {
 							</div>
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">ModificationDate</span>
+									<span className="label-text">Modification Date</span>
 								</label>
 								<input
 									type="text"
@@ -257,7 +257,7 @@ function ViewDietDetail({ id }) {
 						<div className="flex gap-2">
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">DeletionDate</span>
+									<span className="label-text">Deletion Date</span>
 								</label>
 								<input
 									type="text"
@@ -271,7 +271,7 @@ function ViewDietDetail({ id }) {
 							</div>
 							<div className="w-full">
 								<label className="label mt-4">
-									<span className="label-text">IsDeleted</span>
+									<span className="label-text">Is Deleted</span>
 								</label>
 								<input
 									type="text"

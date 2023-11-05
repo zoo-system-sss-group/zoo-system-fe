@@ -4,6 +4,7 @@ import { showNotification } from "../../common/headerSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
+import { roleAdmin } from "../../../routes/author";
 
 const ROLE_ACCOUNT = ["Trainer", "Staff"];
 const INITIAL_ACCOUNT_OBJ = {
@@ -131,23 +132,26 @@ function EditAccount({ id, fetch }) {
 							onChange={(e) => updateFormValue("Fullname", e.target.value)}
 							className="input input-bordered w-full"
 						/>
-
-						<label className="label mt-4">
-							<span className="label-text">Role</span>
-						</label>
-						<select
-							type="text"
-							placeholder=""
-							value={accountObj.Role}
-							onChange={(e) => updateFormValue("Role", e.target.value)}
-							className="select select-bordered w-full"
-						>
-							{ROLE_ACCOUNT.map((l, k) => (
-								<option key={k} value={l}>
-									{l}
-								</option>
-							))}
-						</select>
+						{!roleAdmin.includes(accountObj.Role) && (
+							<>
+								<label className="label mt-4">
+									<span className="label-text">Role</span>
+								</label>
+								<select
+									type="text"
+									placeholder=""
+									value={accountObj.Role}
+									onChange={(e) => updateFormValue("Role", e.target.value)}
+									className="select select-bordered w-full"
+								>
+									{ROLE_ACCOUNT.map((l, k) => (
+										<option key={k} value={l}>
+											{l}
+										</option>
+									))}
+								</select>
+							</>
+						)}
 
 						<label className="label mt-4">
 							<span className="label-text">Experiences</span>
