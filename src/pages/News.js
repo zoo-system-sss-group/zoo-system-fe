@@ -70,7 +70,7 @@ function News() {
 							>
 								<figure>
 									<img
-										className="w-full h-52 object-cover object-top"
+										className="w-full h-52 object-cover object-center"
 										src={newObj.thumbnail ?? "../img/noImage.jpg"}
 										alt={newObj.title}
 									/>
@@ -86,6 +86,7 @@ function News() {
 					)}
 				</div>
 				{/* paging */}
+				<div className="w-full my-4"></div>
 				<Pagination
 					clicked={(i) => {
 						navigate(`/news?page=${i}`, { replace: true });
