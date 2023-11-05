@@ -70,10 +70,11 @@ function AnimalDetail() {
         <main className="flex flex-1 flex-wrap min-h-[500px] ">
           <div className="w-full lg:w-1/2 p-6 relative bg-cor4 border-r-cor6 border-r ">
             <img
-              className={`max-h-[80vh] mx-auto my-auto ${loading ?? "border border-solid"} rounded-sm `}
+              className={`max-h-[80vh] mx-auto my-auto ${loading  ? "": " border border-solid "} rounded-sm `}
               src={animal.Image}
               alt={animal.Name}
             />
+            <img className="hidden border border-solid"/>
             <Link
               to="../animals"
               className=" lg:hidden rounded-lg absolute  items-center justify-center
