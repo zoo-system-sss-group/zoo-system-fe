@@ -52,7 +52,7 @@ function EditAccount({ id, fetch }) {
 				uploadAccountData();
 			} catch (err) {
 				var msg = err?.response?.data?.value;
-				if (msg === undefined) msg = "Something go wrong!";
+				if (msg === undefined) msg = "Something went wrong!";
 				setErrorMessage(msg);
 			}
 		} else {

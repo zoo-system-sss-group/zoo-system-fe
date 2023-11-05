@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import TitleCard from "../common/Cards/TitleCard";
-import { FireIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { FireIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-// import FeedAnimal from "./components/FeedAnimal";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../common/headerSlice";
 import ReactDatePicker from "react-datepicker";
-// import ViewDiet from "./components/ViewDiet";
-// import AddDiet from "./components/AddDiet";
-// import FeedAnimal from "./components/FeedAnimal";
+import { roleTrainer } from "../../routes/author";
+var user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function areDatesEqual(date1, date2) {
 	return (
@@ -35,16 +33,14 @@ function convertCamelToPascal(obj) {
 function DietSchedule() {
 	const dispatch = useDispatch();
 	const [idSelect, setIdSelect] = useState();
-	const loginInfoJSON = localStorage.getItem("loginInfo");
-	const loginInfo = JSON.parse(loginInfoJSON);
 	const [myTraining, setMyTraining] = useState([]);
-	const [error, setError] = useState("");
+	const [error, setError] = useState("Something went wrong, maybe you do not have permission to access this page");
 	const [date, setDate] = useState(new Date());
 
 	const fetchMyTrainingList = () => {
 		axios
 			.get(
-				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
+				`odata/trainingdetails?filter=TrainerId eq ${user.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
 			)
 			.then((res) => {
 				let myTraining = res.data.value;
@@ -135,7 +131,7 @@ function DietSchedule() {
 				}
 			>
 				<div className="overflow-x-auto w-full">
-					{myTraining != null ? (
+					{roleTrainer.includes(user.role) && myTraining != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>

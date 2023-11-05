@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
 import moment from "moment";
 import TitleCard from "../common/Cards/TitleCard";
-import { EyeIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { EyeIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import ViewDiet from "./components/ViewDiet";
+import { roleTrainer } from "../../routes/author";
+var user = JSON.parse(localStorage.getItem("loginInfo"));
 
 function MyTraining() {
 	const [myTraining, setMyTraining] = useState();
-	const [error, setError] = useState("");
+	const [error, setError] = useState("Something went wrong, maybe you do not have permission to access this page");
 	const [idSelect, setIdSelect] = useState();
-
-	const loginInfoJSON = localStorage.getItem("loginInfo");
-	const loginInfo = JSON.parse(loginInfoJSON);
 
 	//lay danh sach myTraining
 	const fetchMyTrainingList = () => {
 		axios
 			.get(
-				`odata/trainingdetails?filter=TrainerId eq ${loginInfo.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
+				`odata/trainingdetails?filter=TrainerId eq ${user.id} and EndDate eq null&$expand=animal($expand=species,cageHistories($filter=EndDate eq null;$expand=cage))&$orderby=CreationDate desc`
 			)
 			.then((res) => {
 				let myTraining = res.data.value;
 				setMyTraining(myTraining);
-				setIdSelect(myTraining[0].AnimalId);
+				setIdSelect(myTraining[0]?.AnimalId);
 			})
 			.catch((err) => {
 				setError(err.message);
@@ -37,7 +36,7 @@ function MyTraining() {
 		<>
 			<TitleCard title="My training table" topMargin="mt-2">
 				<div className="overflow-x-auto w-full">
-					{myTraining != null ? (
+					{roleTrainer.includes(user.role) && myTraining != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>

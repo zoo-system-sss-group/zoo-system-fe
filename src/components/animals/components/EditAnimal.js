@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import moment from "moment";
 import { FirebaseImageUpload } from "../../../FirebaseImageUpload/FirebaseImageUpload";
 
-const INITIAL_ACCOUNT_OBJ = {
+const INITIAL_ANIMAL_OBJ = {
 	Id: "",
 	Name: "",
 	Image: null,
@@ -21,7 +21,7 @@ function EditAnimal({ id, fetch }) {
 	const dispatch = useDispatch();
 	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [animalObj, setAnimalObj] = useState(INITIAL_ACCOUNT_OBJ);
+	const [animalObj, setAnimalObj] = useState(INITIAL_ANIMAL_OBJ);
 	const [speciesObj, setSpeciesObj] = useState([]);
 	const [img, setImg] = useState(null);
 
@@ -35,8 +35,8 @@ function EditAnimal({ id, fetch }) {
 
 		axios.get(`odata/animals/${id}`).then((res) => {
 			setAnimalObj({
-				...animalObj,
-				...res.data,
+				...INITIAL_ANIMAL_OBJ,
+				...res.data
 			});
 			setImg(null);
 		});
@@ -70,7 +70,7 @@ function EditAnimal({ id, fetch }) {
 				uploadAnimalData();
 			} catch (err) {
 				var msg = err?.response?.data?.value;
-				if (msg === undefined) msg = "Something go wrong!";
+				if (msg === undefined) msg = "Something went wrong!";
 				setErrorMessage(msg);
 			}
 		} else {
@@ -123,15 +123,6 @@ function EditAnimal({ id, fetch }) {
 					<h3 className="font-bold text-lg">Edit animal</h3>
 					<div className="form-control w-full ">
 						<label className="label">
-							<span className="label-text">ID</span>
-						</label>
-						<input
-							value={animalObj.Id}
-							className="input input-bordered w-full "
-							disabled
-						/>
-
-						<label className="label">
 							<span className="label-text">Name</span>
 						</label>
 						<input
@@ -148,7 +139,7 @@ function EditAnimal({ id, fetch }) {
 						<textarea
 							type="text"
 							placeholder=""
-							value={animalObj.Description ? animalObj.Description : ""}
+							value={animalObj.Description ?? ""}
 							onChange={(e) => updateFormValue("Description", e.target.value)}
 							className="textarea textarea-bordered h-24"
 						/>
@@ -160,7 +151,7 @@ function EditAnimal({ id, fetch }) {
 							type="number"
 							placeholder=""
 							min="1"
-							value={animalObj.Weight}
+							value={animalObj.Weight ?? ""}
 							onChange={(e) => updateFormValue("Weight", e.target.value)}
 							className="input input-bordered w-full"
 						/>
@@ -172,7 +163,7 @@ function EditAnimal({ id, fetch }) {
 							type="number"
 							placeholder=""
 							min="1"
-							value={animalObj.Height}
+							value={animalObj.Height ?? ""}
 							onChange={(e) => updateFormValue("Height", e.target.value)}
 							className="input input-bordered w-full"
 						/>

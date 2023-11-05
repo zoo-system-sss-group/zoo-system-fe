@@ -13,6 +13,7 @@ import { showNotification } from "../common/headerSlice";
 import EditAnimal from "./components/EditAnimal";
 import AddAnimal from "./components/AddAnimal";
 import ViewAnimal from "./components/ViewAnimal";
+import ViewFeedHistory from "./components/ViewFeedHistory";
 import { roleStaffAdmin } from "../../routes/author";
 var user = JSON.parse(localStorage.getItem("loginInfo"));
 
@@ -202,6 +203,17 @@ function Animals() {
 														>
 															<EyeIcon className="w-5 text-cor4 stroke-2" />
 														</button>
+														<button
+															className="btn btn-ghost inline"
+															onClick={() => {
+																setIdSelect(l.Id);
+																document
+																	.getElementById("btnFeedHistory")
+																	.showModal();
+															}}
+														>
+															<EyeIcon className="w-5 text-warning stroke-2" />
+														</button>
 
 														{roleStaffAdmin.includes(user.role) && (
 															<>
@@ -331,6 +343,7 @@ function Animals() {
 								</tbody>
 							</table>
 							{idSelect && <ViewAnimal id={idSelect} />}
+							{idSelect && <ViewFeedHistory id={idSelect} />}
 							{roleStaffAdmin.includes(user.role) && idSelect && <EditAnimal id={idSelect} fetch={fetchAnimalList} />}
 
 							<div className="w-full flex justify-center">

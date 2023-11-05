@@ -276,7 +276,7 @@ function TicketOrders() {
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">
-							Something go wrong <br />
+							Something went wrong <br />
 							{error}
 						</div>
 					)}

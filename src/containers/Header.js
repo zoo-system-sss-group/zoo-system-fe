@@ -47,7 +47,7 @@ function Header() {
 						</label>
 						<ul
 							tabIndex={0}
-							className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+							className="menu menu-compact dropdown-content mt-3 p-2 shadow-md bg-base-100 rounded-box w-52"
 						>
 							<li className="font-medium text-md">
 								<button
@@ -56,6 +56,15 @@ function Header() {
 									}}
 								>
 									Profile
+								</button>
+							</li>
+							<li className="font-medium text-md">
+								<button
+									onClick={() => {
+										window.location.href = "/";
+									}}
+								>
+									Home
 								</button>
 							</li>
 							<div className="divider mt-0 mb-0"></div>

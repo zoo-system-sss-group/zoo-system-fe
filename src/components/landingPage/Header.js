@@ -3,6 +3,7 @@ import classes from "./Header.module.css";
 import MediasLink from "../layout/MediasLink";
 import Logo from "../layout/Logo";
 import { Link, NavLink, useLocation } from "react-router-dom";
+var user = JSON.parse(localStorage.getItem("loginInfo"));
 
 const listLinks = [
 	{ route: "", title: "home" },
@@ -36,7 +37,6 @@ const Header = () => {
 		<header className="sticky top-0 duration-[400ms]  z-50 bg-cor6 p-6 flex items-center text-center flex-row lg: w-full h-16">
 			<Link className="mr-auto" to="/">
 				<Logo />
-
 			</Link>
 			<nav
 				className={`${classes.nav} ${
@@ -61,9 +61,19 @@ const Header = () => {
 				</ul>
 			</nav>
 			<MediasLink />
-			<Link className="btn btn-md btn-primary h-10 !min-h-8 ml-4" to="/login">
-				Login
-			</Link>
+			{user != null && user !== undefined ? (
+				<button
+					className="btn btn-md btn-primary h-10 !min-h-8 ml-4"
+					onClick={() => (window.location.href = "management/dashboard")}
+				>
+					Management
+				</button>
+			) : (
+				<Link className="btn btn-md btn-primary h-10 !min-h-8 ml-4" to="/login">
+					Login
+				</Link>
+			)}
+
 			<button
 				className={`${classes.menuBtn} ${isMenuVisible ? classes.visible : ""}`}
 				ref={refBtn}
