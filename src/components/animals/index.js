@@ -203,20 +203,20 @@ function Animals() {
 														>
 															<EyeIcon className="w-5 text-cor4 stroke-2" />
 														</button>
-														<button
-															className="btn btn-ghost inline"
-															onClick={() => {
-																setIdSelect(l.Id);
-																document
-																	.getElementById("btnFeedHistory")
-																	.showModal();
-															}}
-														>
-															<EyeIcon className="w-5 text-warning stroke-2" />
-														</button>
 
 														{roleStaffAdmin.includes(user.role) && (
 															<>
+																<button
+																	className="btn btn-ghost inline"
+																	onClick={() => {
+																		setIdSelect(l.Id);
+																		document
+																			.getElementById("btnFeedHistory")
+																			.showModal();
+																	}}
+																>
+																	<EyeIcon className="w-5 text-warning stroke-2" />
+																</button>
 																{/* Nut sua animal */}
 																<button
 																	className="btn btn-ghost inline"
@@ -344,7 +344,9 @@ function Animals() {
 							</table>
 							{idSelect && <ViewAnimal id={idSelect} />}
 							{idSelect && <ViewFeedHistory id={idSelect} />}
-							{roleStaffAdmin.includes(user.role) && idSelect && <EditAnimal id={idSelect} fetch={fetchAnimalList} />}
+							{roleStaffAdmin.includes(user.role) && idSelect && (
+								<EditAnimal id={idSelect} fetch={fetchAnimalList} />
+							)}
 
 							<div className="w-full flex justify-center">
 								<div className="join">

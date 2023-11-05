@@ -11,6 +11,7 @@ const INITIAL_ANIMAL_OBJ = {
 	Image: null,
 	Description: "",
 	Weight: 0,
+	Height: 0,
 	BirthDate: moment().format("YYYY-MM-DD"),
 	SpeciesId: 0,
 	cageHistory: {
@@ -53,6 +54,8 @@ function AddAnimal({ fetch }) {
 		if (animalObj.Description.trim() === "")
 			return setErrorMessage("Description is required!");
 		if (animalObj.Weight <= 0)
+			return setErrorMessage("Weight must greater than 0!");
+		if (animalObj.Weight !== null && animalObj.Weight <= 0)
 			return setErrorMessage("Weight must greater than 0!");
 
 		if (animalObj.BirthDate !== null) {
@@ -179,6 +182,18 @@ function AddAnimal({ fetch }) {
 								min="1"
 								value={animalObj.Weight}
 								onChange={(e) => updateFormValue("Weight", e.target.value)}
+								className="input input-bordered w-full"
+							/>
+
+							<label className="label mt-4">
+								<span className="label-text">Height</span>
+							</label>
+							<input
+								type="number"
+								placeholder=""
+								min="1"
+								value={animalObj.Height}
+								onChange={(e) => updateFormValue("Height", e.target.value)}
 								className="input input-bordered w-full"
 							/>
 

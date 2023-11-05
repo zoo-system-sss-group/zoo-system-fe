@@ -36,7 +36,7 @@ function EditAnimal({ id, fetch }) {
 		axios.get(`odata/animals/${id}`).then((res) => {
 			setAnimalObj({
 				...INITIAL_ANIMAL_OBJ,
-				...res.data
+				...res.data,
 			});
 			setImg(null);
 		});
@@ -49,8 +49,8 @@ function EditAnimal({ id, fetch }) {
 			return setErrorMessage("Description is required!");
 		if (animalObj.Weight <= 0)
 			return setErrorMessage("Weight must greater than 0!");
-		if (animalObj.Height <= 0)
-			return setErrorMessage("Height must greater than 0!");
+		if (animalObj.Height !== null && animalObj.Height <= 0)
+			return setErrorMessage("Weight must greater than 0!");
 
 		if (animalObj.BirthDate !== null) {
 			const dob = moment(animalObj.BirthDate, "YYYY-MM-DD");

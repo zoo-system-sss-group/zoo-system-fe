@@ -189,7 +189,7 @@ function ViewTicketOrder({ id }) {
 												<th>{ticket.Code}</th>
 												<td>{ticket.TicketType}</td>
 												<td>{formatVndCurrency(ticket.Price)}</td>
-												<td>{ticket.IsActive ? "Active" : "Deactive"}</td>
+												<td>{ticket.IsActive ? "Checked" : "Not yet"}</td>
 												<td>
 													{!ticket.IsActive && (
 														<>

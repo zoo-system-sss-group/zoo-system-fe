@@ -46,7 +46,7 @@ function DietDetails() {
 			})
 			.catch((err) => {
 				if (err.response.status === 403)
-					setError(`${user.role} is not allowed to view DietDetails`);
+					setError(`${user.role} is not allowed to view Diet Details`);
 				else setError(err.message);
 			});
 	};
@@ -62,7 +62,7 @@ function DietDetails() {
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "DietDetail deleted!",
+						message: "Diet Detail deleted!",
 						status: res.status,
 					})
 				);
@@ -76,7 +76,7 @@ function DietDetails() {
 	return (
 		<>
 			<TitleCard
-				title="DietDetail table"
+				title="Diet Detail table"
 				topMargin="mt-2"
 				TopSideButtons={
 					roleStaffAdmin.includes(user.role) && (
@@ -91,12 +91,12 @@ function DietDetails() {
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>AnimalId</th>
-										<th>AnimalName</th>
-										<th>DietId</th>
-										<th>DietName</th>
-										<th>StartDate</th>
-										<th>EndDate</th>
+										<th>Animal ID</th>
+										<th>Animal Name</th>
+										<th>Diet ID</th>
+										<th>Diet Name</th>
+										<th>Start Date</th>
+										<th>End Date</th>
 										<th></th>
 									</tr>
 								</thead>

@@ -128,7 +128,7 @@ function ViewCage({ id }) {
 								<img
 									src={cageObj.Image ?? "../img/noimage.jpg"}
 									alt="cage"
-									className="border rounded-lg aspect-square object-cover"
+									className="border rounded-lg w-full aspect-square object-cover"
 								/>
 
 								<label className="label mt-4">

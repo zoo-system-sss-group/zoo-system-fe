@@ -104,7 +104,7 @@ function TicketSection({
 				{/* Ticket Type */}
 				<div className="form-control  flex flex-row flex-wrap justify-between items-center ">
 					<label className="label ">
-						<span className="label-text text-lg text-cor2">Adult Tickets</span>
+						<span className="label-text text-lg text-cor2">Adult Tickets (60.000 VND)</span>
 					</label>
 					<div className="input-group w-min">
 						<span className="btn  font-mono" onClick={handleSub("adultTicket")}>
@@ -128,7 +128,7 @@ function TicketSection({
 				</div>
 				<div className="form-control flex flex-row flex-wrap justify-between">
 					<label className="label">
-						<span className="label-text text-lg text-cor2">Kid Tickets</span>
+						<span className="label-text text-lg text-cor2">Kid Tickets (40.000 VND)</span>
 					</label>
 					<div className="input-group w-min">
 						<span className="btn  font-mono" onClick={handleSub("kidTicket")}>

@@ -55,18 +55,6 @@ const routes = [
 		name: "Diet Schedule",
 		role: roleTrainer,
 	},
-	{
-		path: "/management/trainingDetails",
-		icon: <PuzzlePieceIcon className={iconClasses} />,
-		name: "Training Details",
-		role: roleStaffAdmin,
-	},
-	{
-		path: "/management/dietDetails",
-		icon: <InboxStackIcon className={iconClasses} />,
-		name: "Diet Details",
-		role: roleStaffAdmin,
-	},
 
 	{
 		path: "", //no url needed as this has submenu
@@ -109,6 +97,18 @@ const routes = [
 				icon: <ArchiveBoxIcon className={submenuIconClasses} />,
 				name: "Diets",
 				role: roleAll,
+			},
+			{
+				path: "/management/dietDetails",
+				icon: <InboxStackIcon className={submenuIconClasses} />,
+				name: "Diet Details",
+				role: roleStaffAdmin,
+			},
+			{
+				path: "/management/trainingDetails",
+				icon: <PuzzlePieceIcon className={submenuIconClasses} />,
+				name: "Training Details",
+				role: roleStaffAdmin,
 			},
 		],
 	},

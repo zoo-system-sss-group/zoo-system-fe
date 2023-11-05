@@ -47,6 +47,7 @@ function EditTicketOrder({ id, fetch }) {
 			Email: ticketOrderObj.Email,
 			PhoneNumber: ticketOrderObj.PhoneNumber,
 			EffectiveDate: ticketOrderObj.EffectiveDate,
+			PaymentMethod: ticketOrderObj.PaymentMethod,
 			Tickets: ticketOrderObj.Tickets,
 			Status: ticketOrderObj.Status,
 		};
