@@ -23,18 +23,7 @@ function CreateSuccess({ paymentMethods, values, step, totalStep, resVal }) {
         ) : (
           <>
             <div className=" flex flex-col px-16 text-cor2 text-lg">
-              {false && (
-                <div className="w-full text-center flex flex-col items-center bg-[#1b3323] rounded p-6">
-                  <ApiImage className={"w-[200px]"} value={values.Code} />
-                  <span className="mt-4">
-                    <strong>Code:</strong> {values.Code}
-                  </span>
-                  <span className="mt-4">
-                    <strong>CreationDate:</strong>{" "}
-                    {moment(values.CreationDate).format("YYYY-MM-DD hh:mm:ss")}
-                  </span>
-                </div>
-              )}
+          
               <div className="flex justify-between my-2 mt-6">
                 <div className="w-auto">Customer Name</div>
                 <div className="w-auto">{values.CustomerName}</div>
