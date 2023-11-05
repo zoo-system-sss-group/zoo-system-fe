@@ -64,6 +64,7 @@ function News() {
 				else if (pagination.isEnd && news.length === pagination.limit)
 					setPagination({ ...pagination, isEnd: false });
 				setNews(news);
+				setIdSelect(news[0].id);
 			})
 			.catch((err) => {
 				setError(err.message);

@@ -11,6 +11,27 @@ import ReactDatePicker from "react-datepicker";
 // import AddDiet from "./components/AddDiet";
 // import FeedAnimal from "./components/FeedAnimal";
 
+function areDatesEqual(date1, date2) {
+	return (
+		date1.getFullYear() === date2.getFullYear() &&
+		date1.getMonth() === date2.getMonth() &&
+		date1.getDate() === date2.getDate()
+	);
+}
+
+function convertCamelToPascal(obj) {
+	const pascalCaseObj = {};
+
+	for (const key in obj) {
+		if (Object.prototype.hasOwnProperty.call(obj, key)) {
+			const pascalKey = key.charAt(0).toUpperCase() + key.slice(1);
+			pascalCaseObj[pascalKey] = obj[key];
+		}
+	}
+
+	return pascalCaseObj;
+}
+
 function DietSchedule() {
 	const dispatch = useDispatch();
 	const [idSelect, setIdSelect] = useState();
@@ -29,20 +50,40 @@ function DietSchedule() {
 				let myTraining = res.data.value;
 				if (myTraining != null && myTraining.length > 0) {
 					const feedHistoryPromises = myTraining.map((l) => {
-						return axios.get(`odata/feedhistory?$filter=FeedingDate eq ${moment(date).format("YYYY-MM-DD")} and animalId eq ${l.AnimalId}`);
+						return axios.get(
+							`odata/feedhistory?$filter=FeedingDate eq ${moment(date).format(
+								"YYYY-MM-DD"
+							)} and animalId eq ${l.AnimalId}`
+						);
+					});
+					const feedHistoryTodayPromises = myTraining.map((l) => {
+						return axios.get(`api/feedhistory/${l.AnimalId}`);
 					});
 
-					Promise.all(feedHistoryPromises)
-						.then((feedHistoryResponses) => {
-							feedHistoryResponses.forEach((res, index) => {
-								myTraining[index].Diet = res.data.value;
+					if (areDatesEqual(date, new Date())) {
+						Promise.all(feedHistoryTodayPromises)
+							.then((feedHistoryResponses) => {
+								feedHistoryResponses.forEach((res, index) => {
+									myTraining[index].Diet = res.data.map(x => convertCamelToPascal(x));
+								});
+								setMyTraining(myTraining);
+							})
+							.catch((err) => {
+								setError(err.message);
 							});
+					} else {
+						Promise.all(feedHistoryPromises)
+							.then((feedHistoryResponses) => {
+								feedHistoryResponses.forEach((res, index) => {
+									myTraining[index].Diet = res.data.value;
+								});
 
-							setMyTraining(myTraining);
-						})
-						.catch((err) => {
-							setError(err.message);
-						});
+								setMyTraining(myTraining);
+							})
+							.catch((err) => {
+								setError(err.message);
+							});
+					}
 				} else {
 					setMyTraining(myTraining);
 				}
@@ -161,57 +202,57 @@ function DietSchedule() {
 																			)}
 																		</td>
 																		<td className="min-w-[2rem] max-w-[3rem] whitespace-normal">
-																			{!feed.IsDeleted && (!moment(feed.FeedingDate).isBefore()) && (
-																				<>
-																					<button
-																						className="btn btn-ghost inline"
-																						onClick={() => {
-																							setIdSelect(feed.Id);
-																							document
-																								.getElementById("btnFeed")
-																								.showModal();
-																						}}
-																					>
-																						<FireIcon className="w-6 text-cor1 stroke-2" />
-																					</button>
-																					<dialog
-																						id="btnFeed"
-																						className="modal "
-																					>
-																						<div className="modal-box">
-																							<h3 className="font-bold text-lg">
-																								Confirm
-																							</h3>
-																							<p className="py-4 text-2xl">
-																								Have you already feed this
-																								animal in this slot?
-																							</p>
-																							<div className="modal-action">
-																								<form method="dialog">
-																									<button className="btn">
-																										Close
-																									</button>
-
-																									<button
-																										className="btn btn-primary ml-4"
-																										onClick={() =>
-																											feedAnimal(idSelect)
-																										}
-																									>
-																										Feed
-																									</button>
-																								</form>
-																							</div>
-																						</div>
-																						<form
-																							method="dialog"
-																							className="modal-backdrop"
+																			{!feed.IsDeleted &&
+																				areDatesEqual(date, new Date()) && (
+																					<>
+																						<button
+																							className="btn btn-ghost inline"
+																							onClick={() => {
+																								setIdSelect(feed.Id);
+																								document
+																									.getElementById("btnFeed")
+																									.showModal();
+																							}}
 																						>
-																							<button>close</button>
-																						</form>
-																					</dialog>
-																				</>
-																			)}
+																							<FireIcon className="w-6 text-cor1 stroke-2" />
+																						</button>
+																						<dialog
+																							id="btnFeed"
+																							className="modal "
+																						>
+																							<div className="modal-box">
+																								<h3 className="font-bold text-lg">
+																									Confirm
+																								</h3>
+																								<p className="py-4 text-2xl">
+																									Have you already feed this
+																									animal in this slot?
+																								</p>
+																								<div className="modal-action">
+																									<form method="dialog">
+																										<button className="btn">
+																											Close
+																										</button>
+																										<button
+																											className="btn btn-primary ml-4"
+																											onClick={() =>
+																												feedAnimal(idSelect)
+																											}
+																										>
+																											Feed
+																										</button>
+																									</form>
+																								</div>
+																							</div>
+																							<form
+																								method="dialog"
+																								className="modal-backdrop"
+																							>
+																								<button>close</button>
+																							</form>
+																						</dialog>
+																					</>
+																				)}
 																		</td>
 																	</tr>
 																))}
@@ -224,8 +265,6 @@ function DietSchedule() {
 									})}
 								</tbody>
 							</table>
-							{/* {idSelect && <ViewDiet id={idSelect} />}
-							{idSelect && <AddDiet id={idSelect}  fetch={fetchMyTrainingList}/>} */}
 						</div>
 					) : (
 						<div className="w-full h-96 flex justify-center items-center text-err font-bold text-3xl">
