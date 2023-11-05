@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../../common/headerSlice";
 import { formatVndCurrency } from "../../../utils/MyUtils";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useEffect } from "react";
 import moment from "moment";
@@ -23,18 +26,41 @@ const INITIAL_ACCOUNT_OBJ = {
 };
 
 function ViewTicketOrder({ id }) {
+	const dispatch = useDispatch();
 	const [errorMessage, setErrorMessage] = useState("");
+	const [ticketId, setTicketId] = useState();
 	const [ticketOrderObj, setTicketOrderObj] = useState(INITIAL_ACCOUNT_OBJ);
 	useEffect(() => {
+		fetchTicketList();
+	}, [id]);
+
+	const fetchTicketList = () => {
 		if (id !== null) {
 			axios.get(`odata/ticketOrders(${id})?$expand=tickets`).then((res) => {
 				setTicketOrderObj({
 					...ticketOrderObj,
 					...res.data,
 				});
+				setTicketId(res.data.Tickets[0]?.Id);
 			});
 		}
-	}, [id]);
+	};
+	const checkinTicket = (id) => {
+		axios
+			.put(`/odata/tickets/${id}`, { isActive: false })
+			.then((res) => {
+				dispatch(
+					showNotification({
+						message: "Ticket deactive!",
+						status: res.status,
+					})
+				);
+				fetchTicketList();
+			})
+			.catch((err) => {
+				dispatch(showNotification({ message: err.message, status: 400 }));
+			});
+	};
 
 	return (
 		<>
@@ -154,6 +180,7 @@ function ViewTicketOrder({ id }) {
 											<th>TicketType</th>
 											<th>Price</th>
 											<th>IsActive</th>
+											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -163,6 +190,49 @@ function ViewTicketOrder({ id }) {
 												<td>{ticket.TicketType}</td>
 												<td>{formatVndCurrency(ticket.Price)}</td>
 												<td>{ticket.IsActive ? "Active" : "Deactive"}</td>
+												<td>
+													{!ticket.IsActive && (
+														<>
+															<button
+																className="btn btn-ghost inline"
+																onClick={() => {
+																	document
+																		.getElementById("btnDeleteTicket")
+																		.showModal();
+																	setTicketId(ticket.Id);
+																}}
+															>
+																<CheckCircleIcon className="w-5 text-cor1 stroke-2" />
+															</button>
+															<dialog id="btnDeleteTicket" className="modal ">
+																<div className="modal-box">
+																	<h3 className="font-bold text-lg">Confirm</h3>
+																	<p className="py-4 text-2xl">
+																		Are you want checkin this ticket?
+																	</p>
+																	<div className="modal-action">
+																		<form method="dialog">
+																			<button className="btn">Close</button>
+
+																			<button
+																				className="btn btn-primary ml-4"
+																				onClick={() => checkinTicket(ticketId)}
+																			>
+																				Checkin
+																			</button>
+																		</form>
+																	</div>
+																</div>
+																<form
+																	method="dialog"
+																	className="modal-backdrop"
+																>
+																	<button>close</button>
+																</form>
+															</dialog>
+														</>
+													)}
+												</td>
 											</tr>
 										))}
 									</tbody>

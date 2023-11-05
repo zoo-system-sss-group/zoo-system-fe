@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import ReactDatePicker from "react-datepicker";
 
 const PAYMENT_METHOD = ["Momo", "Card", "Cash"];
-const STATUS = ["Waiting", "Success", "Cancel"];
+const STATUS = ["Waiting", "Success", "Cancel", "IsUsed"];
 const MIN_DATE = new Date();
 const MAX_DATE = new Date(MIN_DATE);
 MAX_DATE.setDate(MIN_DATE.getDate() + 30);

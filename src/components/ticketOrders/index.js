@@ -90,6 +90,8 @@ function TicketOrders() {
 			return <div className="badge badge-success">{status}</div>;
 		if (status === "Cancel")
 			return <div className="badge badge-error">{status}</div>;
+		if (status === "IsUsed")
+			return <div className="badge badge-ghost">{status}</div>;
 		return <div className="badge badge-warning">{status}</div>;
 	};
 
@@ -123,7 +125,7 @@ function TicketOrders() {
 				}
 			>
 				<div className="overflow-x-auto w-full">
-					{(ticketOrders != null) ? (
+					{ticketOrders != null ? (
 						<div>
 							<table className="table w-full">
 								<thead>
@@ -240,7 +242,9 @@ function TicketOrders() {
 								</tbody>
 							</table>
 							{idSelect && <ViewTicketOrder id={idSelect} />}
-							{idSelect && <EditTicketOrder id={idSelect} fetch={fetchTicketOrderList} />}
+							{idSelect && (
+								<EditTicketOrder id={idSelect} fetch={fetchTicketOrderList} />
+							)}
 
 							<div className="w-full flex justify-center">
 								<div className="join">
