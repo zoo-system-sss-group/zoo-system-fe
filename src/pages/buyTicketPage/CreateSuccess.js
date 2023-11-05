@@ -24,7 +24,6 @@ function CreateSuccess({ paymentMethods, values, step, totalStep,resVal }) {
           <>
             <div className=" flex flex-col px-16 text-cor2 text-lg">
               <div className="w-full text-center flex flex-col items-center bg-[#1b3323] rounded p-6">
-                <ApiImage className={"w-[200px]"} value={values.Code} />
                 <span className="mt-4">
                   <strong>Code:</strong> {values.Code}
                 </span>
