@@ -36,6 +36,7 @@ const Header = () => {
 		<header className="sticky top-0 duration-[400ms]  z-50 bg-cor6 p-6 flex items-center text-center flex-row lg: w-full h-16">
 			<Link className="mr-auto" to="/">
 				<Logo />
+
 			</Link>
 			<nav
 				className={`${classes.nav} ${
