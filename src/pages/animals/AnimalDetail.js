@@ -64,27 +64,27 @@ function AnimalDetail() {
 
 
   return (
-    <div>
+    <div className="min-h-[100vh] flex flex-col">
       <Header />
       {animal && (
-        <main className="flex flex-wrap min-h-[500px]">
-          <div className="w-full lg:w-1/2  relative bg-cor4 border-r-cor6 border-r ">
+        <main className="flex flex-1 flex-wrap min-h-[500px] ">
+          <div className="w-full lg:w-1/2 p-6 relative bg-cor4 border-r-cor6 border-r ">
             <img
-              className="w-full border border-solid rounded-sm "
+              className={`max-h-[80vh] mx-auto my-auto ${loading ?? "border border-solid"} rounded-sm `}
               src={animal.Image}
               alt={animal.Name}
             />
             <Link
               to="../animals"
-              className="hidden lg:block rounded-lg absolute  items-center justify-center
+              className=" lg:hidden rounded-lg absolute  items-center justify-center
                p-2 btn btn-primary transition duration-500   top-1 right-1 bg-cor1"
             >
               <ArrowLeftIcon className="h-6 w-6 inline-block font-extrabold stroke-2 relative z-10 text-cor4" />
             </Link>
           </div>
-          <section className="w-full lg:w-1/2 p-2 bg-cor4 text-cor2 text-lg relative ">
+          <section className="w-full lg:w-1/2 p-2 pb-6 bg-cor4 text-cor2 text-lg relative ">
             {loading ? (
-              <div className="loading absolute inset-0"></div>
+              <div className="loading !absolute !inset-0 m-auto"></div>
             ) : (
               <>
                 <h1 className="text-5xl my-2 card-title">{animal.Name}</h1>
@@ -137,7 +137,7 @@ function AnimalDetail() {
                 </div>
                 <Link
                   to={"../animals"}
-                  className="absolute ms-auto bottom-5 right-5 p-2 btn btn-primary"
+                  className="hidden lg:btn absolute ms-auto bottom-5 right-5 p-2  lg:btn-primary"
                 >
                   Go Back
                 </Link>
