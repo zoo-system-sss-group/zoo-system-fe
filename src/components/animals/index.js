@@ -142,10 +142,11 @@ function Animals() {
 								<thead>
 									<tr>
 										<th>ID</th>
+										<th>Image</th>
 										<th>Name</th>
 										<th>Description</th>
-										<th>Weight</th>
-										<th>Height</th>
+										<th>Weight (kg)</th>
+										<th>Height (m)</th>
 										<th>BirthDate</th>
 										<th>Species</th>
 										<th>Current Cage</th>
@@ -162,18 +163,16 @@ function Animals() {
 													{l.Id}
 												</td>
 												<td>
-													<div className="flex items-center space-x-3">
-														<div className="w-20 h-20 ">
-															<img
-																src={l.Image ? l.Image : "../img/noimage.jpg"}
-																className=" border rounded-lg object-cover aspect-square"
-																alt="Avatar"
-															/>
-														</div>
-														<div>
-															<div className="font-bold">{l.Name}</div>
-														</div>
+													<div className="w-20 h-20">
+														<img
+															src={l.Image ? l.Image : "../img/noimage.jpg"}
+															className=" border rounded-lg object-cover aspect-square "
+															alt="Avatar"
+														/>
 													</div>
+												</td>
+												<td>
+													<div className="font-bold">{l.Name}</div>
 												</td>
 												<td>{l.Description}</td>
 												<td>{l.Weight}</td>

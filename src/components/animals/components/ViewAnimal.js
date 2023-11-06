@@ -80,7 +80,7 @@ function ViewAnimal({ id }) {
 							<div className="flex gap-2">
 								<div className="w-full">
 									<label className="label mt-4">
-										<span className="label-text">Weight</span>
+										<span className="label-text">Weight (kg)</span>
 									</label>
 									<input
 										type="number"
@@ -91,7 +91,7 @@ function ViewAnimal({ id }) {
 								</div>
 								<div className="w-full">
 									<label className="label mt-4">
-										<span className="label-text">Height</span>
+										<span className="label-text">Height (m)</span>
 									</label>
 									<input
 										type="number"

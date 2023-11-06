@@ -46,12 +46,13 @@ function ViewTicketOrder({ id }) {
 		}
 	};
 	const checkinTicket = (id) => {
+		console.log(id);
 		axios
-			.put(`/odata/tickets/${id}`, { isActive: false })
+			.put(`/odata/tickets/${id}`, { IsActive: false })
 			.then((res) => {
 				dispatch(
 					showNotification({
-						message: "Ticket deactive!",
+						message: "Ticket checked!",
 						status: res.status,
 					})
 				);
@@ -176,6 +177,7 @@ function ViewTicketOrder({ id }) {
 								<table className="table">
 									<thead>
 										<tr>
+											<th>Ticket ID</th>
 											<th>Code</th>
 											<th>TicketType</th>
 											<th>Price</th>
@@ -186,25 +188,26 @@ function ViewTicketOrder({ id }) {
 									<tbody>
 										{ticketOrderObj.Tickets.map((ticket) => (
 											<tr key={ticket.Id}>
+												<td>{ticket.Id}</td>
 												<th>{ticket.Code}</th>
 												<td>{ticket.TicketType}</td>
 												<td>{formatVndCurrency(ticket.Price)}</td>
-												<td>{ticket.IsActive ? "Checked" : "Not yet"}</td>
+												<td>{ticket.IsActive ? "Not yet" : "Checked"}</td>
 												<td>
-													{!ticket.IsActive && (
+													{ticket.IsActive && (
 														<>
 															<button
 																className="btn btn-ghost inline"
 																onClick={() => {
 																	document
-																		.getElementById("btnDeleteTicket")
+																		.getElementById("btnCheckedTicket")
 																		.showModal();
 																	setTicketId(ticket.Id);
 																}}
 															>
 																<CheckCircleIcon className="w-5 text-cor1 stroke-2" />
 															</button>
-															<dialog id="btnDeleteTicket" className="modal ">
+															<dialog id="btnCheckedTicket" className="modal ">
 																<div className="modal-box">
 																	<h3 className="font-bold text-lg">Confirm</h3>
 																	<p className="py-4 text-2xl">
